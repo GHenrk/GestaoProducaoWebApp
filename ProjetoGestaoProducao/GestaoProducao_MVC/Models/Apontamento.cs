@@ -17,6 +17,12 @@ namespace GestaoProducao_MVC.Models
     
         public AptStatus Status { get; set; }
 
+        public Processo Processo { get; set; }
+
+        public Maquina Maquina { get; set; }
+
+        public Funcionario Funcionario { get; set; }
+
         public ICollection<RegistroParada> RegistrosParada { get; set; }
 
         public Apontamento()
@@ -25,7 +31,7 @@ namespace GestaoProducao_MVC.Models
         }
 
 
-        public Apontamento(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status)
+        public Apontamento(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status, Processo processo, Maquina maquina, Funcionario funcionario)
         {
             Id = id;
             DataInicial = dataInicial;
@@ -33,6 +39,9 @@ namespace GestaoProducao_MVC.Models
             TempoTotal = tempoTotal;
             Descricao = descricao;
             Status = status;
+            Processo = processo;
+            Maquina = maquina;
+            Funcionario = funcionario;
         }
 
         

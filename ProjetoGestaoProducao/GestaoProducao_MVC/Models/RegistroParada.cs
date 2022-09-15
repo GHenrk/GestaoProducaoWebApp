@@ -16,12 +16,16 @@ namespace GestaoProducao_MVC.Models
 
         public AptStatus Status { get; set; }
 
+        public CodigoParada CodigoParada { get; set; }
+
+        public Apontamento Apontamento { get; set; }
+
         public RegistroParada()
         {
 
         }
 
-        public RegistroParada(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string? descricao, AptStatus status)
+        public RegistroParada(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string? descricao, AptStatus status, CodigoParada codigoParada, Apontamento apontamento)
         {
             Id = id;
             DataInicial = dataInicial;
@@ -29,6 +33,8 @@ namespace GestaoProducao_MVC.Models
             TempoTotal = tempoTotal;
             Descricao = descricao;
             Status = status;
+            CodigoParada = codigoParada;
+            Apontamento = apontamento;
 
         }
 

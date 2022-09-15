@@ -19,6 +19,8 @@ namespace GestaoProducao_MVC.Models
 
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 
+        public OrdemProduto OrdemProduto { get; set; }
+
 
         public ICollection<Apontamento> Apontamentos { get; set; } = new List<Apontamento>();
 
@@ -27,13 +29,14 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public Processo(int id, string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao)
+        public Processo(int id, string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto)
         {
             Id = id;
             CodigoPeca = codigoPeca;
             Descricao = descricao;
             QuantidadePeca = quantidadePeca;
             DataCriacao = dataCriacao;
+            OrdemProduto = oProduto;
  
         }
 

@@ -16,5 +16,19 @@ namespace GestaoProducao_MVC.Data
         }
 
         public DbSet<OrdemProduto> OrdemProduto { get; set; } = default!;
+        public DbSet<Processo> Processo { get; set; } = default!;
+
+        public DbSet<Apontamento> Apontamento { get; set; } = default!;
+
+        public DbSet<CodigoParada> CodigoParada { get; set; } = default!;
+
+        public DbSet<RegistroParada> RegistroParada { get; set; } = default!;
+
+        public DbSet<Funcionario> Funcionario { get; set; } = default!;
+
+        public DbSet<Maquina> Maquina { get; set; } = default!;
+
+
+
     }
 }
