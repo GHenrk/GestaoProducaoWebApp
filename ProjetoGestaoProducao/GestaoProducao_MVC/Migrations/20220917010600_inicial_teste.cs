@@ -5,10 +5,50 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestaoProducao_MVC.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class inicial_teste : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CodigoParada",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CodigoParada", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Funcionario",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cargo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Funcionario", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Maquina",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Maquina", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "OrdemProduto",
                 columns: table => new
@@ -35,7 +75,7 @@ namespace GestaoProducao_MVC.Migrations
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuantidadePeca = table.Column<int>(type: "int", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrdemProdutoId = table.Column<int>(type: "int", nullable: true)
+                    OrdemProdutoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +84,8 @@ namespace GestaoProducao_MVC.Migrations
                         name: "FK_Processo_OrdemProduto_OrdemProdutoId",
                         column: x => x.OrdemProdutoId,
                         principalTable: "OrdemProduto",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,18 +97,33 @@ namespace GestaoProducao_MVC.Migrations
                     DataInicial = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataFinal = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TempoTotal = table.Column<TimeSpan>(type: "time", nullable: true),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ProcessoId = table.Column<int>(type: "int", nullable: true)
+                    ProcessoId = table.Column<int>(type: "int", nullable: false),
+                    MaquinaId = table.Column<int>(type: "int", nullable: false),
+                    FuncionarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Apontamento", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Apontamento_Funcionario_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "Funcionario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Apontamento_Maquina_MaquinaId",
+                        column: x => x.MaquinaId,
+                        principalTable: "Maquina",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Apontamento_Processo_ProcessoId",
                         column: x => x.ProcessoId,
                         principalTable: "Processo",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +137,8 @@ namespace GestaoProducao_MVC.Migrations
                     TempoTotal = table.Column<TimeSpan>(type: "time", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ApontamentoId = table.Column<int>(type: "int", nullable: true)
+                    CodigoParadaId = table.Column<int>(type: "int", nullable: false),
+                    ApontamentoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,8 +147,25 @@ namespace GestaoProducao_MVC.Migrations
                         name: "FK_RegistroParada_Apontamento_ApontamentoId",
                         column: x => x.ApontamentoId,
                         principalTable: "Apontamento",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RegistroParada_CodigoParada_CodigoParadaId",
+                        column: x => x.CodigoParadaId,
+                        principalTable: "CodigoParada",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Apontamento_FuncionarioId",
+                table: "Apontamento",
+                column: "FuncionarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Apontamento_MaquinaId",
+                table: "Apontamento",
+                column: "MaquinaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Apontamento_ProcessoId",
@@ -107,6 +181,11 @@ namespace GestaoProducao_MVC.Migrations
                 name: "IX_RegistroParada_ApontamentoId",
                 table: "RegistroParada",
                 column: "ApontamentoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RegistroParada_CodigoParadaId",
+                table: "RegistroParada",
+                column: "CodigoParadaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -116,6 +195,15 @@ namespace GestaoProducao_MVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Apontamento");
+
+            migrationBuilder.DropTable(
+                name: "CodigoParada");
+
+            migrationBuilder.DropTable(
+                name: "Funcionario");
+
+            migrationBuilder.DropTable(
+                name: "Maquina");
 
             migrationBuilder.DropTable(
                 name: "Processo");

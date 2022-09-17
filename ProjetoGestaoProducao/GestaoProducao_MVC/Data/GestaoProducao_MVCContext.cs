@@ -29,6 +29,7 @@ namespace GestaoProducao_MVC.Data
         public DbSet<Maquina> Maquina { get; set; } = default!;
 
 
+        
 
     }
 }

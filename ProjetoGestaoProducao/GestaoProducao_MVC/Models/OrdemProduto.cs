@@ -1,4 +1,6 @@
-﻿namespace GestaoProducao_MVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GestaoProducao_MVC.Models
 {
     public class OrdemProduto
     {
@@ -8,6 +10,7 @@
 
         public int QuantidadeProduto { get; set; }
 
+       
         public DateTime DataVenda { get; set; }
 
         public DateTime DataEntrega { get; set; }

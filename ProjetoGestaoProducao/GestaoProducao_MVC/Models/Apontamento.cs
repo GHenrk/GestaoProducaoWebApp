@@ -13,7 +13,7 @@ namespace GestaoProducao_MVC.Models
 
         public TimeSpan? TempoTotal { get; set; }
 
-        public string  Descricao { get; set; }
+        public string?  Descricao { get; set; }
     
         public AptStatus Status { get; set; }
 
@@ -23,13 +23,12 @@ namespace GestaoProducao_MVC.Models
 
         public Funcionario Funcionario { get; set; }
 
-        public ICollection<RegistroParada> RegistrosParada { get; set; }
+        public ICollection<RegistroParada> RegistroParadas { get; set; }
 
         public Apontamento()
         {
 
         }
-
 
         public Apontamento(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status, Processo processo, Maquina maquina, Funcionario funcionario)
         {
@@ -47,13 +46,13 @@ namespace GestaoProducao_MVC.Models
         
         public void AddParada(RegistroParada parada)
         {
-            RegistrosParada.Add(parada);
+            RegistroParadas.Add(parada);
 
         }
 
         public void RemoveParada(RegistroParada parada)
         {
-            RegistrosParada.Remove(parada);
+            RegistroParadas.Remove(parada);
         }
     }
 

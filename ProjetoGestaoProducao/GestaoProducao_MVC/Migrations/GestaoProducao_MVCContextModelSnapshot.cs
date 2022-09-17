@@ -37,10 +37,15 @@ namespace GestaoProducao_MVC.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProcessoId")
+                    b.Property<int>("FuncionarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaquinaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProcessoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -51,9 +56,68 @@ namespace GestaoProducao_MVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("MaquinaId");
+
                     b.HasIndex("ProcessoId");
 
                     b.ToTable("Apontamento");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.CodigoParada", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CodigoParada");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.Funcionario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Cargo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Funcionario");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.Maquina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Maquina");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.OrdemProduto", b =>
@@ -101,7 +165,7 @@ namespace GestaoProducao_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrdemProdutoId")
+                    b.Property<int>("OrdemProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantidadePeca")
@@ -122,7 +186,10 @@ namespace GestaoProducao_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ApontamentoId")
+                    b.Property<int>("ApontamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodigoParadaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataFinal")
@@ -144,33 +211,86 @@ namespace GestaoProducao_MVC.Migrations
 
                     b.HasIndex("ApontamentoId");
 
+                    b.HasIndex("CodigoParadaId");
+
                     b.ToTable("RegistroParada");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.Apontamento", b =>
                 {
-                    b.HasOne("GestaoProducao_MVC.Models.Processo", null)
+                    b.HasOne("GestaoProducao_MVC.Models.Funcionario", "Funcionario")
                         .WithMany("Apontamentos")
-                        .HasForeignKey("ProcessoId");
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestaoProducao_MVC.Models.Maquina", "Maquina")
+                        .WithMany("Apontamentos")
+                        .HasForeignKey("MaquinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestaoProducao_MVC.Models.Processo", "Processo")
+                        .WithMany("Apontamentos")
+                        .HasForeignKey("ProcessoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Funcionario");
+
+                    b.Navigation("Maquina");
+
+                    b.Navigation("Processo");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.Processo", b =>
                 {
-                    b.HasOne("GestaoProducao_MVC.Models.OrdemProduto", null)
+                    b.HasOne("GestaoProducao_MVC.Models.OrdemProduto", "OrdemProduto")
                         .WithMany("Processos")
-                        .HasForeignKey("OrdemProdutoId");
+                        .HasForeignKey("OrdemProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrdemProduto");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.RegistroParada", b =>
                 {
-                    b.HasOne("GestaoProducao_MVC.Models.Apontamento", null)
-                        .WithMany("RegistrosParada")
-                        .HasForeignKey("ApontamentoId");
+                    b.HasOne("GestaoProducao_MVC.Models.Apontamento", "Apontamento")
+                        .WithMany("RegistroParadas")
+                        .HasForeignKey("ApontamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestaoProducao_MVC.Models.CodigoParada", "CodigoParada")
+                        .WithMany("RegistroParadas")
+                        .HasForeignKey("CodigoParadaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Apontamento");
+
+                    b.Navigation("CodigoParada");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.Apontamento", b =>
                 {
-                    b.Navigation("RegistrosParada");
+                    b.Navigation("RegistroParadas");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.CodigoParada", b =>
+                {
+                    b.Navigation("RegistroParadas");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.Funcionario", b =>
+                {
+                    b.Navigation("Apontamentos");
+                });
+
+            modelBuilder.Entity("GestaoProducao_MVC.Models.Maquina", b =>
+                {
+                    b.Navigation("Apontamentos");
                 });
 
             modelBuilder.Entity("GestaoProducao_MVC.Models.OrdemProduto", b =>

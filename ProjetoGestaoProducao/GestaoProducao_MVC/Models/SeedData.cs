@@ -17,7 +17,7 @@ namespace GestaoProducao_MVC.Models
                     return;   // DB has been seeded
                 }
 
-                OrdemProduto Op1 = new OrdemProduto(1, "CODIGO010203", 8, new DateTime(5, 08, 2022), new DateTime(5, 11, 2022));
+                OrdemProduto Op1 = new OrdemProduto(1, "CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 08, 06));
                 OrdemProduto Op2 = new OrdemProduto(2, "CODIGO020203", 8, new DateTime(4, 06, 2022), new DateTime(4, 9, 2022));
                 OrdemProduto Op3 = new OrdemProduto(3, "CODIGO010203", 8, new DateTime(5, 08, 2022), new DateTime(5, 11, 2022));
 
