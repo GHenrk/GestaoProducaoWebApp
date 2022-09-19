@@ -29,9 +29,9 @@ namespace GestaoProducao_MVC.Models
 
         }
        
-        public Processo(int id, string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto)
+        public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto)
         {
-            Id = id;
+          
             CodigoPeca = codigoPeca;
             Descricao = descricao;
             QuantidadePeca = quantidadePeca;

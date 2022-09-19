@@ -17,9 +17,9 @@
 
         }
 
-        public Funcionario(int id, string name, string cargo)
+        public Funcionario(string name, string cargo)
         {
-            Id = id;
+           
             Name = name;
             Cargo = cargo;
         }

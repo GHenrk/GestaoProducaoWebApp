@@ -30,9 +30,9 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public Apontamento(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status, Processo processo, Maquina maquina, Funcionario funcionario)
+        public Apontamento(DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status, Processo processo, Maquina maquina, Funcionario funcionario)
         {
-            Id = id;
+       
             DataInicial = dataInicial;
             DataFinal = dataFinal;
             TempoTotal = tempoTotal;

@@ -25,9 +25,9 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public RegistroParada(int id, DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string? descricao, AptStatus status, CodigoParada codigoParada, Apontamento apontamento)
+        public RegistroParada(DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string? descricao, AptStatus status, CodigoParada codigoParada, Apontamento apontamento)
         {
-            Id = id;
+            
             DataInicial = dataInicial;
             DataFinal = dataFinal;
             TempoTotal = tempoTotal;

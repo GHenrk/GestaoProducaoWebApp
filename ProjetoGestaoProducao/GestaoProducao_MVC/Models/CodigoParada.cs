@@ -15,9 +15,9 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public CodigoParada(int id, string descricao)
+        public CodigoParada(string descricao)
         {
-            Id = id;
+            
             Descricao = descricao;
            
         }

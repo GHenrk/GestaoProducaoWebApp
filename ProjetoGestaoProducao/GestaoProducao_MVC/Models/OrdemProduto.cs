@@ -4,15 +4,19 @@ namespace GestaoProducao_MVC.Models
 {
     public class OrdemProduto
     {
+        [Display(Name = "OP")]
         public int Id { get; set; }
 
+        [Display(Name = "Código Produto")]
         public string CodigoProduto { get; set; }
 
+        [Display(Name = "Qntd.")]
         public int QuantidadeProduto { get; set; }
 
-       
+        [Display(Name = "Data de Venda")]
         public DateTime DataVenda { get; set; }
 
+        [Display(Name = "Data de Entrega")]
         public DateTime DataEntrega { get; set; }
 
         //Fazer relações;
@@ -29,9 +33,8 @@ namespace GestaoProducao_MVC.Models
 
 
         //Método construtor com parametros;
-        public OrdemProduto(int id, string codigoProduto, int quantidadeProduto, DateTime dtVenda, DateTime dtEntrega)
+        public OrdemProduto(string codigoProduto, int quantidadeProduto, DateTime dtVenda, DateTime dtEntrega)
         {
-            Id = id;
             CodigoProduto = codigoProduto;
             QuantidadeProduto = quantidadeProduto;
             DataVenda = dtVenda;

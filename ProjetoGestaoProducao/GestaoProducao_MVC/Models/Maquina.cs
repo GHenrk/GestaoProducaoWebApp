@@ -14,9 +14,9 @@
         {
 
         }
-        public Maquina(int id, string nome)
+        public Maquina(string nome)
         {
-            Id = id;
+           
             Nome = nome;
         }
 
