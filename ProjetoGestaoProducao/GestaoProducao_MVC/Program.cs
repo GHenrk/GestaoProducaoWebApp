@@ -2,14 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
+using GestaoProducao_MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<GestaoProducao_MVCContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GestaoProducao_MVCContext") ?? throw new InvalidOperationException("Connection string 'GestaoProducao_MVCContext' not found.")));
 
+builder.Services.AddScoped<OrdemProdutoService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

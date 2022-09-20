@@ -17,9 +17,9 @@ namespace GestaoProducao_MVC.Models
                     return;   // DB has been seeded
                 }
 
-                OrdemProduto Op1 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 08, 06));
-                OrdemProduto Op2 = new OrdemProduto("CODIGO020203", 8, new DateTime(2022, 06, 04 ), new DateTime(2022, 9, 4));
-                OrdemProduto Op3 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 11, 5));
+                OrdemProduto Op1 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 08, 06), Enums.OpStatus.Vendido);
+                OrdemProduto Op2 = new OrdemProduto("CODIGO020203", 8, new DateTime(2022, 06, 04 ), new DateTime(2022, 9, 4), Enums.OpStatus.Entregue);
+                OrdemProduto Op3 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 11, 5), Enums.OpStatus.Fabricação);
 
                 context.OrdemProduto.AddRange(Op1, Op2, Op3);
                 
