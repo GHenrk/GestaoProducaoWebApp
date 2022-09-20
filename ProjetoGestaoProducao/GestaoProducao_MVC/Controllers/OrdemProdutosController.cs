@@ -33,23 +33,28 @@ namespace GestaoProducao_MVC.Controllers
 
 
 
-        // GET: OrdemProdutoes/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.OrdemProduto == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET OP Detalhes
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                //Tratar melhor;
+                return NotFound();
+            }
 
-        //    var ordemProduto = await _context.OrdemProduto
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (ordemProduto == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var obj = await _ordemProdutoService.FindByIdAsync(id.Value);
 
-        //    return View(ordemProduto);
-        //}
+            if (obj == null)
+            {
+                //Tratar melhor
+                return NotFound();
+
+            }
+
+            return View(obj);
+        }
+
+
 
 
         //GET: OrdemProdutoes/Create
@@ -90,83 +95,78 @@ namespace GestaoProducao_MVC.Controllers
             return View(ordemProduto);
         }
 
-        //Ate aqui
 
-        // POST: OrdemProdutoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,CodigoProduto,QuantidadeProduto,DataVenda,DataEntrega")] OrdemProduto ordemProduto)
-        //{
-        //    if (id != ordemProduto.Id)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(ordemProduto);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!OrdemProdutoExists(ordemProduto.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(ordemProduto);
-        //}
+        //Post Edit OP
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,OrdemProduto ordemProduto)
+        {
+            if(id != ordemProduto.Id)
+            {
+                return BadRequest();
+            }
+            //Se obj for inválido
+            if (!ModelState.IsValid)
+            {
+                return View(ordemProduto);
+            }
 
-        // GET: OrdemProdutoes/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.OrdemProduto == null)
-        //    {
-        //        return NotFound();
-        //    }
+            try
+            {
+                //Chama o Update do Serviço e envia OP
+                await _ordemProdutoService.UpdateAsync(ordemProduto);
+                return RedirectToAction(nameof(Index));
 
-        //    var ordemProduto = await _context.OrdemProduto
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (ordemProduto == null)
-        //    {
-        //        return NotFound();
-        //    }
+            } catch 
+            {
+                //Caso der algo errado no update..
+                //Tratar melhor este erro.
+                return NotFound();
 
-        //    return View(ordemProduto);
-        //}
+            }
+            
+        }
 
-        // POST: OrdemProdutoes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.OrdemProduto == null)
-        //    {
-        //        return Problem("Entity set 'GestaoProducao_MVCContext.OrdemProduto'  is null.");
-        //    }
-        //    var ordemProduto = await _context.OrdemProduto.FindAsync(id);
-        //    if (ordemProduto != null)
-        //    {
-        //        _context.OrdemProduto.Remove(ordemProduto);
-        //    }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
-        //private bool OrdemProdutoExists(int id)
-        //{
-        //  return (_context.OrdemProduto?.Any(e => e.Id == id)).GetValueOrDefault();
-        //}
-    }
+
+
+        //Get Delete OP
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                //Tratar melhor esse erro;
+                return BadRequest();
+            }
+
+
+            var obj = await _ordemProdutoService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        //Metodo Delete Post
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _ordemProdutoService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+     }
 }

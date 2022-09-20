@@ -1,45 +1,66 @@
 ﻿@model GestaoProducao_MVC.Models.OrdemProduto
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Excluir";
 }
 
-<h1>Delete</h1>
+<h1 class="text-center">@ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="text-center text-danger">Você realmente deseja excluir este item?</h3>
 <div>
-    <h4>OrdemProduto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoProduto)
-        </dt>
-        <dd class = "col-sm-10">
+    <h4 class="text-center">Ordem de Produção</h4>
+    <hr/>
+   <table class="table table-bordered table-striped table-borderless table-hover" >
+    <thead>
+        <tr class="bg-dark text-white text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoProduto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuantidadeProduto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataEntrega)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpStatus)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody class=" text-center">
+        <td>
+            @Html.DisplayFor(model => model.Id)
+        </td>
+        <td>
             @Html.DisplayFor(model => model.CodigoProduto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QuantidadeProduto)
-        </dt>
-        <dd class = "col-sm-10">
+        </td>
+        <td>
             @Html.DisplayFor(model => model.QuantidadeProduto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataVenda)
-        </dt>
-        <dd class = "col-sm-10">
+        </td>
+        <td>
             @Html.DisplayFor(model => model.DataVenda)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataEntrega)
-        </dt>
-        <dd class = "col-sm-10">
+        </td>
+        <td>
             @Html.DisplayFor(model => model.DataEntrega)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.OpStatus)
+        </td>
+    </tbody>
+    </table>
+
+    <div class="row">
+        <form asp-action="Delete" class="d-flex justify-content-center gap-2">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Excluir" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
+        </form>
+    </div>
 </div>

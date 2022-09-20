@@ -43,18 +43,18 @@ namespace GestaoProducao_MVC.Services
 
 
         //Essa função só pode ser executada pelo setor Vendas e Adm Geral;
-        public async Task RemoveAsync(int? id)
+        public async Task RemoveAsync(int id)
         {
             try
             {
                 var obj = await _context.OrdemProduto.FindAsync(id);
                 _context.OrdemProduto.Remove(obj);
                 await _context.SaveChangesAsync();
-            } catch (DbUpdateException)
+            }
+            catch (DbUpdateException)
             {
                 //Tratar caso de algum erro na exclusão
             }
-
         }
 
 
@@ -72,18 +72,13 @@ namespace GestaoProducao_MVC.Services
                 //faz o update do objeto;
                 _context.OrdemProduto.Update(obj);
                 await _context.SaveChangesAsync();
-            }catch (DbUpdateConcurrencyException e)
+
+            }
+            catch (DbUpdateConcurrencyException e)
             {
                 //Trata erro caso ocorrer algum erro na hora do update;
                 throw new DbUpdateConcurrencyException(e.Message);
             }
         }
-
-
-
-
-
-
-
     }
 }
