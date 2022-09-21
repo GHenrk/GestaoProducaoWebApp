@@ -62,12 +62,12 @@ namespace GestaoProducao_MVC.Models
 
                 context.CodigoParada.AddRange(codParada1, codParada2, codParada3);
 
-                Apontamento apt1 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Pro1, maq1, Func1);
-                Apontamento apt2 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Pro1, maq2, Func2);
-                Apontamento apt3 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Pro2, maq3, Func3);
-                Apontamento apt4 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Pro2, maq2, Func2);
-                Apontamento apt5 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Houve uma falha no material", Enums.AptStatus.Encerrado, Pro2, maq1, Func1);
-                Apontamento apt6 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Pro4, maq4, Func3);
+                Apontamento apt1 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado,Enums.Operacao.Desbaste, Pro1, maq1, Func1);
+                Apontamento apt2 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Enums.Operacao.Pintura, Pro1, maq2, Func2);
+                Apontamento apt3 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Enums.Operacao.Acabamento, Pro2, maq3, Func3);
+                Apontamento apt4 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Enums.Operacao.Desbaste, Pro2, maq2, Func2);
+                Apontamento apt5 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Houve uma falha no material", Enums.AptStatus.Encerrado, Enums.Operacao.Acabamento, Pro2, maq1, Func1);
+                Apontamento apt6 = new Apontamento(new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, "Peça concluida", Enums.AptStatus.Encerrado, Enums.Operacao.Desbaste, Pro4, maq4, Func3);
 
                 context.Apontamento.AddRange(apt1, apt2, apt3, apt4, apt5, apt6);
 

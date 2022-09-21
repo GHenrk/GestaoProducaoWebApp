@@ -4,6 +4,7 @@ using GestaoProducao_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestaoProducao_MVC.Migrations
 {
     [DbContext(typeof(GestaoProducao_MVCContext))]
-    partial class GestaoProducao_MVCContextModelSnapshot : ModelSnapshot
+    [Migration("20220921002146_otherEnums")]
+    partial class otherEnums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +173,7 @@ namespace GestaoProducao_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrdemProdutoId")
+                    b.Property<int>("OrdemProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantidadePeca")
@@ -253,7 +255,9 @@ namespace GestaoProducao_MVC.Migrations
                 {
                     b.HasOne("GestaoProducao_MVC.Models.OrdemProduto", "OrdemProduto")
                         .WithMany("Processos")
-                        .HasForeignKey("OrdemProdutoId");
+                        .HasForeignKey("OrdemProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("OrdemProduto");
                 });

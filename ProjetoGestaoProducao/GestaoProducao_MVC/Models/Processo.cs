@@ -19,7 +19,7 @@ namespace GestaoProducao_MVC.Models
 
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 
-        public OrdemProduto OrdemProduto { get; set; }
+        public OrdemProduto? OrdemProduto { get; set; }
 
 
         public ICollection<Apontamento> Apontamentos { get; set; } = new List<Apontamento>();
