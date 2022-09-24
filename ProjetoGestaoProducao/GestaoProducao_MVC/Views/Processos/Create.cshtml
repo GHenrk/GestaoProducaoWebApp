@@ -1,0 +1,56 @@
+﻿@model GestaoProducao_MVC.Models.Processo
+
+@{
+    ViewData["Title"] = "Novo Processo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="OrdemProdutoId" class="control-label"></label>
+                <input asp-for="OrdemProdutoId" class="form-control" />
+                <span asp-validation-for="OrdemProdutoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            
+                <label asp-for="CodigoPeca" class="control-label"></label>
+                <input asp-for="CodigoPeca" class="form-control" />
+                <span asp-validation-for="CodigoPeca" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantidadePeca" class="control-label"></label>
+                <input asp-for="QuantidadePeca" class="form-control" />
+                <span asp-validation-for="QuantidadePeca" class="text-danger"></span>
+            </div>
+            <div class="form-group"
+            <label asp-for="DataCriacao" class="control-label"></label>
+            <input type="datetime" asp-for="DataCriacao" value=@DateTime.Now.ToString("dd/MM/yyyy") class="form-control"/>
+            <span asp-validation-for="DataCriacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-success" />
+                <a asp-action="Index" class="btn btn-outline-dark">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

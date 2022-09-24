@@ -18,14 +18,14 @@ namespace GestaoProducao_MVC.Services
         //Busca todos processos;
         public async Task<List<Processo>> FindAllAsync()
         {
-            return await _context.Processo.OrderByDescending(x => x.DataCriacao).ToListAsync();
+            return await _context.Processo.OrderByDescending(x => x.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
         }
 
 
         //Busca processo por ID;
         public async Task<Processo> FindByIdAsync(int id)
         {
-            return await _context.Processo.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Processo.Include(obj => obj.OrdemProduto).FirstOrDefaultAsync(x => x.Id == id);
         }
 
 
@@ -91,8 +91,12 @@ namespace GestaoProducao_MVC.Services
         {
             try
             {
-                var obj = await _context.OrdemProduto.FindAsync(id);
-                _context.Remove(obj);
+                var obj = await _context.Processo.FindAsync(id);
+                if (obj == null)
+                {
+                    throw new ApplicationException();
+                }
+                _context.Processo.Remove(obj);
                 await _context.SaveChangesAsync();
             }catch (DbUpdateException e)
             {

@@ -41,7 +41,7 @@ namespace GestaoProducao_MVC.Services
 
         }
 
-
+        
         //Essa função só pode ser executada pelo setor Vendas e Adm Geral;
         public async Task RemoveAsync(int id)
         {
