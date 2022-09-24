@@ -1,6 +1,7 @@
 ﻿using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace GestaoProducao_MVC.Services
 {
@@ -44,11 +45,20 @@ namespace GestaoProducao_MVC.Services
         }
 
 
-        ////Busca por nome, IMPLEMENTAR DEPOIS;
-        //public async Task<Processo> FindByNameAsync(string name)
-        //{
-        //    return await _context.
-        //}
+        //Busca por nome, IMPLEMENTAR DEPOIS;
+        public async Task<List<Processo>> FindByNameCodeAsync(string searchString)
+        {
+            var result = from obj in _context.Processo select obj;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(obj => obj.CodigoPeca.Contains(searchString) || obj.Id.ToString() == searchString || obj.OrdemProdutoId.ToString() == searchString);
+            }
+
+
+            return await result.OrderByDescending(obj => obj.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
+
+        }
 
 
 
@@ -104,6 +114,8 @@ namespace GestaoProducao_MVC.Services
             }
 
         }
+
+
 
 
 

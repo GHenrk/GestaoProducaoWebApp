@@ -1,5 +1,4 @@
 ﻿@model GestaoProducao_MVC.Models.Processo
-
 @{
     ViewData["Title"] = "Edit";
 }
@@ -34,19 +33,16 @@
                 <span asp-validation-for="DataCriacao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdemProduto" class="control-label"></label>
-                <select asp-for="OrdemProduto" class="form-control" asp-items="ViewBag.OrdemProduto"></select>
-                <span asp-validation-for="OrdemProduto" class="text-danger"></span>
+                <label asp-for="OrdemProdutoId" class="control-label"></label>
+                <input asp-for="OrdemProdutoId" class="form-control" value="@Model.OrdemProdutoId" />
+                <span asp-validation-for="OrdemProdutoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-outline-warning" />
+                <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
