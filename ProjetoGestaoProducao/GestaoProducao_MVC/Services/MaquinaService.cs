@@ -29,6 +29,21 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        public async Task<List<Maquina>> FindByNameCodeAsync(string searchString)
+        {
+            var result = from obj in _context.Maquina select obj;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(obj => obj.Nome.Contains(searchString) || obj.Id.ToString() == searchString);
+            }
+
+
+            return await result.ToListAsync();
+
+        }
+
+
 
         //Cria uma maquina
         public async Task InsertAsync(Maquina obj)

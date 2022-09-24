@@ -18,10 +18,10 @@ namespace GestaoProducao_MVC.Controllers
             _maquinaService = maquinaService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
 
-            List<Maquina> list = await _maquinaService.FindAllAsync();
+            List<Maquina> list = await _maquinaService.FindByNameCodeAsync(searchString);
             
             return View(list);
         } 
