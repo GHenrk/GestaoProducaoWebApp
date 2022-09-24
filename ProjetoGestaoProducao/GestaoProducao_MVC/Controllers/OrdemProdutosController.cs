@@ -8,21 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
+using GestaoProducao_MVC.Models.ViewModel;
 
 namespace GestaoProducao_MVC.Controllers
 {
     public class OrdemProdutosController : Controller
     {
         private readonly OrdemProdutoService _ordemProdutoService;
+        private readonly ProcessoService _processoService;
 
-        public OrdemProdutosController(OrdemProdutoService ordemProdutoService)
+        public OrdemProdutosController(OrdemProdutoService ordemProdutoService, ProcessoService processoService)
         {
             _ordemProdutoService = ordemProdutoService;
+            _processoService = processoService;
         }
 
 
 
-       public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var list = await _ordemProdutoService.FindAllAsync();
 
@@ -51,7 +54,18 @@ namespace GestaoProducao_MVC.Controllers
 
             }
 
-            return View(obj);
+            //Cria uma lista de processos;
+            //EM processoService busca processos que contenham essa OP;
+            List<Processo> processos = await _processoService.FindByOpAsync(obj);
+
+            //CriaViewModel
+            OrdemProdutoViewModel viewModel = new OrdemProdutoViewModel
+            {
+                OrdemProduto = obj,
+                Processos = processos
+            };
+
+            return View(viewModel);
         }
 
 

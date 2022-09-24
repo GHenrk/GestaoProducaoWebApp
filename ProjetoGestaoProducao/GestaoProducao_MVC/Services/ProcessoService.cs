@@ -32,12 +32,12 @@ namespace GestaoProducao_MVC.Services
 
 
         //Busca processos que pertencem a uma OP;
-        public async Task<List<Processo>> FindByOpAsync(OrdemProduto op)
+        public async Task<List<Processo>> FindByOpAsync(OrdemProduto ordemPrduto)
         {
             //Seleciona o Objeto da tabela processo
             var result = from obj in _context.Processo select obj;
             //Onde a OP seja igual a OP Enviada como parametro
-            result.Where(x => x.OrdemProduto == op);
+            result = result.Where(x => x.OrdemProduto.Id == ordemPrduto.Id) ;
 
             return await result.ToListAsync();
             

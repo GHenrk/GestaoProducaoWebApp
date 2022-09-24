@@ -1,4 +1,4 @@
-﻿@model GestaoProducao_MVC.Models.OrdemProduto
+﻿@model GestaoProducao_MVC.Models.ViewModel.OrdemProdutoViewModel
 
 @{
     ViewData["Title"] = "Detalhes";
@@ -9,53 +9,113 @@
 <div>
     <h4 class="text-center">Ordem de Produção</h4>
     <hr/>
+    <div class="d-flex justify-content-between gap-3">
+    <a asp-action="Edit" asp-route-id="@Model.OrdemProduto?.Id" class="btn btn-outline-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
+</div>
    <table class="table table-bordered table-striped table-borderless table-hover" >
     <thead>
         <tr class="bg-dark text-white text-center">
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.OrdemProduto.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CodigoProduto)
+                @Html.DisplayNameFor(model => model.OrdemProduto.CodigoProduto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuantidadeProduto)
+                @Html.DisplayNameFor(model => model.OrdemProduto.QuantidadeProduto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataVenda)
+                @Html.DisplayNameFor(model => model.OrdemProduto.DataVenda)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataEntrega)
+                @Html.DisplayNameFor(model => model.OrdemProduto.DataEntrega)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OpStatus)
+                @Html.DisplayNameFor(model => model.OrdemProduto.OpStatus)
             </th>
            
         </tr>
     </thead>
     <tbody class=" text-center">
         <td>
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.OrdemProduto.Id)
         </td>
         <td>
-            @Html.DisplayFor(model => model.CodigoProduto)
+            @Html.DisplayFor(model => model.OrdemProduto.CodigoProduto)
         </td>
         <td>
-            @Html.DisplayFor(model => model.QuantidadeProduto)
+            @Html.DisplayFor(model => model.OrdemProduto.QuantidadeProduto)
         </td>
         <td>
-            @Html.DisplayFor(model => model.DataVenda)
+            @Html.DisplayFor(model => model.OrdemProduto.DataVenda)
         </td>
         <td>
-            @Html.DisplayFor(model => model.DataEntrega)
+            @Html.DisplayFor(model => model.OrdemProduto.DataEntrega)
         </td>
         <td>
-            @Html.DisplayFor(model => model.OpStatus)
+            @Html.DisplayFor(model => model.OrdemProduto.OpStatus)
         </td>
     </tbody>
     </table>
 
-<div class="d-flex justify-content-center gap-3">
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Editar</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
-</div>
+<h4 class="text-center">Processos da OP @Model.OrdemProduto.Id</h4>
+<hr/>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="bg-dark text-white text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.Processos[0].Id )
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Processos[0].CodigoPeca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Processos[0].Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Processos[0].QuantidadePeca)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Processos[0].OrdemProduto.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Processos[0].DataCriacao)
+            </th>
+            <th>Detalhes</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in @Model.Processos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoPeca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantidadePeca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrdemProduto.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCriacao)
+            </td>
+            <td class="d-flex justify-content-evenly align-items-baseline gap-3">
+                <a asp-controller="Processos" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>
+                <a asp-controller="Processos" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-dark">Details</a>
+                <a asp-controller="Processos" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+
