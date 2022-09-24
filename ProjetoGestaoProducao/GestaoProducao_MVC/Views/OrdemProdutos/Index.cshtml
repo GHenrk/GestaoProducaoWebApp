@@ -12,6 +12,9 @@
 <table class="table table-bordered table-striped table-borderless table-hover" >
     <thead>
         <tr class="bg-dark text-white text-center">
+             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.CodigoProduto)
             </th>
@@ -33,6 +36,10 @@
     <tbody>
 @foreach (var item in Model) {
                 <tr class="text-center linhaTable">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.CodigoProduto)
                 </td>
