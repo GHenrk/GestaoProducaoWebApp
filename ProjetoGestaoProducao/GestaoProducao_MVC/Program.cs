@@ -11,6 +11,7 @@ builder.Services.AddDbContext<GestaoProducao_MVCContext>(options =>
 
 builder.Services.AddScoped<OrdemProdutoService>();
 builder.Services.AddScoped<ProcessoService>();
+builder.Services.AddScoped<MaquinaService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
