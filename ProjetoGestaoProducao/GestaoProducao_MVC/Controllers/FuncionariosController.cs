@@ -7,34 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
+using GestaoProducao_MVC.Services;
 
 namespace GestaoProducao_MVC.Controllers
 {
     public class FuncionariosController : Controller
     {
-        private readonly GestaoProducao_MVCContext _context;
+        private readonly FuncionarioService _funcionarioService;
 
-        public FuncionariosController(GestaoProducao_MVCContext context)
+        public FuncionariosController(FuncionarioService funcionarioService)
         {
-            _context = context;
+            _funcionarioService = funcionarioService;
         }
+
 
         // GET: Funcionarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-              return View(await _context.Funcionario.ToListAsync());
+            var list = await _funcionarioService.FindByNameCodeAsync(searchString);
+            return View(list);
         }
 
-        // GET: Funcionarios/Details/5
+        // GET
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null )
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var funcionario = await _context.Funcionario
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var funcionario = await _funcionarioService.FindByIdAsync(id.Value);
+
             if (funcionario == null)
             {
                 return NotFound();
@@ -42,6 +45,7 @@ namespace GestaoProducao_MVC.Controllers
 
             return View(funcionario);
         }
+
 
         // GET: Funcionarios/Create
         public IActionResult Create()
@@ -49,31 +53,35 @@ namespace GestaoProducao_MVC.Controllers
             return View();
         }
 
-        // POST: Funcionarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Cargo")] Funcionario funcionario)
+        public async Task<IActionResult> Create(Funcionario funcionario)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(funcionario);
-                await _context.SaveChangesAsync();
+                await _funcionarioService.InsertAsync(funcionario);
                 return RedirectToAction(nameof(Index));
             }
-            return View(funcionario);
+            catch
+            {
+                return View(funcionario);
+            }
+
         }
 
-        // GET: Funcionarios/Edit/5
+
+
+        // GET
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var funcionario = await _context.Funcionario.FindAsync(id);
+            var funcionario = await _funcionarioService.FindByIdAsync(id.Value);
+            
             if (funcionario == null)
             {
                 return NotFound();
@@ -81,51 +89,38 @@ namespace GestaoProducao_MVC.Controllers
             return View(funcionario);
         }
 
-        // POST: Funcionarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Cargo")] Funcionario funcionario)
+        public async Task<IActionResult> Edit(int id, Funcionario funcionario)
         {
             if (id != funcionario.Id)
             {
-                return NotFound();
+                return BadRequest();
+            }
+
+            try
+            {
+                await _funcionarioService.UpdateAsync(funcionario);
+                return RedirectToAction(nameof(Index));
 
             }
-            if (ModelState.IsValid)
+            catch
             {
-                try
-                {
-                    _context.Update(funcionario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FuncionarioExists(funcionario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(funcionario);
             }
-            return View(funcionario);
         }
 
         // GET: Funcionarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Funcionario == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var funcionario = await _context.Funcionario
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var funcionario = await _funcionarioService.FindByIdAsync(id.Value);
+
             if (funcionario == null)
             {
                 return NotFound();
@@ -139,23 +134,15 @@ namespace GestaoProducao_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Funcionario == null)
+            try
             {
-                return Problem("Entity set 'GestaoProducao_MVCContext.Funcionario'  is null.");
+                await _funcionarioService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
             }
-            var funcionario = await _context.Funcionario.FindAsync(id);
-            if (funcionario != null)
+            catch
             {
-                _context.Funcionario.Remove(funcionario);
+                return BadRequest();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool FuncionarioExists(int id)
-        {
-          return _context.Funcionario.Any(e => e.Id == id);
-        }
+        }        
     }
 }

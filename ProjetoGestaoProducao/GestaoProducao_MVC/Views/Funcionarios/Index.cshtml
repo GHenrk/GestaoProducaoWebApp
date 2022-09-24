@@ -1,17 +1,27 @@
 ﻿@model IEnumerable<GestaoProducao_MVC.Models.Funcionario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Funcionários";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <p>
+        <input type="text" name="SearchString" />
+        <input type="submit" value="Buscar" />
+        <a asp-action="Index">Listar todos</a>
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -24,6 +34,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
