@@ -1,9 +1,13 @@
-﻿namespace GestaoProducao_MVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GestaoProducao_MVC.Models
 {
     public class Maquina
     {
+        [Display(Name = "Código")]
         public int Id { get; set; }
-    
+
+        [Required(ErrorMessage ="Nome é obrigatório!")]
         public string Nome { get; set; }
 
     //Referencia
