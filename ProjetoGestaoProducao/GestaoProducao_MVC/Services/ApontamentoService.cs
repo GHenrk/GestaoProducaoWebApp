@@ -1,5 +1,6 @@
 ﻿using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaoProducao_MVC.Services
@@ -47,7 +48,7 @@ namespace GestaoProducao_MVC.Services
 
 
             //Seleciona igual o ID e Apontamento Status;
-            result = result.Where(x => x.Id == id && x.Status == Models.Enums.AptStatus.Iniciado);
+            result = result.Where(x => x.Id == id && x.Status == Models.Enums.AptStatus.Ativo);
 
             return await result.FirstOrDefaultAsync();
 
@@ -65,12 +66,15 @@ namespace GestaoProducao_MVC.Services
             }
 
 
-            return await result.OrderByDescending(obj => obj.DataInicial)
+           var list =  await result.OrderByDescending(obj => obj.DataInicial)
                     .Include(obj => obj.Maquina)
                     .Include(obj => obj.Funcionario)
                     .Include(obj => obj.Processo)
                     .ToListAsync();
 
+
+
+            return list;
         }
 
 
@@ -128,6 +132,8 @@ namespace GestaoProducao_MVC.Services
                 throw new DbUpdateException(e.Message);
             }
         }
+
+
 
 
 

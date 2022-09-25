@@ -17,16 +17,20 @@ namespace GestaoProducao_MVC.Models
     
         public AptStatus Status { get; set; }
 
-        public Operacao Operacao { get; set; }
+        public Operacao? Operacao { get; set; }
 
-        public Processo Processo { get; set; }
+        public Processo? Processo { get; set; }
 
-        public Maquina Maquina { get; set; }
+        public int ProcessoId { get; set; }
 
-        public Funcionario Funcionario { get; set; }
+        public Maquina? Maquina { get; set; }
 
+        public int MaquinaId { get; set; }
+        public Funcionario? Funcionario { get; set; }
 
-        public ICollection<RegistroParada> RegistroParadas { get; set; }
+        public int FuncionarioId { get; set; }
+
+        public ICollection<RegistroParada>? RegistroParadas { get; set; }
 
         public Apontamento()
         {
