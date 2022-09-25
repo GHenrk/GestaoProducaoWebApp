@@ -7,18 +7,18 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-dark">Create New</a>
 </p>
 <form asp-action="Index" method="get">
     <p>
-        <input type="text" name="SearchString" />
-        <input type="submit" value="Buscar" />
-        <a asp-action="Index">Listar todos</a>
+        <input type="text" name="SearchString" class="form-control-sm" />
+        <input type="submit" value="Buscar" class="btn btn-sm btn-outline-info" />
+        <a asp-action="Index" class="btn btn-sm btn-outline-dark">Listar todos</a>
     </p>
 </form>
-<table class="table">
+<table class="table table-bordered table-striped table-borderless table-hover">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
@@ -33,7 +33,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="table-active">
         <td>
             @Html.DisplayFor(modelItem => item.Id)
         </td>
@@ -44,9 +44,9 @@
                 @Html.DisplayFor(modelItem => item.Cargo)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
             </td>
         </tr>
 }
