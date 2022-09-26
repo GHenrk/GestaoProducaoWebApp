@@ -54,8 +54,8 @@ namespace GestaoProducao_MVC.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("TempoTotal")
-                        .HasColumnType("time");
+                    b.Property<long?>("TempoTotal")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

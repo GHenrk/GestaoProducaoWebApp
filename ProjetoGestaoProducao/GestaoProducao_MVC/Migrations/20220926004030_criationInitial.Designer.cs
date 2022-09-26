@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestaoProducao_MVC.Migrations
 {
     [DbContext(typeof(GestaoProducao_MVCContext))]
-    [Migration("20220920001320_UpdateTable")]
-    partial class UpdateTable
+    [Migration("20220926004030_criationInitial")]
+    partial class criationInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,14 +47,17 @@ namespace GestaoProducao_MVC.Migrations
                     b.Property<int>("MaquinaId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Operacao")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProcessoId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("TempoTotal")
-                        .HasColumnType("time");
+                    b.Property<long?>("TempoTotal")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

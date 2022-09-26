@@ -47,8 +47,10 @@ namespace GestaoProducao_MVC.Services
             var result = from obj in _context.Apontamento select obj;
 
 
-            //Seleciona igual o ID e Apontamento Status;
-            result = result.Where(x => x.Id == id && x.Status == Models.Enums.AptStatus.Ativo);
+            //Seleciona os apontamentos do Funcionario
+            result = result.Where(x => x.FuncionarioId == id);
+            result = result.Where(x => x.Status == Models.Enums.AptStatus.Ativo);
+
 
             return await result.FirstOrDefaultAsync();
 

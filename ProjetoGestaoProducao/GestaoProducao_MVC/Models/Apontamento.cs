@@ -7,11 +7,11 @@ namespace GestaoProducao_MVC.Models
     {
         public int Id { get; set; }
 
-        public DateTime DataInicial { get; set; } = DateTime.Now;
+        public DateTime DataInicial { get; set; } 
 
         public DateTime? DataFinal { get; set; }
 
-        public TimeSpan? TempoTotal { get; set; }
+        public long? TempoTotal { get; set; }
 
         public string?  Descricao { get; set; }
     
@@ -37,7 +37,7 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public Apontamento(DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario)
+        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario)
         {
        
             DataInicial = dataInicial;

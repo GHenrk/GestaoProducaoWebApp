@@ -46,6 +46,52 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
+        //View que encerra um ponto
+        public async Task<IActionResult> Finalizar()
+        {
+            return View();
+        }
+
+
+
+
+        //Ação que encerra um ponto
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Finalizar(int id, string descricao)
+        {
+            //Busca apontamento do funcionario que esteja ativo
+             Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
+
+            if (apontamentoAtivo == null)
+            {   
+                //Você não tem um apontamento ativo.
+                return BadRequest();
+            }
+
+            apontamentoAtivo.DataFinal = DateTime.Now;
+            apontamentoAtivo.Descricao = descricao;
+            apontamentoAtivo.Status = Models.Enums.AptStatus.Encerrado ;
+
+
+            TimeSpan tempoTotal =(TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
+
+
+            apontamentoAtivo.TempoTotal = tempoTotal.Ticks;
+
+            if (ModelState.IsValid)
+            {
+                await _apontamentoService.UpdateAsync(apontamentoAtivo);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View() ;
+
+        }
+
+
+
+
 
 
 
