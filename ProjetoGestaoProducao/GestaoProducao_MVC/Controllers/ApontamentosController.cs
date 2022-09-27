@@ -1,6 +1,7 @@
 ﻿using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestaoProducao_MVC.Controllers
 {
@@ -24,11 +25,15 @@ namespace GestaoProducao_MVC.Controllers
            //Fazer um método sozinho pra isso;
             foreach(var item in list)
             {   
-                if (item.TempoTotal != null)
+                if (item.TempoTotal == null)
+                {
+                    TimeSpan decorrido = DateTime.Now - item.DataInicial;
+                    item.TotalTime = decorrido;
+                }
+                else
                 {
                     item.TotalTime = TimeSpan.FromTicks(item.TempoTotal.Value);
                 }
-                
             }
 
             return View(list.OrderByDescending(x => x.Status == Models.Enums.AptStatus.Ativo));
