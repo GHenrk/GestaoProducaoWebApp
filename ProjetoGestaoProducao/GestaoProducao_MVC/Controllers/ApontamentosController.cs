@@ -20,11 +20,22 @@ namespace GestaoProducao_MVC.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             var list = await _apontamentoService.FindByNameCodeAsync(searchString);
+
+           //Fazer um método sozinho pra isso;
+            foreach(var item in list)
+            {   
+                if (item.TempoTotal != null)
+                {
+                    item.TotalTime = TimeSpan.FromTicks(item.TempoTotal.Value);
+                }
+                
+            }
+
             return View(list.OrderByDescending(x => x.Status == Models.Enums.AptStatus.Ativo));
         }
 
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
 
@@ -58,7 +69,7 @@ namespace GestaoProducao_MVC.Controllers
         //Ação que encerra um ponto
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Finalizar(int id, string descricao)
+        public async Task<IActionResult> Finalizar(int id, string? descricao)
         {
             //Busca apontamento do funcionario que esteja ativo
              Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
@@ -78,6 +89,7 @@ namespace GestaoProducao_MVC.Controllers
 
 
             apontamentoAtivo.TempoTotal = tempoTotal.Ticks;
+
 
             if (ModelState.IsValid)
             {

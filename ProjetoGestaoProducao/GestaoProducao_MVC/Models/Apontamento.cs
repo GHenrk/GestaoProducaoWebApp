@@ -1,4 +1,6 @@
 ﻿using GestaoProducao_MVC.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 
 namespace GestaoProducao_MVC.Models
@@ -7,11 +9,21 @@ namespace GestaoProducao_MVC.Models
     {
         public int Id { get; set; }
 
-        public DateTime DataInicial { get; set; } 
 
+        [Display(Name = "Data Inicial")]
+        public DateTime DataInicial { get; set; }
+
+
+       
         public DateTime? DataFinal { get; set; }
 
         public long? TempoTotal { get; set; }
+
+
+        [NotMapped]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:dd\\.hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
+        public TimeSpan? TotalTime { get; set; }
 
         public string?  Descricao { get; set; }
     
@@ -49,6 +61,7 @@ namespace GestaoProducao_MVC.Models
             Processo = processo;
             Maquina = maquina;
             Funcionario = funcionario;
+            //TotalTime = TimeSpan.FromTicks(tempoTotal.Value);
         }
 
         

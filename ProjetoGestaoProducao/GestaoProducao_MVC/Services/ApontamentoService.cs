@@ -19,12 +19,13 @@ namespace GestaoProducao_MVC.Services
 
         public async Task<List<Apontamento>> FindAllAsync()
         {
-            return await _context.Apontamento.OrderByDescending(x => x.DataInicial)
-                .Include(obj => obj.Maquina)
-                .Include(obj => obj.Funcionario)
-                .Include(obj => obj.Processo)
-                .ToListAsync();
+            var list = await _context.Apontamento.OrderByDescending(x => x.DataInicial)
+                 .Include(obj => obj.Maquina)
+                 .Include(obj => obj.Funcionario)
+                 .Include(obj => obj.Processo)
+                 .ToListAsync();
 
+            return list;
         }
 
 
@@ -54,6 +55,22 @@ namespace GestaoProducao_MVC.Services
 
             return await result.FirstOrDefaultAsync();
 
+        }
+
+
+
+        //Método que retorna todos pontos de um funcionario --- TESTAR --
+        public async Task<List<Apontamento>> FindAllByFuncAsync(Funcionario funcionario)
+        {
+            var result = from obj in _context.Apontamento select obj;
+
+            result = result.Where(obj => obj.FuncionarioId == funcionario.Id);
+
+            return await result
+                .Include(obj => obj.Maquina)
+                .Include(obj => obj.Funcionario)
+                .Include(obj => obj.Processo)
+                .ToListAsync();
         }
 
 
