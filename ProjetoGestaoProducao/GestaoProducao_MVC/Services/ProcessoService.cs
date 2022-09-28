@@ -116,6 +116,16 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        //Verifica se processo Existe;
+        public async Task<bool> isExist(int? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            return await _context.Processo.AnyAsync(x => x.Id == id.Value);
+        }
 
 
 

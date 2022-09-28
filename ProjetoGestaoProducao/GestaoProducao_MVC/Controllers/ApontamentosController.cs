@@ -10,31 +10,21 @@ namespace GestaoProducao_MVC.Controllers
 
         private readonly ApontamentoService _apontamentoService;
         private readonly OrdemProdutoService _ordemProdutoService;
-        public ApontamentosController (ApontamentoService apontamentoService, OrdemProdutoService ordemProdutoService
+        private readonly ProcessoService _processoService;
+        private readonly FuncionarioService _funcionarioService;
+        public ApontamentosController (ApontamentoService apontamentoService, OrdemProdutoService ordemProdutoService, ProcessoService processoService, FuncionarioService funcionarioService
             )
         {
             _apontamentoService = apontamentoService;
             _ordemProdutoService = ordemProdutoService;
+            _processoService = processoService;
+            _funcionarioService = funcionarioService;
         }
 
 
         public async Task<IActionResult> Index(string searchString)
         {
             var list = await _apontamentoService.FindByNameCodeAsync(searchString);
-
-           //Fazer um método sozinho pra isso;
-            foreach(var item in list)
-            {   
-                if (item.TempoTotal == null)
-                {
-                    TimeSpan decorrido = DateTime.Now - item.DataInicial;
-                    item.TotalTime = decorrido;
-                }
-                else
-                {
-                    item.TotalTime = TimeSpan.FromTicks(item.TempoTotal.Value);
-                }
-            }
 
             return View(list.OrderByDescending(x => x.Status == Models.Enums.AptStatus.Ativo));
         }
@@ -50,12 +40,27 @@ namespace GestaoProducao_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProcessoId, FuncionarioId,MaquinaId,Operacao,DataInicial,Status")] Apontamento apontamento)
         {
-
-            if (ModelState.IsValid)
+            //Verifica se existe pontoAtivo
+            bool ativo = await _apontamentoService.isExist(apontamento.FuncionarioId);
+            if (ativo)
             {
-                await _apontamentoService.InsertAsync(apontamento);
-                return RedirectToAction(nameof(Index));
-            
+                ViewData["Ativo"] = "Este funcionário já possui um apontamento ativo!";
+                return View(apontamento);
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    apontamento.IsAtivo = true;
+                    await _apontamentoService.InsertAsync(apontamento);
+                    return RedirectToAction(nameof(Index));
+
+                }
+            } 
+            catch
+            {
+                return View(apontamento);
             }
 
             return View(apontamento);
@@ -88,6 +93,7 @@ namespace GestaoProducao_MVC.Controllers
             apontamentoAtivo.DataFinal = DateTime.Now;
             apontamentoAtivo.Descricao = descricao;
             apontamentoAtivo.Status = Models.Enums.AptStatus.Encerrado ;
+            apontamentoAtivo.IsAtivo = false;
 
 
             TimeSpan tempoTotal =(TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
