@@ -16,7 +16,6 @@ namespace GestaoProducao_MVC.Services
 
 
         //Busca todos
-
         public async Task<List<Apontamento>> FindAllAsync()
         {
             var list = await _context.Apontamento.OrderByDescending(x => x.DataInicial)
@@ -50,6 +49,8 @@ namespace GestaoProducao_MVC.Services
 
         //Busca por funcionario e Apontamento Ativo;
         //Método utilizado para EncerrarApontamento. 
+
+
         public async Task<Apontamento> FindByIdStatus(int id)
         {
             var result = from obj in _context.Apontamento select obj;
@@ -57,14 +58,13 @@ namespace GestaoProducao_MVC.Services
 
             //Seleciona os apontamentos do Funcionario
             result = result.Where(x => x.FuncionarioId == id);
-            result = result.Where(x => x.Status == Models.Enums.AptStatus.Ativo);
+            result = result.Where(x => x.IsAtivo == true);
 
 
             return await result.FirstOrDefaultAsync();
 
         }
-
-
+        
 
         //Método que retorna todos pontos de um funcionario --- TESTAR --
         public async Task<List<Apontamento>> FindAllByFuncAsync(Funcionario funcionario)
@@ -207,8 +207,10 @@ namespace GestaoProducao_MVC.Services
             return apontamento;
         }
 
+
+
         //Verficia se existe um Apt ativo para o funcionario
-        public async Task<bool> isExist(int? id)
+        public async Task<bool> isFuncionarioAtivo(int? id)
         {
             if (id == null)
             {

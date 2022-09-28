@@ -41,7 +41,7 @@ namespace GestaoProducao_MVC.Controllers
         public async Task<IActionResult> Create([Bind("ProcessoId, FuncionarioId,MaquinaId,Operacao,DataInicial,Status")] Apontamento apontamento)
         {
             //Verifica se existe pontoAtivo
-            bool ativo = await _apontamentoService.isExist(apontamento.FuncionarioId);
+            bool ativo = await _apontamentoService.isFuncionarioAtivo(apontamento.FuncionarioId);
             if (ativo)
             {
                 ViewData["Ativo"] = "Este funcionário já possui um apontamento ativo!";
@@ -68,7 +68,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
         //View que encerra um ponto
-        public async Task<IActionResult> Finalizar()
+        public IActionResult Finalizar()
         {
             return View();
         }
@@ -84,10 +84,13 @@ namespace GestaoProducao_MVC.Controllers
             //Busca apontamento do funcionario que esteja ativo
              Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
 
+            var obj = apontamentoAtivo;
+
+
             if (apontamentoAtivo == null)
             {   
                 //Você não tem um apontamento ativo.
-                return BadRequest();
+                return View();
             }
 
             apontamentoAtivo.DataFinal = DateTime.Now;
@@ -113,10 +116,40 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        //Só permite editar pontos encerrados;
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                //Elemento nao encontrado;
+                return NotFound();
+            }
+
+            if (obj.IsAtivo == true)
+            {
+                //VocÊ não pode alterar um apontamento ativo
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(obj);
+        }
 
 
 
+        ///PAREI AQUI
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Apontamento apontamento)
+        {
 
+            return RedirectToAction(nameof(Index));
+        }
 
 
 
