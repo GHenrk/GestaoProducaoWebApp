@@ -20,6 +20,17 @@
     </p>
 </form>
 
+
+
+
+@if(TempData["Exclusao"] != null)
+{
+<div class="alert alert-dismissible alert-danger">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>Algo deu errado!</strong><p>@TempData["Exclusao"]</p>  
+</div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -97,3 +108,7 @@
         }
     </tbody>
 </table>
+
+
+
+

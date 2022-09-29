@@ -81,6 +81,25 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        public async Task<List<Apontamento>> FindByProcesso(Processo processo)
+        {
+            var result = from obj in _context.Apontamento select obj;
+
+            result = result.Where(x => x.ProcessoId == processo.Id);
+
+            var list = await result
+                .Include(obj => obj.Maquina)
+                .Include(obj => obj.Funcionario)
+                .Include(obj => obj.Processo)
+                .OrderByDescending(obj => obj.IsAtivo)
+                .ToListAsync();
+            list = ConvertTimeList(list);
+
+            return list;
+        
+        }
+
+
         //Busca por nome;
         public async Task<List<Apontamento>> FindByNameCodeAsync(string searchString)
         {

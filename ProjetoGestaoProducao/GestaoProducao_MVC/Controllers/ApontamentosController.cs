@@ -70,6 +70,8 @@ namespace GestaoProducao_MVC.Controllers
         //View que encerra um ponto
         public IActionResult Finalizar()
         {
+
+
             return View();
         }
 
@@ -116,6 +118,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        //ESSA FUNÇÃO SÓ PODE SER INVOCADA POR ADM MANAGER
         //Só permite editar pontos encerrados;
         public async Task<IActionResult> Edit(int? id)
         {
@@ -142,15 +145,97 @@ namespace GestaoProducao_MVC.Controllers
 
 
 
-        ///PAREI AQUI
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Apontamento apontamento)
+        public async Task<IActionResult> Edit(int id,[Bind("Id,DataInicial, DataFinal, Descricao, Operacao, ProcessoId, MaquinaId, FuncionarioId,Status")]Apontamento apontamento)
         {
+            if (id != apontamento.Id)
+                {
+                    return BadRequest();
+                }
 
-            return RedirectToAction(nameof(Index));
+            if(apontamento.DataFinal == null)
+            {
+                return BadRequest();
+            }
+
+                TimeSpan tempoDecorrido = (TimeSpan)(apontamento.DataFinal - apontamento.DataInicial);
+                apontamento.TempoTotal = tempoDecorrido.Ticks;
+            
+
+                //Se obj for inválido
+                if (!ModelState.IsValid)
+                {
+                    
+                    return View(apontamento);
+                }
+
+                try
+                {
+                    //Chama o Update do Serviço e envia novo Apontamento
+                    await _apontamentoService.UpdateAsync(apontamento);
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch
+                {
+                    //Alguma informação não existe
+                    return View(apontamento);
+
+                }
+
+            
+
         }
 
+
+        //Get delete;
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            if (obj.IsAtivo)
+            {
+                TempData["Exclusao"] = "Você não pode excluir um apontamento ativo";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(obj);
+
+        }
+
+
+
+
+
+        //Delete de apontamento
+        //Esse método só pode ser utilizado POR ADMIN GERAL
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _apontamentoService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction();
+            }
+        }
 
 
 
