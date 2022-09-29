@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestaoProducao_MVC.Migrations
 {
-    public partial class inicial_teste : Migration
+    public partial class criationInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,7 +58,8 @@ namespace GestaoProducao_MVC.Migrations
                     CodigoProduto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuantidadeProduto = table.Column<int>(type: "int", nullable: false),
                     DataVenda = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataEntrega = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataEntrega = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OpStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,9 +97,10 @@ namespace GestaoProducao_MVC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DataInicial = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataFinal = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TempoTotal = table.Column<TimeSpan>(type: "time", nullable: true),
+                    TempoTotal = table.Column<long>(type: "bigint", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    Operacao = table.Column<int>(type: "int", nullable: true),
                     ProcessoId = table.Column<int>(type: "int", nullable: false),
                     MaquinaId = table.Column<int>(type: "int", nullable: false),
                     FuncionarioId = table.Column<int>(type: "int", nullable: false)

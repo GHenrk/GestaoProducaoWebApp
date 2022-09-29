@@ -55,16 +55,22 @@ namespace GestaoProducao_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Maquina maquina)
         {
-            try 
+            //try 
+            //{
+            //    await _maquinaService.InsertAsync(maquina);
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //catch
+            //{
+            //    return View(maquina);
+            //}
+
+            if (ModelState.IsValid)
             {
                 await _maquinaService.InsertAsync(maquina);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View(maquina);
-            }
-            
+            return View(maquina);
         }
 
         public async Task<IActionResult> Edit(int? id)

@@ -8,10 +8,11 @@ namespace GestaoProducao_MVC.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Nome é obrigatório!")]
+        [Display(Name = "Máquina")]
         public string Nome { get; set; }
 
     //Referencia
-        public ICollection<Apontamento> Apontamentos { get; set; }
+        public ICollection<Apontamento>? Apontamentos { get; set; }
 
 
         public Maquina()

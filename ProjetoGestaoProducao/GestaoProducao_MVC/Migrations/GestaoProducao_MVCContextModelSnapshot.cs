@@ -42,10 +42,13 @@ namespace GestaoProducao_MVC.Migrations
                     b.Property<int>("FuncionarioId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsAtivo")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MaquinaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Operacao")
+                    b.Property<int?>("Operacao")
                         .HasColumnType("int");
 
                     b.Property<int>("ProcessoId")
@@ -54,8 +57,8 @@ namespace GestaoProducao_MVC.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("TempoTotal")
-                        .HasColumnType("time");
+                    b.Property<long?>("TempoTotal")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -171,7 +174,7 @@ namespace GestaoProducao_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrdemProdutoId")
+                    b.Property<int>("OrdemProdutoId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantidadePeca")
@@ -253,7 +256,9 @@ namespace GestaoProducao_MVC.Migrations
                 {
                     b.HasOne("GestaoProducao_MVC.Models.OrdemProduto", "OrdemProduto")
                         .WithMany("Processos")
-                        .HasForeignKey("OrdemProdutoId");
+                        .HasForeignKey("OrdemProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("OrdemProduto");
                 });

@@ -10,10 +10,12 @@ namespace GestaoProducao_MVC.Controllers
 
         private readonly ProcessoService _processoService;
         private readonly OrdemProdutoService _ordemProdutoService;
-        public ProcessosController(ProcessoService processoService,OrdemProdutoService ordemProdutoService)
+        private readonly ApontamentoService _apontamentoService;
+        public ProcessosController(ProcessoService processoService,OrdemProdutoService ordemProdutoService, ApontamentoService apontamentoService)
         {
             _processoService = processoService;
             _ordemProdutoService = ordemProdutoService;
+            _apontamentoService = apontamentoService;
         }
 
         //public async Task<IActionResult> Index()
@@ -174,7 +176,15 @@ namespace GestaoProducao_MVC.Controllers
                 return NotFound();
             }
 
-            return View(obj);
+            List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(obj);
+
+            ProcessoViewModel viewModel = new ProcessoViewModel
+            {
+                Processo = obj,
+                Apontamentos = apontamentos
+            };
+
+            return View(viewModel);
         }
 
 

@@ -1,4 +1,4 @@
-﻿@model GestaoProducao_MVC.Models.Processo
+﻿@model GestaoProducao_MVC.Models.ViewModel.ProcessoViewModel
 
 @{
     ViewData["Title"] = "Detalhes do Processo";
@@ -10,38 +10,118 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CodigoPeca)
+            @Html.DisplayNameFor(model => model.Processo.CodigoPeca)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CodigoPeca)
+            @Html.DisplayFor(model => model.Processo.CodigoPeca)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
+            @Html.DisplayNameFor(model => model.Processo.Descricao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
+            @Html.DisplayFor(model => model.Processo.Descricao)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.QuantidadePeca)
+            @Html.DisplayNameFor(model => model.Processo.QuantidadePeca)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.QuantidadePeca)
+            @Html.DisplayFor(model => model.Processo.QuantidadePeca)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataCriacao)
+            @Html.DisplayNameFor(model => model.Processo.DataCriacao)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataCriacao)
+            @Html.DisplayFor(model => model.Processo.DataCriacao)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdemProduto)
+            @Html.DisplayNameFor(model => model.Processo.OrdemProduto)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OrdemProduto.Id)
+            @Html.DisplayFor(model => model.Processo.OrdemProduto.Id)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Editar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Processo.Id" class="btn btn-outline-warning">Editar</a>
     <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].Funcionario.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].Maquina.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].Processo.OrdemProduto.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].Operacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].DataInicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamentos[0].TempoTotal)
+            </th>
+           
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Apontamentos)
+        {
+            @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
+            {
+                ViewData["Active"] = "table-success";
+               
+            }
+            else
+            {
+                ViewData["Active"] = "table-primary";
+               
+            }
+
+
+            <tr class=@ViewData["Active"]>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funcionario.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Maquina.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Processo.OrdemProdutoId)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Operacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataInicial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalTime)
+                </td>
+                <td>
+                    <a asp-controller="Apontamentos" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Apontamentos" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Apontamentos" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

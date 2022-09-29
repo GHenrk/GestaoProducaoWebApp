@@ -4,22 +4,22 @@
 
 namespace GestaoProducao_MVC.Migrations
 {
-    public partial class otherEnums : Migration
+    public partial class otherProp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Operacao",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsAtivo",
                 table: "Apontamento",
-                type: "int",
+                type: "bit",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Operacao",
+                name: "IsAtivo",
                 table: "Apontamento");
         }
     }

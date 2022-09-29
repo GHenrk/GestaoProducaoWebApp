@@ -45,7 +45,7 @@ namespace GestaoProducao_MVC.Services
         }
 
 
-        //Busca por nome, IMPLEMENTAR DEPOIS;
+        //Busca por nome;
         public async Task<List<Processo>> FindByNameCodeAsync(string searchString)
         {
             var result = from obj in _context.Processo select obj;
@@ -116,6 +116,16 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        //Verifica se processo Existe;
+        public async Task<bool> isExist(int? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            return await _context.Processo.AnyAsync(x => x.Id == id.Value);
+        }
 
 
 

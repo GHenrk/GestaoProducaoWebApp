@@ -3,7 +3,7 @@
     public enum AptStatus : int
     {
         Aguardando = 0,
-        Iniciado = 1,
+        Ativo = 1,
         Encerrado = 2
 
 }

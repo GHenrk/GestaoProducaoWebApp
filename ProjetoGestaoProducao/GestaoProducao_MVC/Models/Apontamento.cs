@@ -1,4 +1,6 @@
 ﻿using GestaoProducao_MVC.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 
 namespace GestaoProducao_MVC.Models
@@ -7,33 +9,47 @@ namespace GestaoProducao_MVC.Models
     {
         public int Id { get; set; }
 
-        public DateTime DataInicial { get; set; } = DateTime.Now;
 
+        [Display(Name = "Data Inicial")]
+        public DateTime DataInicial { get; set; }
+
+
+       
         public DateTime? DataFinal { get; set; }
 
-        public TimeSpan? TempoTotal { get; set; }
+        public long? TempoTotal { get; set; }
+
+
+        [NotMapped]
+        public string? TotalTime { get; set; }
 
         public string?  Descricao { get; set; }
+
+        public bool IsAtivo { get; set; }
     
         public AptStatus Status { get; set; }
 
-        public Operacao Operacao { get; set; }
+        public Operacao? Operacao { get; set; }
 
-        public Processo Processo { get; set; }
+        public Processo? Processo { get; set; }
 
-        public Maquina Maquina { get; set; }
+        public int ProcessoId { get; set; }
 
-        public Funcionario Funcionario { get; set; }
+        public Maquina? Maquina { get; set; }
 
+        public int MaquinaId { get; set; }
+        public Funcionario? Funcionario { get; set; }
 
-        public ICollection<RegistroParada> RegistroParadas { get; set; }
+        public int FuncionarioId { get; set; }
+
+        public ICollection<RegistroParada>? RegistroParadas { get; set; }
 
         public Apontamento()
         {
 
         }
 
-        public Apontamento(DateTime dataInicial, DateTime? dataFinal, TimeSpan? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario)
+        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario, bool isAtivo)
         {
        
             DataInicial = dataInicial;
@@ -45,6 +61,7 @@ namespace GestaoProducao_MVC.Models
             Processo = processo;
             Maquina = maquina;
             Funcionario = funcionario;
+            IsAtivo = isAtivo;
         }
 
         

@@ -94,5 +94,17 @@ namespace GestaoProducao_MVC.Services
         }
 
 
-     }
+        //Pesquisa se maquina existe
+        public async Task<bool> isExist(int? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+
+            return await _context.Maquina.AnyAsync(x => x.Id == id.Value);
+        }
+
+
+    }
 }
