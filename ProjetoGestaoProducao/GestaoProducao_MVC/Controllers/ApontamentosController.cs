@@ -238,6 +238,25 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);  
+
+            if (obj == null)
+            {
+                //obj nao encontrado no banco;
+                return NotFound();
+            }
+
+            //Implementar aqui busca por códigos de parada;
+            return View(obj);
+        }
+
 
     }
 }
