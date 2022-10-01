@@ -41,17 +41,10 @@ namespace GestaoProducao_MVC.Controllers
         //Post Criando Processo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CodigoPeca, Descricao, QuantidadePeca, OrdemProdutoId, DataCriacao")] Processo processo)
+        public async Task<IActionResult> Create([Bind("CodigoPeca, Descricao, QuantidadePeca, OrdemProdutoId, DataCriacao, TempoEstimadoSpan")] Processo processo)
         {
-            //var objOp = await _ordemProdutoService.FindByIdAsync(processo.OrdemProdutoId);
-
-            //if (objOp == null)
-            //{
-
-            //    //Retornar dizendo que a OP Não existe;
-            //    return NotFound();
-            //}
-            //processo.OrdemProduto = objOp;
+            processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
+            var process = processo;
             try 
             {
                 await _processoService.InsertAsync(processo);
