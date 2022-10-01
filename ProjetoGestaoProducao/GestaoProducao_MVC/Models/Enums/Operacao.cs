@@ -4,7 +4,7 @@
     {
         Desbaste=0,
         Acabamento=1,
-        SExterno=2,
+        Externo=2,
         Montagem=3,
         Pintura=4
     }

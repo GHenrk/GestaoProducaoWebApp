@@ -2,7 +2,7 @@
 {
     public enum AptStatus : int
     {
-        Aguardando = 0,
+        Parado = 0,
         Ativo = 1,
         Encerrado = 2
 

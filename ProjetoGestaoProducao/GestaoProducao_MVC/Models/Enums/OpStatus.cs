@@ -2,7 +2,7 @@
 {
     public enum OpStatus:int 
     {
-        Vendido = 0,
+        AguardandoProducao = 0,
         Fabricação = 1,
         Entregue = 2
     }
