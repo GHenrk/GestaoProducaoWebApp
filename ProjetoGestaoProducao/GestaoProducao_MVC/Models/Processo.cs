@@ -31,6 +31,8 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Número da OP")]
         public int OrdemProdutoId { get; set; }
 
+        public long? TempoEstimado { get; set; }
+
 
         public ICollection<Apontamento> Apontamentos { get; set; } = new List<Apontamento>();
 
@@ -39,7 +41,7 @@ namespace GestaoProducao_MVC.Models
 
         }
        
-        public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto)
+        public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto, TimeSpan? tempoEstimado )
         {
           
             CodigoPeca = codigoPeca;
@@ -47,6 +49,7 @@ namespace GestaoProducao_MVC.Models
             QuantidadePeca = quantidadePeca;
             DataCriacao = dataCriacao;
             OrdemProduto = oProduto;
+            TempoEstimado = tempoEstimado.Value.Ticks;
  
         }
 
