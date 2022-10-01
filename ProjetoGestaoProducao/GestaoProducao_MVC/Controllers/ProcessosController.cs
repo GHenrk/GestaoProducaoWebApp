@@ -2,6 +2,8 @@
 using GestaoProducao_MVC.Models.ViewModel;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Controllers
 {
@@ -161,19 +163,40 @@ namespace GestaoProducao_MVC.Controllers
                 return BadRequest();
             }
 
-            var obj = await _processoService.FindByIdAsync(id.Value);
+            var processo = await _processoService.FindByIdAsync(id.Value);
 
-            if (obj == null)
+            if (processo == null)
             {
                 //Elemento não encontrado;
                 return NotFound();
             }
 
-            List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(obj);
+            List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(processo);
+
+            TimeSpan soma = new TimeSpan(0, 0, 0);
+            foreach (var apontamento in apontamentos)
+            {
+               if (apontamento.TempoTotal != null)
+                {
+                    TimeSpan decorrido = TimeSpan.FromTicks(apontamento.TempoTotal.Value);
+                    soma = soma + decorrido;
+
+                } else
+                {
+                    TimeSpan pontoAtivo = DateTime.Now - apontamento.DataInicial;
+                    soma = soma + pontoAtivo;
+                } 
+                
+               
+            }
+
+            processo.TotalTempoDecorrido =  (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+
+
 
             ProcessoViewModel viewModel = new ProcessoViewModel
             {
-                Processo = obj,
+                Processo = processo,
                 Apontamentos = apontamentos
             };
 

@@ -120,6 +120,7 @@ namespace GestaoProducao_MVC.Services
 
             list = ConvertTimeList(list);
 
+
             return list;
         }
 
@@ -226,6 +227,7 @@ namespace GestaoProducao_MVC.Services
             }
             return apontamento;
         }
+
 
 
 
