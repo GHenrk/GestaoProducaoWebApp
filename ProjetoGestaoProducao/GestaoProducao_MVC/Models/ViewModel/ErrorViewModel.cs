@@ -5,5 +5,12 @@ namespace GestaoProducao_MVC.Models.ViewModel
         public string? RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        string Message { get; set; }
+
+
     }
+
+
+
 }

@@ -21,11 +21,11 @@ namespace GestaoProducao_MVC.Models
 
 
         [NotMapped]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:dd\\.hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
-        public TimeSpan? TotalTime { get; set; }
+        public string? TotalTime { get; set; }
 
         public string?  Descricao { get; set; }
+
+        public bool IsAtivo { get; set; }
     
         public AptStatus Status { get; set; }
 
@@ -49,7 +49,7 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario)
+        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario, bool isAtivo)
         {
        
             DataInicial = dataInicial;
@@ -61,7 +61,7 @@ namespace GestaoProducao_MVC.Models
             Processo = processo;
             Maquina = maquina;
             Funcionario = funcionario;
-            //TotalTime = TimeSpan.FromTicks(tempoTotal.Value);
+            IsAtivo = isAtivo;
         }
 
         

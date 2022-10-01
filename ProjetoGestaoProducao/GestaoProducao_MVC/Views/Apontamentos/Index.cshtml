@@ -20,6 +20,17 @@
     </p>
 </form>
 
+
+
+
+@if(TempData["Exclusao"] != null)
+{
+<div class="alert alert-dismissible alert-danger">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>Algo deu errado!</strong><p>@TempData["Exclusao"]</p>  
+</div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -89,11 +100,15 @@
                     @Html.DisplayFor(modelItem => item.TotalTime)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+
+

@@ -16,7 +16,6 @@ namespace GestaoProducao_MVC.Services
 
 
         //Busca todos
-
         public async Task<List<Apontamento>> FindAllAsync()
         {
             var list = await _context.Apontamento.OrderByDescending(x => x.DataInicial)
@@ -25,6 +24,8 @@ namespace GestaoProducao_MVC.Services
                  .Include(obj => obj.Processo)
                  .ToListAsync();
 
+            list = ConvertTimeList(list);
+
             return list;
         }
 
@@ -32,17 +33,24 @@ namespace GestaoProducao_MVC.Services
         //Busca por Id
         public async Task<Apontamento> FindByIdAsync(int id)
         {
-            return await _context.Apontamento
+            var obj = await _context.Apontamento
                 .Include(obj => obj.Maquina)
                 .Include(obj => obj.Funcionario)
                 .Include(obj => obj.Processo)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+
+            obj = ConvertTime(obj);
+
+            return obj;
 
         }
 
 
         //Busca por funcionario e Apontamento Ativo;
         //Método utilizado para EncerrarApontamento. 
+
+
         public async Task<Apontamento> FindByIdStatus(int id)
         {
             var result = from obj in _context.Apontamento select obj;
@@ -50,14 +58,13 @@ namespace GestaoProducao_MVC.Services
 
             //Seleciona os apontamentos do Funcionario
             result = result.Where(x => x.FuncionarioId == id);
-            result = result.Where(x => x.Status == Models.Enums.AptStatus.Ativo);
+            result = result.Where(x => x.IsAtivo == true);
 
 
             return await result.FirstOrDefaultAsync();
 
         }
-
-
+        
 
         //Método que retorna todos pontos de um funcionario --- TESTAR --
         public async Task<List<Apontamento>> FindAllByFuncAsync(Funcionario funcionario)
@@ -71,6 +78,25 @@ namespace GestaoProducao_MVC.Services
                 .Include(obj => obj.Funcionario)
                 .Include(obj => obj.Processo)
                 .ToListAsync();
+        }
+
+
+        public async Task<List<Apontamento>> FindByProcesso(Processo processo)
+        {
+            var result = from obj in _context.Apontamento select obj;
+
+            result = result.Where(x => x.ProcessoId == processo.Id);
+
+            var list = await result
+                .Include(obj => obj.Maquina)
+                .Include(obj => obj.Funcionario)
+                .Include(obj => obj.Processo)
+                .OrderByDescending(obj => obj.IsAtivo)
+                .ToListAsync();
+            list = ConvertTimeList(list);
+
+            return list;
+        
         }
 
 
@@ -91,7 +117,7 @@ namespace GestaoProducao_MVC.Services
                     .Include(obj => obj.Processo)
                     .ToListAsync();
 
-
+            list = ConvertTimeList(list);
 
             return list;
         }
@@ -157,7 +183,61 @@ namespace GestaoProducao_MVC.Services
 
 
 
+        //Converte tempo de uma lista de apontamentos;
+        public List<Apontamento> ConvertTimeList(List<Apontamento> list)
+        {
+            foreach (var item in list)
+            {
+                if (item.TempoTotal == null)
+                {
+                    TimeSpan decorrido = DateTime.Now - item.DataInicial;
+                    string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
+                    item.TotalTime = time;
+                }
+                else
+                {
+                    TimeSpan decorrido = TimeSpan.FromTicks(item.TempoTotal.Value);
+                    decorrido.ToString();                                        
+                    string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
+                    item.TotalTime = time;
+                }
+            }
 
+            return list;
+        }
+
+
+
+        //Converte tempo de um unico apontamento;
+        public Apontamento ConvertTime(Apontamento apontamento)
+        {
+            if (apontamento.TempoTotal == null)
+            {
+                TimeSpan decorrido = DateTime.Now - apontamento.DataInicial;
+                string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
+                apontamento.TotalTime = time;
+            }
+            else
+            {
+                TimeSpan decorrido = TimeSpan.FromTicks(apontamento.TempoTotal.Value);
+                string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
+                apontamento.TotalTime = time;
+            }
+            return apontamento;
+        }
+
+
+
+        //Verficia se existe um Apt ativo para o funcionario
+        public async Task<bool> isFuncionarioAtivo(int? id)
+        {
+            if (id == null)
+            {
+                return true;
+            }
+
+            return await _context.Apontamento.AnyAsync(x => x.FuncionarioId == id.Value && x.IsAtivo == true);
+        }
 
     }
 }

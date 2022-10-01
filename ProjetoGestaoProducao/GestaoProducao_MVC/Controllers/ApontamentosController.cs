@@ -10,31 +10,21 @@ namespace GestaoProducao_MVC.Controllers
 
         private readonly ApontamentoService _apontamentoService;
         private readonly OrdemProdutoService _ordemProdutoService;
-        public ApontamentosController (ApontamentoService apontamentoService, OrdemProdutoService ordemProdutoService
+        private readonly ProcessoService _processoService;
+        private readonly FuncionarioService _funcionarioService;
+        public ApontamentosController (ApontamentoService apontamentoService, OrdemProdutoService ordemProdutoService, ProcessoService processoService, FuncionarioService funcionarioService
             )
         {
             _apontamentoService = apontamentoService;
             _ordemProdutoService = ordemProdutoService;
+            _processoService = processoService;
+            _funcionarioService = funcionarioService;
         }
 
 
         public async Task<IActionResult> Index(string searchString)
         {
             var list = await _apontamentoService.FindByNameCodeAsync(searchString);
-
-           //Fazer um método sozinho pra isso;
-            foreach(var item in list)
-            {   
-                if (item.TempoTotal == null)
-                {
-                    TimeSpan decorrido = DateTime.Now - item.DataInicial;
-                    item.TotalTime = decorrido;
-                }
-                else
-                {
-                    item.TotalTime = TimeSpan.FromTicks(item.TempoTotal.Value);
-                }
-            }
 
             return View(list.OrderByDescending(x => x.Status == Models.Enums.AptStatus.Ativo));
         }
@@ -50,12 +40,27 @@ namespace GestaoProducao_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProcessoId, FuncionarioId,MaquinaId,Operacao,DataInicial,Status")] Apontamento apontamento)
         {
-
-            if (ModelState.IsValid)
+            //Verifica se existe pontoAtivo
+            bool ativo = await _apontamentoService.isFuncionarioAtivo(apontamento.FuncionarioId);
+            if (ativo)
             {
-                await _apontamentoService.InsertAsync(apontamento);
-                return RedirectToAction(nameof(Index));
-            
+                ViewData["Ativo"] = "Este funcionário já possui um apontamento ativo!";
+                return View(apontamento);
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    apontamento.IsAtivo = true;
+                    await _apontamentoService.InsertAsync(apontamento);
+                    return RedirectToAction(nameof(Index));
+
+                }
+            } 
+            catch
+            {
+                return View(apontamento);
             }
 
             return View(apontamento);
@@ -63,8 +68,10 @@ namespace GestaoProducao_MVC.Controllers
         }
 
         //View que encerra um ponto
-        public async Task<IActionResult> Finalizar()
+        public IActionResult Finalizar()
         {
+
+
             return View();
         }
 
@@ -79,15 +86,19 @@ namespace GestaoProducao_MVC.Controllers
             //Busca apontamento do funcionario que esteja ativo
              Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
 
+            var obj = apontamentoAtivo;
+
+
             if (apontamentoAtivo == null)
             {   
                 //Você não tem um apontamento ativo.
-                return BadRequest();
+                return View();
             }
 
             apontamentoAtivo.DataFinal = DateTime.Now;
             apontamentoAtivo.Descricao = descricao;
             apontamentoAtivo.Status = Models.Enums.AptStatus.Encerrado ;
+            apontamentoAtivo.IsAtivo = false;
 
 
             TimeSpan tempoTotal =(TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
@@ -107,12 +118,144 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        //ESSA FUNÇÃO SÓ PODE SER INVOCADA POR ADM MANAGER
+        //Só permite editar pontos encerrados;
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                //Elemento nao encontrado;
+                return NotFound();
+            }
+
+            if (obj.IsAtivo == true)
+            {
+                //VocÊ não pode alterar um apontamento ativo
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(obj);
+        }
+
+
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,[Bind("Id,DataInicial, DataFinal, Descricao, Operacao, ProcessoId, MaquinaId, FuncionarioId,Status")]Apontamento apontamento)
+        {
+            if (id != apontamento.Id)
+                {
+                    return BadRequest();
+                }
+
+            if(apontamento.DataFinal == null)
+            {
+                return BadRequest();
+            }
+
+                TimeSpan tempoDecorrido = (TimeSpan)(apontamento.DataFinal - apontamento.DataInicial);
+                apontamento.TempoTotal = tempoDecorrido.Ticks;
+            
+
+                //Se obj for inválido
+                if (!ModelState.IsValid)
+                {
+                    
+                    return View(apontamento);
+                }
+
+                try
+                {
+                    //Chama o Update do Serviço e envia novo Apontamento
+                    await _apontamentoService.UpdateAsync(apontamento);
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch
+                {
+                    //Alguma informação não existe
+                    return View(apontamento);
+
+                }
+
+            
+
+        }
+
+
+        //Get delete;
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            if (obj.IsAtivo)
+            {
+                TempData["Exclusao"] = "Você não pode excluir um apontamento ativo";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(obj);
+
+        }
 
 
 
 
 
+        //Delete de apontamento
+        //Esse método só pode ser utilizado POR ADMIN GERAL
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _apontamentoService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction();
+            }
+        }
 
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _apontamentoService.FindByIdAsync(id.Value);  
+
+            if (obj == null)
+            {
+                //obj nao encontrado no banco;
+                return NotFound();
+            }
+
+            //Implementar aqui busca por códigos de parada;
+            return View(obj);
+        }
 
 
     }
