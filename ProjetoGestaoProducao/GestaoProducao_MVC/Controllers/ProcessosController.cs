@@ -2,6 +2,7 @@
 using GestaoProducao_MVC.Models.ViewModel;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -93,24 +94,26 @@ namespace GestaoProducao_MVC.Controllers
         //Esse metodo só sera acessado por ADM OU MANAGER;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Processo processo)
+        public async Task<IActionResult> Edit(int id,[Bind("Id,CodigoPeca, Descricao, QuantidadePeca,OrdemProdutoId ,TempoEstimadoSpan")] Processo processo)
         {
-          if (id != processo.Id)
+            processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
+            processo.DataCriacao = DateTime.Now;
+
+            if (id != processo.Id)
             {
                 return BadRequest();
             }
 
-          try
+          if (ModelState.IsValid)
             {
                 await _processoService.UpdateAsync(processo);
 
                 return RedirectToAction(nameof(Index));
 
             }
-            catch
-            {
-                return View(processo);
-            }    
+            
+            return View(processo);
+                
         }
 
 

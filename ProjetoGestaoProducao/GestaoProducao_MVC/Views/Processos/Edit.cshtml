@@ -28,16 +28,12 @@
                 <span asp-validation-for="QuantidadePeca" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataCriacao" class="control-label"></label>
-                <input asp-for="DataCriacao" class="form-control" />
-                <span asp-validation-for="DataCriacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="OrdemProdutoId" class="control-label"></label>
                 <input asp-for="OrdemProdutoId" class="form-control" value="@Model.OrdemProdutoId" />
                 <span asp-validation-for="OrdemProdutoId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input type="hidden"asp-for="TempoEstimadoSpan" value="@Model.TempoEstimadoSpan" />
                 <input type="submit" value="Save" class="btn btn-outline-warning" />
                 <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
             </div>

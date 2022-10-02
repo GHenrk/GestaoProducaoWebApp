@@ -27,7 +27,7 @@ namespace GestaoProducao_MVC.Models
         public DateTime DataCriacao { get; set; }
 
         [Display(Name = "OP")]
-        public OrdemProduto OrdemProduto { get; set; }
+        public OrdemProduto? OrdemProduto { get; set; }
 
         [Display(Name = "Número da OP")]
         public int OrdemProdutoId { get; set; }
@@ -39,10 +39,10 @@ namespace GestaoProducao_MVC.Models
         public TimeSpan TempoEstimadoSpan { get; set; }
 
         [NotMapped]
-        public string TempoEstimadoFormatado { get; set; }
+        public string? TempoEstimadoFormatado { get; set; }
         
         [NotMapped]
-        public string TotalTempoDecorrido { get; set; }
+        public string? TotalTempoDecorrido { get; set; }
 
       
 
