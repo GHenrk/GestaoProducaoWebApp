@@ -23,20 +23,21 @@ namespace GestaoProducao_MVC.Models
 
                 context.OrdemProduto.AddRange(Op1, Op2, Op3);
                 
-                Processo Pro1 = new Processo("ACHMI30JJ", "Cabeçote Dianteiro", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10,20,30));
-                Processo Pro2 = new Processo("ACHMI30JJ", "Cabeçote Traseiro", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30));
-                Processo Pro3 = new Processo("ACHMI30JJ", "Munhão", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30));
-                Processo Pro4 = new Processo("ACHMI30JJ", "Haste", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30));
 
-                Processo Pro5 = new Processo("ACHMI60JJ", "Cabeçote Dianteiro", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30));
-                Processo Pro6 = new Processo("ACHMI60JJ", "Cabeçote Traseiro", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30));
-                Processo Pro7 = new Processo("ACHMI60JJ", "Camisa", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30));
-                Processo Pro8 = new Processo("ACHMI60JJ", "Haste", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30));
+                Processo Pro1 = new Processo("ACHMI30JJ", "Cabeçote Dianteiro", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10,20,30).Ticks);
+                Processo Pro2 = new Processo("ACHMI30JJ", "Cabeçote Traseiro", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro3 = new Processo("ACHMI30JJ", "Munhão", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro4 = new Processo("ACHMI30JJ", "Haste", 8, new DateTime(2022, 09, 12), Op1, new TimeSpan(10, 20, 30).Ticks);
+
+                Processo Pro5 = new Processo("ACHMI60JJ", "Cabeçote Dianteiro", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro6 = new Processo("ACHMI60JJ", "Cabeçote Traseiro", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro7 = new Processo("ACHMI60JJ", "Camisa", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro8 = new Processo("ACHMI60JJ", "Haste", 6, new DateTime(2022, 09, 12), Op2, new TimeSpan(10, 20, 30).Ticks);
 
 
-                Processo Pro9 = new Processo("Produto4Exemplo", "Cabeçote Dianteiro", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30));
-                Processo Pro10 = new Processo("Produto4Exemplo", "Cabeçote Traseiro", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30));
-                Processo Pro11 = new Processo("Produto4Exemplo", "Haste", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30));
+                Processo Pro9 = new Processo("Produto4Exemplo", "Cabeçote Dianteiro", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro10 = new Processo("Produto4Exemplo", "Cabeçote Traseiro", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30).Ticks);
+                Processo Pro11 = new Processo("Produto4Exemplo", "Haste", 4, new DateTime(2022, 09, 12), Op3, new TimeSpan(10, 20, 30).Ticks);
 
 
                 context.Processo.AddRange(Pro1, Pro2, Pro3, Pro4, Pro5, Pro6, Pro7, Pro8, Pro9, Pro10, Pro11);

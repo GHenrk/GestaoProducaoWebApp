@@ -2,6 +2,9 @@
 using GestaoProducao_MVC.Models.ViewModel;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Controllers
 {
@@ -41,17 +44,10 @@ namespace GestaoProducao_MVC.Controllers
         //Post Criando Processo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CodigoPeca, Descricao, QuantidadePeca, OrdemProdutoId, DataCriacao")] Processo processo)
+        public async Task<IActionResult> Create([Bind("CodigoPeca, Descricao, QuantidadePeca, OrdemProdutoId, DataCriacao, TempoEstimadoSpan")] Processo processo)
         {
-            //var objOp = await _ordemProdutoService.FindByIdAsync(processo.OrdemProdutoId);
-
-            //if (objOp == null)
-            //{
-
-            //    //Retornar dizendo que a OP Não existe;
-            //    return NotFound();
-            //}
-            //processo.OrdemProduto = objOp;
+            processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
+            var process = processo;
             try 
             {
                 await _processoService.InsertAsync(processo);
@@ -98,24 +94,26 @@ namespace GestaoProducao_MVC.Controllers
         //Esse metodo só sera acessado por ADM OU MANAGER;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Processo processo)
+        public async Task<IActionResult> Edit(int id,[Bind("Id,CodigoPeca, Descricao, QuantidadePeca,OrdemProdutoId ,TempoEstimadoSpan")] Processo processo)
         {
-          if (id != processo.Id)
+            processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
+            processo.DataCriacao = DateTime.Now;
+
+            if (id != processo.Id)
             {
                 return BadRequest();
             }
 
-          try
+          if (ModelState.IsValid)
             {
                 await _processoService.UpdateAsync(processo);
 
                 return RedirectToAction(nameof(Index));
 
             }
-            catch
-            {
-                return View(processo);
-            }    
+            
+            return View(processo);
+                
         }
 
 
@@ -168,19 +166,47 @@ namespace GestaoProducao_MVC.Controllers
                 return BadRequest();
             }
 
-            var obj = await _processoService.FindByIdAsync(id.Value);
+            var processo = await _processoService.FindByIdAsync(id.Value);
 
-            if (obj == null)
+            if (processo == null)
             {
                 //Elemento não encontrado;
                 return NotFound();
             }
 
-            List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(obj);
+            List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(processo);
+
+            TimeSpan soma = new TimeSpan(0, 0, 0);
+            foreach (var apontamento in apontamentos)
+            {
+               if (apontamento.TempoTotal != null)
+                {
+                    TimeSpan decorrido = TimeSpan.FromTicks(apontamento.TempoTotal.Value);
+                    soma = soma + decorrido;
+
+                } else
+                {
+                    TimeSpan pontoAtivo = DateTime.Now - apontamento.DataInicial;
+                    soma = soma + pontoAtivo;
+                } 
+               
+            }
+            
+            processo.TotalTempoDecorrido =  (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+            
+            if (soma.TotalHours > processo.TempoEstimadoSpan.TotalHours)
+            {
+                TimeSpan diferenca = soma.Subtract(processo.TempoEstimadoSpan);
+                string diferencaFormatado = (int)diferenca.TotalHours + diferenca.ToString("\\:mm\\:ss");
+                TempData["TempoEstimado"] = "Este processo superou o tempo estimado em " + diferencaFormatado;
+            }
+
+
+
 
             ProcessoViewModel viewModel = new ProcessoViewModel
             {
-                Processo = obj,
+                Processo = processo,
                 Apontamentos = apontamentos
             };
 

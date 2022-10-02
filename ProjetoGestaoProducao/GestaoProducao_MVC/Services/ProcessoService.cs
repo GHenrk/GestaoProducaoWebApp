@@ -2,6 +2,7 @@
 using GestaoProducao_MVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Services
 {
@@ -19,14 +20,21 @@ namespace GestaoProducao_MVC.Services
         //Busca todos processos;
         public async Task<List<Processo>> FindAllAsync()
         {
-            return await _context.Processo.OrderByDescending(x => x.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
+            var list = await _context.Processo.OrderByDescending(x => x.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
+
+            list = ConvertTimeList(list);
+            return list;
         }
 
 
         //Busca processo por ID;
         public async Task<Processo> FindByIdAsync(int id)
         {
-            return await _context.Processo.Include(obj => obj.OrdemProduto).FirstOrDefaultAsync(x => x.Id == id);
+            Processo processo = await _context.Processo.Include(obj => obj.OrdemProduto).FirstOrDefaultAsync(x => x.Id == id);
+
+            processo = ConvertTime(processo);
+
+            return processo;
         }
 
 
@@ -37,10 +45,13 @@ namespace GestaoProducao_MVC.Services
             //Seleciona o Objeto da tabela processo
             var result = from obj in _context.Processo select obj;
             //Onde a OP seja igual a OP Enviada como parametro
-            result = result.Where(x => x.OrdemProduto.Id == ordemPrduto.Id) ;
+            result = result.Where(x => x.OrdemProduto.Id == ordemPrduto.Id);
 
-            return await result.ToListAsync();
-            
+            var list = await result.ToListAsync();
+            list = ConvertTimeList(list);
+
+            return list;
+
 
         }
 
@@ -55,8 +66,11 @@ namespace GestaoProducao_MVC.Services
                 result = result.Where(obj => obj.CodigoPeca.Contains(searchString) || obj.Id.ToString() == searchString || obj.OrdemProdutoId.ToString() == searchString);
             }
 
+            var list = await result.OrderByDescending(obj => obj.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
 
-            return await result.OrderByDescending(obj => obj.DataCriacao).Include(obj => obj.OrdemProduto).ToListAsync();
+            list = ConvertTimeList(list);
+
+            return list;
 
         }
 
@@ -108,7 +122,8 @@ namespace GestaoProducao_MVC.Services
                 }
                 _context.Processo.Remove(obj);
                 await _context.SaveChangesAsync();
-            }catch (DbUpdateException e)
+            }
+            catch (DbUpdateException e)
             {
                 throw new DbUpdateException(e.Message);
             }
@@ -127,6 +142,41 @@ namespace GestaoProducao_MVC.Services
             return await _context.Processo.AnyAsync(x => x.Id == id.Value);
         }
 
+
+
+
+        public List<Processo> ConvertTimeList(List<Processo> list)
+        {
+            foreach (var item in list)
+            {
+                if (item.TempoEstimado != null)
+                {
+                    TimeSpan estimado = TimeSpan.FromTicks(item.TempoEstimado.Value);
+                    item.TempoEstimadoSpan = estimado;
+                    string time = (int)estimado.TotalHours + estimado.ToString("\\:mm\\:ss");
+                    item.TempoEstimadoFormatado = time;
+                }
+            }
+
+            return list;
+        }
+
+
+
+        //Converte tempo de um unico apontamento;
+        public Processo ConvertTime(Processo processo)
+        {
+            if (processo.TempoEstimado != null)
+            {
+                TimeSpan estimado = TimeSpan.FromTicks(processo.TempoEstimado.Value);
+                estimado.ToString();
+                processo.TempoEstimadoSpan = estimado;
+                string time = (int)estimado.TotalHours + estimado.ToString("\\:mm\\:ss");
+                processo.TempoEstimadoFormatado = time;
+            }
+
+            return processo;
+        }
 
 
 

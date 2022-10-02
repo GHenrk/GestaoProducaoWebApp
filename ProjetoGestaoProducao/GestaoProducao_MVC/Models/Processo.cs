@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestaoProducao_MVC.Models
 {
@@ -26,12 +27,25 @@ namespace GestaoProducao_MVC.Models
         public DateTime DataCriacao { get; set; }
 
         [Display(Name = "OP")]
-        public OrdemProduto OrdemProduto { get; set; }
+        public OrdemProduto? OrdemProduto { get; set; }
 
         [Display(Name = "Número da OP")]
         public int OrdemProdutoId { get; set; }
 
+        [DataType(DataType.Time)]
         public long? TempoEstimado { get; set; }
+
+        [NotMapped]
+        public TimeSpan TempoEstimadoSpan { get; set; }
+
+        [NotMapped]
+        public string? TempoEstimadoFormatado { get; set; }
+        
+        [NotMapped]
+        public string? TotalTempoDecorrido { get; set; }
+
+      
+
 
 
         public ICollection<Apontamento> Apontamentos { get; set; } = new List<Apontamento>();
@@ -41,7 +55,9 @@ namespace GestaoProducao_MVC.Models
 
         }
        
-        public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto, TimeSpan? tempoEstimado )
+
+        public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto, long? tempoEstimado )
+
         {
           
             CodigoPeca = codigoPeca;
@@ -49,7 +65,9 @@ namespace GestaoProducao_MVC.Models
             QuantidadePeca = quantidadePeca;
             DataCriacao = dataCriacao;
             OrdemProduto = oProduto;
-            TempoEstimado = tempoEstimado.Value.Ticks;
+
+            TempoEstimado = tempoEstimado.Value;
+
  
         }
 

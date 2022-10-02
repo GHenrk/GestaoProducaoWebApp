@@ -81,6 +81,7 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        //Busca por processo
         public async Task<List<Apontamento>> FindByProcesso(Processo processo)
         {
             var result = from obj in _context.Apontamento select obj;
@@ -118,6 +119,7 @@ namespace GestaoProducao_MVC.Services
                     .ToListAsync();
 
             list = ConvertTimeList(list);
+
 
             return list;
         }
@@ -225,6 +227,7 @@ namespace GestaoProducao_MVC.Services
             }
             return apontamento;
         }
+
 
 
 
