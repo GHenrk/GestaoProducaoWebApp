@@ -41,9 +41,10 @@ namespace GestaoProducao_MVC.Services
         }
 
 
-        public async Task InserAsync(CodigoParada obj)
+        public async Task InsertAsync(CodigoParada obj)
         {
             _context.CodigoParada.Add(obj);
+            await _context.SaveChangesAsync();
         }
 
         public async Task RemoveAsync(int id)
