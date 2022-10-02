@@ -64,5 +64,81 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var codigoParada = await _codigoParadaService.FindByIdAsync(id.Value);
+
+            if (codigoParada == null)
+            {
+                return NotFound();
+            }
+            return View(codigoParada);
+        }
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CodigoParada codigoParada)
+        {
+            if (id != codigoParada.Id)
+            {
+                return BadRequest();
+            }
+
+            
+            try
+            {
+                await _codigoParadaService.UpdateAsync(codigoParada);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch
+            {
+                return View(codigoParada);
+            }
+        }
+
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var codigoParada = await _codigoParadaService.FindByIdAsync(id.Value);
+
+            if (codigoParada == null)
+            {
+                return NotFound();
+            }
+
+            return View(codigoParada);
+        }
+
+        // POST: CodigoParadas/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _codigoParadaService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+
     }
 }
