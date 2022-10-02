@@ -58,6 +58,13 @@
     <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
 </div>
 
+@if(TempData["TempoEstimado"] != null){
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Atenção!</strong><p class="paragragoErro">@TempData["TempoEstimado"]</p>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>

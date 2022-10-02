@@ -186,11 +186,18 @@ namespace GestaoProducao_MVC.Controllers
                     TimeSpan pontoAtivo = DateTime.Now - apontamento.DataInicial;
                     soma = soma + pontoAtivo;
                 } 
-                
                
             }
-
+            
             processo.TotalTempoDecorrido =  (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+            
+            if (soma.TotalHours > processo.TempoEstimadoSpan.TotalHours)
+            {
+                TimeSpan diferenca = soma.Subtract(processo.TempoEstimadoSpan);
+                string diferencaFormatado = (int)diferenca.TotalHours + diferenca.ToString("\\:mm\\:ss");
+                TempData["TempoEstimado"] = "Este processo superou o tempo estimado em " + diferencaFormatado;
+            }
+
 
 
 

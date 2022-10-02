@@ -2,6 +2,7 @@
 using GestaoProducao_MVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Services
 {
@@ -151,7 +152,7 @@ namespace GestaoProducao_MVC.Services
                 if (item.TempoEstimado != null)
                 {
                     TimeSpan estimado = TimeSpan.FromTicks(item.TempoEstimado.Value);
-                    estimado.ToString();
+                    item.TempoEstimadoSpan = estimado;
                     string time = (int)estimado.TotalHours + estimado.ToString("\\:mm\\:ss");
                     item.TempoEstimadoFormatado = time;
                 }
@@ -169,6 +170,7 @@ namespace GestaoProducao_MVC.Services
             {
                 TimeSpan estimado = TimeSpan.FromTicks(processo.TempoEstimado.Value);
                 estimado.ToString();
+                processo.TempoEstimadoSpan = estimado;
                 string time = (int)estimado.TotalHours + estimado.ToString("\\:mm\\:ss");
                 processo.TempoEstimadoFormatado = time;
             }
