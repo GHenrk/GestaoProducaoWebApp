@@ -1,0 +1,47 @@
+﻿@model IEnumerable<GestaoProducao_MVC.Models.CodigoParada>
+
+@{
+    ViewData["Title"] = "Códigos de Parada";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-dark">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <p>
+        <input type="text" name="SearchString" class="form-control-sm" />
+        <input type="submit" value="Buscar" class="btn btn-sm btn-outline-info" />
+        <a asp-action="Index" class="btn btn-sm btn-outline-dark">Listar todos</a>
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>Opções</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
