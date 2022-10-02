@@ -17,10 +17,12 @@ namespace GestaoProducao_MVC.Services
         {
             var list = await _context.RegistroParada.OrderByDescending(x => x.DataInicial)
                 .Include(obj => obj.Apontamento)
+                .Include(obj => obj.Apontamento.Funcionario)
+                .Include(obj => obj.Apontamento.Maquina)
                 .Include(obj => obj.CodigoParada)
                 .ToListAsync();
 
-            //Aplicar método de conversao
+            list = ConvertTimeList(list);
             return list;
 
         }
@@ -30,8 +32,12 @@ namespace GestaoProducao_MVC.Services
         {
             var obj = await _context.RegistroParada
                 .Include(obj => obj.Apontamento)
+                 .Include(obj => obj.Apontamento.Funcionario)
+                .Include(obj => obj.Apontamento.Maquina)
                 .Include(obj => obj.CodigoParada)
                 .FirstOrDefaultAsync(X => X.Id == id);
+
+            obj = ConvertTime(obj);
 
             return obj;
         }
