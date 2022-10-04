@@ -69,6 +69,10 @@
                 ViewData["Active"] = "table-success";
                 encerrado = false;
             }
+            else if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Parado)
+            {
+                ViewData["Active"] = "table-warning";
+            }
             else
             {
                 ViewData["Active"] = "table-primary";

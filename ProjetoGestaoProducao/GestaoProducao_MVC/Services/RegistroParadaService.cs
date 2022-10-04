@@ -1,5 +1,6 @@
 ﻿using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaoProducao_MVC.Services
@@ -132,6 +133,33 @@ namespace GestaoProducao_MVC.Services
 
             return list;
         }
-    
+
+        public async Task<bool> IsFuncionarioEmParada(int id)
+        {
+            return await _context.RegistroParada.AnyAsync(x => x.Apontamento.FuncionarioId == id && x.ParadaAtiva == true);
+        }
+
+
+
+
+        //Método de busca para encerrar ParadaAtiva;
+        public async Task<RegistroParada> FindByFuncAtivoAsync(int id)
+        {
+            var result = from obj in _context.RegistroParada select obj;
+
+            result = result.Where(x => x.Apontamento.FuncionarioId == id && x.ParadaAtiva == true);
+            
+            var registroParada = await result
+                .Include(obj => obj.Apontamento)
+                .Include(obj => obj.Apontamento.Funcionario)
+                .Include(obj => obj.Apontamento.Maquina)
+                .Include(obj => obj.CodigoParada)
+                .FirstOrDefaultAsync();
+
+            registroParada =  ConvertTime(registroParada);
+
+            return registroParada;
+        }
+
     }
 }
