@@ -194,8 +194,65 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
-        
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var obj = await _registroParadaService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+
+        
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var obj = await _registroParadaService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            if (obj.ParadaAtiva)
+            {
+                TempData["Exclusao"] = "Você não pode remover uma parada ativa";
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            return View(obj);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _registroParadaService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction();
+            }
+        }
 
 
     }

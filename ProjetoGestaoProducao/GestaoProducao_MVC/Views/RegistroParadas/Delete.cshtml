@@ -1,0 +1,75 @@
+﻿@model GestaoProducao_MVC.Models.RegistroParada
+
+@{
+    ViewData["Title"] = "Excluir";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3 class="text-danger">Você tem certeza que deseja excluir este item?</h3>
+<div>
+    <h4>Registro de Parada</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Maquina.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Maquina.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Funcionario.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Funcionario.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TempoTotal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TempoDeParadaFormatado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CodigoParada)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CodigoParada.Descricao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Processo.CodigoPeca)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataInicial)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataInicial)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataFinal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataFinal)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Excluir" class="btn btn-outline-danger" /> |
+        <a asp-action="Index" class="btn btn-outline-dark">Cancelar</a>
+    </form>
+</div>

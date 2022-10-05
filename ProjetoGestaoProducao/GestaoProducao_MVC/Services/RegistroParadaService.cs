@@ -35,6 +35,7 @@ namespace GestaoProducao_MVC.Services
                 .Include(obj => obj.Apontamento)
                  .Include(obj => obj.Apontamento.Funcionario)
                 .Include(obj => obj.Apontamento.Maquina)
+                .Include(obj => obj.Apontamento.Processo)
                 .Include(obj => obj.CodigoParada)
                 .FirstOrDefaultAsync(X => X.Id == id);
 
