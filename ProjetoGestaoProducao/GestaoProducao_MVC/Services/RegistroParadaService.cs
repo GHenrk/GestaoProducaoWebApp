@@ -162,5 +162,20 @@ namespace GestaoProducao_MVC.Services
             return registroParada;
         }
 
+        public async Task<List<RegistroParada>> FindByApontamentoAsync(Apontamento apontamento)
+        {
+            var result = from obj in _context.RegistroParada select obj;
+
+            result = result.Where(x => x.ApontamentoId == apontamento.Id);
+
+
+            var list = await result
+               .Include(obj => obj.CodigoParada)
+               .ToListAsync();
+
+            list = ConvertTimeList(list);
+            return list;
+        }
+
     }
 }

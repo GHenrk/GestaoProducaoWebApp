@@ -1,4 +1,5 @@
 ﻿using GestaoProducao_MVC.Models;
+using GestaoProducao_MVC.Models.ViewModel;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -12,13 +13,22 @@ namespace GestaoProducao_MVC.Controllers
         private readonly OrdemProdutoService _ordemProdutoService;
         private readonly ProcessoService _processoService;
         private readonly FuncionarioService _funcionarioService;
-        public ApontamentosController (ApontamentoService apontamentoService, OrdemProdutoService ordemProdutoService, ProcessoService processoService, FuncionarioService funcionarioService
+        private readonly RegistroParadaService _registroParadaService;
+        
+        public ApontamentosController 
+            (
+            ApontamentoService apontamentoService,
+            OrdemProdutoService ordemProdutoService,
+            ProcessoService processoService,
+            FuncionarioService funcionarioService,
+            RegistroParadaService registroParadaService
             )
         {
             _apontamentoService = apontamentoService;
             _ordemProdutoService = ordemProdutoService;
             _processoService = processoService;
             _funcionarioService = funcionarioService;
+            _registroParadaService = registroParadaService;
         }
 
 
@@ -245,16 +255,23 @@ namespace GestaoProducao_MVC.Controllers
                 return NotFound();
             }
 
-            var obj = await _apontamentoService.FindByIdAsync(id.Value);  
+            var apontamento = await _apontamentoService.FindByIdAsync(id.Value);  
 
-            if (obj == null)
+            if (apontamento == null)
             {
                 //obj nao encontrado no banco;
                 return NotFound();
             }
 
-            //Implementar aqui busca por códigos de parada;
-            return View(obj);
+            List<RegistroParada> registroParadas = await _registroParadaService.FindByApontamentoAsync(apontamento);
+
+            ApontamentoViewModel viewModel = new ApontamentoViewModel
+            {
+                RegistroParadas = registroParadas,
+                Apontamento = apontamento
+            };
+
+            return View(viewModel);
         }
 
 
