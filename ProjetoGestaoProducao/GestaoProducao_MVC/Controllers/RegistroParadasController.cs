@@ -137,6 +137,63 @@ namespace GestaoProducao_MVC.Controllers
             }
            
         }
+
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+
+            var obj = await _registroParadaService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+
+            }
+
+            if (obj.ParadaAtiva)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(obj);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id,[Bind("Id,DataInicial,DataFinal,Descricao,CodigoParadaId,Status,ParadaAtiva,ApontamentoId")] RegistroParada registroParada)
+        {
+            if (id != registroParada.Id)
+            {
+                return BadRequest();
+            }
+
+            registroParada.TempoDeParada = registroParada.DataFinal - registroParada.DataInicial;
+            registroParada.TempoTotal = registroParada.TempoDeParada.Value.Ticks;
+            
+            if (!ModelState.IsValid)
+            {
+
+                return View(registroParada);
+            }
+
+            try
+            {
+                await _registroParadaService.UpdateAsync(registroParada);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View(registroParada);
+            }
+
+        }
+
         
 
 
