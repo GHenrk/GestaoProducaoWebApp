@@ -14,14 +14,11 @@ namespace GestaoProducao_MVC.Models
         public DateTime DataInicial { get; set; }
 
 
-       
+        [Display(Name = "Data Final")]
         public DateTime? DataFinal { get; set; }
 
+        [Display(Name = "Tempo Total:")]
         public long? TempoTotal { get; set; }
-
-
-        [NotMapped]
-        public string? TotalTime { get; set; }
 
         public string?  Descricao { get; set; }
 
@@ -42,7 +39,17 @@ namespace GestaoProducao_MVC.Models
 
         public int FuncionarioId { get; set; }
 
-        public ICollection<RegistroParada>? RegistroParadas { get; set; }
+        [NotMapped]
+        public string? TotalTime { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tempo De Paradas:")]
+        public string? TempoDeParadasFormatado { get; set; }
+
+        [NotMapped]
+        public string? TempoUtilFormatado { get; set; }
+
+       public ICollection<RegistroParada>? RegistroParadas { get; set; }
 
         public Apontamento()
         {

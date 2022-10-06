@@ -171,6 +171,7 @@ namespace GestaoProducao_MVC.Services
 
             var list = await result
                .Include(obj => obj.CodigoParada)
+               .OrderByDescending(x => x.ParadaAtiva)
                .ToListAsync();
 
             list = ConvertTimeList(list);

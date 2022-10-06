@@ -14,8 +14,8 @@ namespace GestaoProducao_MVC.Controllers
         private readonly ProcessoService _processoService;
         private readonly FuncionarioService _funcionarioService;
         private readonly RegistroParadaService _registroParadaService;
-        
-        public ApontamentosController 
+
+        public ApontamentosController
             (
             ApontamentoService apontamentoService,
             OrdemProdutoService ordemProdutoService,
@@ -67,7 +67,7 @@ namespace GestaoProducao_MVC.Controllers
                     return RedirectToAction(nameof(Index));
 
                 }
-            } 
+            }
             catch
             {
                 return View(apontamento);
@@ -94,24 +94,32 @@ namespace GestaoProducao_MVC.Controllers
         public async Task<IActionResult> Finalizar(int id, string? descricao)
         {
             //Busca apontamento do funcionario que esteja ativo
-             Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
+            Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
 
             var obj = apontamentoAtivo;
 
 
             if (apontamentoAtivo == null)
-            {   
+            {
                 //Você não tem um apontamento ativo.
                 return View();
             }
 
+            if (apontamentoAtivo.Status == Models.Enums.AptStatus.Parado)
+            {
+
+                TempData["Exclusao"] = "Você não pode excluir um apontamento que contenha uma parada ativa";
+
+                return RedirectToAction(nameof(Index));
+            }
+
             apontamentoAtivo.DataFinal = DateTime.Now;
             apontamentoAtivo.Descricao = descricao;
-            apontamentoAtivo.Status = Models.Enums.AptStatus.Encerrado ;
+            apontamentoAtivo.Status = Models.Enums.AptStatus.Encerrado;
             apontamentoAtivo.IsAtivo = false;
 
 
-            TimeSpan tempoTotal =(TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
+            TimeSpan tempoTotal = (TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
 
 
             apontamentoAtivo.TempoTotal = tempoTotal.Ticks;
@@ -123,7 +131,7 @@ namespace GestaoProducao_MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View() ;
+            return View();
 
         }
 
@@ -155,48 +163,48 @@ namespace GestaoProducao_MVC.Controllers
 
 
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,DataInicial, DataFinal, Descricao, Operacao, ProcessoId, MaquinaId, FuncionarioId,Status")]Apontamento apontamento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicial, DataFinal, Descricao, Operacao, ProcessoId, MaquinaId, FuncionarioId,Status")] Apontamento apontamento)
         {
             if (id != apontamento.Id)
-                {
-                    return BadRequest();
-                }
-
-            if(apontamento.DataFinal == null)
             {
                 return BadRequest();
             }
 
-                TimeSpan tempoDecorrido = (TimeSpan)(apontamento.DataFinal - apontamento.DataInicial);
-                apontamento.TempoTotal = tempoDecorrido.Ticks;
-            
+            if (apontamento.DataFinal == null)
+            {
+                return BadRequest();
+            }
 
-                //Se obj for inválido
-                if (!ModelState.IsValid)
-                {
-                    
-                    return View(apontamento);
-                }
+            TimeSpan tempoDecorrido = (TimeSpan)(apontamento.DataFinal - apontamento.DataInicial);
+            apontamento.TempoTotal = tempoDecorrido.Ticks;
 
-                try
-                {
-                    //Chama o Update do Serviço e envia novo Apontamento
-                    await _apontamentoService.UpdateAsync(apontamento);
 
-                    return RedirectToAction(nameof(Index));
+            //Se obj for inválido
+            if (!ModelState.IsValid)
+            {
 
-                }
-                catch
-                {
-                    //Alguma informação não existe
-                    return View(apontamento);
+                return View(apontamento);
+            }
 
-                }
+            try
+            {
+                //Chama o Update do Serviço e envia novo Apontamento
+                await _apontamentoService.UpdateAsync(apontamento);
 
-            
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch
+            {
+                //Alguma informação não existe
+                return View(apontamento);
+
+            }
+
+
 
         }
 
@@ -255,7 +263,7 @@ namespace GestaoProducao_MVC.Controllers
                 return NotFound();
             }
 
-            var apontamento = await _apontamentoService.FindByIdAsync(id.Value);  
+            var apontamento = await _apontamentoService.FindByIdAsync(id.Value);
 
             if (apontamento == null)
             {
@@ -264,6 +272,26 @@ namespace GestaoProducao_MVC.Controllers
             }
 
             List<RegistroParada> registroParadas = await _registroParadaService.FindByApontamentoAsync(apontamento);
+
+            TimeSpan soma = new TimeSpan(0, 0, 0);
+            foreach (var registroParada in registroParadas)
+            {
+                if (registroParada.TempoTotal != null)
+                {
+                    TimeSpan decorrido = TimeSpan.FromTicks(registroParada.TempoTotal.Value);
+                    soma = soma + decorrido;
+            
+                }
+                else
+                {
+                    TimeSpan paradaAtiva = DateTime.Now - registroParada.DataInicial;
+                    soma = soma + paradaAtiva;
+                }
+
+            }
+                      
+            apontamento.TempoDeParadasFormatado = (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+
 
             ApontamentoViewModel viewModel = new ApontamentoViewModel
             {
