@@ -39,8 +39,11 @@ namespace GestaoProducao_MVC.Services
                 .Include(obj => obj.Processo)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-
-            obj = ConvertTime(obj);
+            if (obj != null)
+            {
+                obj = ConvertTime(obj);
+            }
+            
 
             return obj;
 

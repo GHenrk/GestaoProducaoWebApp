@@ -1,76 +1,142 @@
-﻿@model GestaoProducao_MVC.Models.Apontamento
+﻿@model GestaoProducao_MVC.Models.ViewModel.ApontamentoViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
     <h4>Apontamento</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Funcionario)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Funcionario)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Funcionario.Name)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Funcionario.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Maquina)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Maquina)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Maquina.Nome)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Maquina.Nome)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataInicial)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.DataInicial)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataInicial)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.DataInicial)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataFinal)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.DataFinal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataFinal)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.DataFinal)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TempoTotal)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.TempoTotal)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalTime)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.TotalTime)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.OrdemProdutoId)
+         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.TempoDeParadasFormatado)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.OrdemProdutoId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.TempoDeParadasFormatado)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.CodigoPeca)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Processo.OrdemProdutoId)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.CodigoPeca)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Processo.OrdemProdutoId)
         </dd>
-
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Operacao)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Processo.CodigoPeca)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Operacao)
-        </dd>
-        
-       <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descricao)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Processo.CodigoPeca)
         </dd>
 
-        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Operacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Operacao)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Apontamento.Descricao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Apontamento.Descricao)
+        </dd>
+
+
     </dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Editar</a> |
+    <h4>Registros de Paradas</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr class="table-dark">
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.RegistroParadas[0].CodigoParada.Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegistroParadas[0].TempoTotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegistroParadas[0].Status)
+                </th>
+                <th> + Detalhes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RegistroParadas)
+            {
+                @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
+                {
+                    ViewData["Active"] = "table-danger";
+
+                }
+                else
+                {
+                    ViewData["Active"] = "table-primary";
+                }
+                <tr class="@ViewData["Active"]">
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodigoParada.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TempoDeParadaFormatado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+
+                    <td>
+                        <a asp-controller="RegistroParadas" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="RegistroParadas" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="RegistroParadas"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Apontamento.Id" class="btn btn-outline-warning">Editar</a> |
     <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
 </div>

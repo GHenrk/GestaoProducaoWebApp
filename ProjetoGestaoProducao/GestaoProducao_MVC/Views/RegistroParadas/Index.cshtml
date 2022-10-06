@@ -1,0 +1,82 @@
+﻿@model IEnumerable<GestaoProducao_MVC.Models.RegistroParada>
+
+@{
+    ViewData["Title"] = "Máquinas em Parada";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="IniciarParada" class="btn btn-outline-dark">Apontar Parada</a>
+    <a asp-action="EncerrarParada" class="btn btn-outline-dark">Encerrar Parada</a>
+</p>
+
+@if(TempData["Exclusao"] != null)
+{
+<div class="alert alert-dismissible alert-danger">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>Algo deu errado!</strong><p>@TempData["Exclusao"]</p>  
+</div>
+}
+
+<table class="table">
+    <thead>
+        <tr class="table-dark">
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamento.Maquina.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoParada.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apontamento.Funcionario.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TempoTotal)
+            </th>
+    
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+           <th>Opções:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
+            {
+                ViewData["Active"] = "table-danger";
+                
+            }
+            else
+            {
+                ViewData["Active"] = "table-primary";
+            }
+            <tr class="@ViewData["Active"]">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apontamento.Maquina.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoParada.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apontamento.Funcionario.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TempoDeParadaFormatado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

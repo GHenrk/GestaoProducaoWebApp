@@ -33,7 +33,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-dark">
             <th>
                 @Html.DisplayNameFor(model => model.Funcionario.Name)
             </th>
@@ -45,9 +45,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Operacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataInicial)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -69,6 +66,10 @@
                 ViewData["Active"] = "table-success";
                 encerrado = false;
             }
+            else if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Parado)
+            {
+                ViewData["Active"] = "table-warning";
+            }
             else
             {
                 ViewData["Active"] = "table-primary";
@@ -89,9 +90,6 @@
                 
                 <td>
                     @Html.DisplayFor(modelItem => item.Operacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataInicial)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)

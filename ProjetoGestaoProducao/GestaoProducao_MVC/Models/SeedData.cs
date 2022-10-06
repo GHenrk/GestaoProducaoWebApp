@@ -72,7 +72,7 @@ namespace GestaoProducao_MVC.Models
 
                 context.Apontamento.AddRange(apt1, apt2, apt3, apt4, apt5, apt6);
 
-                RegistroParada rg1 = new RegistroParada( new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, null, Enums.AptStatus.Encerrado, codParada1, apt3);
+                RegistroParada rg1 = new RegistroParada( new DateTime(2022, 09, 14), new DateTime(2022, 09, 14), null, null, false,Enums.AptStatus.Encerrado, codParada1, apt3);
 
                 context.RegistroParada.Add(rg1);
 
