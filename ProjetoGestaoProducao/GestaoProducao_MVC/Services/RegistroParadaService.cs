@@ -135,20 +135,20 @@ namespace GestaoProducao_MVC.Services
             return list;
         }
 
-        public async Task<bool> IsFuncionarioEmParada(int id)
+        public async Task<bool> IsMaquinaEmParada(int id)
         {
-            return await _context.RegistroParada.AnyAsync(x => x.Apontamento.FuncionarioId == id && x.ParadaAtiva == true);
+            return await _context.RegistroParada.AnyAsync(x => x.Apontamento.MaquinaId == id && x.ParadaAtiva == true);
         }
 
 
 
 
         //Método de busca para encerrar ParadaAtiva;
-        public async Task<RegistroParada> FindByFuncAtivoAsync(int id)
+        public async Task<RegistroParada> FindByMaquinaAtivaAsync(int maquinaId)
         {
             var result = from obj in _context.RegistroParada select obj;
 
-            result = result.Where(x => x.Apontamento.FuncionarioId == id && x.ParadaAtiva == true);
+            result = result.Where(x => x.Apontamento.MaquinaId == maquinaId && x.ParadaAtiva == true);
             
             var registroParada = await result
                 .Include(obj => obj.Apontamento)

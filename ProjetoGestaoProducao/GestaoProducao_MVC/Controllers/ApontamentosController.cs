@@ -51,10 +51,10 @@ namespace GestaoProducao_MVC.Controllers
         public async Task<IActionResult> Create([Bind("ProcessoId, FuncionarioId,MaquinaId,Operacao,DataInicial,Status")] Apontamento apontamento)
         {
             //Verifica se existe pontoAtivo
-            bool ativo = await _apontamentoService.isFuncionarioAtivo(apontamento.FuncionarioId);
+            bool ativo = await _apontamentoService.isMaquinaAtiva(apontamento.MaquinaId);
             if (ativo)
             {
-                ViewData["Ativo"] = "Este funcionário já possui um apontamento ativo!";
+                ViewData["Ativo"] = "Esta máquina já possui um apontamento ativo!";
                 return View(apontamento);
             }
 
@@ -91,13 +91,9 @@ namespace GestaoProducao_MVC.Controllers
         //Ação que encerra um ponto
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Finalizar(int id, string? descricao)
+        public async Task<IActionResult> Finalizar(int maquinaId, string? descricao)
         {
-            //Busca apontamento do funcionario que esteja ativo
-            Apontamento apontamentoAtivo = await _apontamentoService.FindByIdStatus(id);
-
-            var obj = apontamentoAtivo;
-
+            Apontamento apontamentoAtivo = await _apontamentoService.FindByMaquinaAtiva(maquinaId);
 
             if (apontamentoAtivo == null)
             {
@@ -105,13 +101,13 @@ namespace GestaoProducao_MVC.Controllers
                 return View();
             }
 
-            if (apontamentoAtivo.Status == Models.Enums.AptStatus.Parado)
-            {
+            //if (apontamentoAtivo.Status == Models.Enums.AptStatus.Parado)
+            //{
 
-                TempData["Exclusao"] = "Você não pode excluir um apontamento que contenha uma parada ativa";
+            //    TempData["Exclusao"] = "Você não pode encerrar um apontamento que contenha uma parada ativa";
 
-                return RedirectToAction(nameof(Index));
-            }
+            //    return RedirectToAction(nameof(Index));
+            //}
 
             apontamentoAtivo.DataFinal = DateTime.Now;
             apontamentoAtivo.Descricao = descricao;
@@ -120,15 +116,20 @@ namespace GestaoProducao_MVC.Controllers
 
 
             TimeSpan tempoTotal = (TimeSpan)(apontamentoAtivo.DataFinal - apontamentoAtivo.DataInicial);
-
-
             apontamentoAtivo.TempoTotal = tempoTotal.Ticks;
 
 
             if (ModelState.IsValid)
             {
-                await _apontamentoService.UpdateAsync(apontamentoAtivo);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _apontamentoService.UpdateAsync(apontamentoAtivo);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
 
             return View();

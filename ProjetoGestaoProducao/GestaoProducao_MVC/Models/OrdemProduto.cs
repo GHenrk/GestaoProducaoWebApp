@@ -5,10 +5,10 @@ namespace GestaoProducao_MVC.Models
 {
     public class OrdemProduto
     {
-        [Display(Name = "OP")]
+        [Display(Name = "Ordem Produção")]
         public int Id { get; set; }
 
-        [Display(Name = "Código Produto")]
+        [Display(Name = "Código produto")]
         public string CodigoProduto { get; set; }
 
         [Display(Name = "Qntd.")]

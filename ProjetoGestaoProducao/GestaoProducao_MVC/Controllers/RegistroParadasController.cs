@@ -34,18 +34,17 @@ namespace GestaoProducao_MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> IniciarParada(int funcionarioId, [Bind("CodigoParadaId")] RegistroParada registroParada)
+        public async Task<IActionResult> IniciarParada(int maquinaId, [Bind("CodigoParadaId")] RegistroParada registroParada)
         {
-            bool funcionarioAtivo = await _apontamentoService.isFuncionarioAtivo(funcionarioId);
+            bool maquinaAtiva = await _apontamentoService.isMaquinaAtiva(maquinaId);
 
-
-            if (!funcionarioAtivo)
+            if (!maquinaAtiva)
             {
                 //Voce precisa ter um apontamentoAtivo para parada;
                 return View();
             }
 
-            Apontamento apontamento = await _apontamentoService.FindByIdStatus(funcionarioId);
+            Apontamento apontamento = await _apontamentoService.FindByMaquinaAtiva(maquinaId);
 
             if (apontamento == null)
             {
@@ -64,13 +63,22 @@ namespace GestaoProducao_MVC.Controllers
             registroParada.Status = Models.Enums.AptStatus.Ativo;
             registroParada.Apontamento = apontamento;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
             {
                 await _registroParadaService.InsertAsync(registroParada);
                 return RedirectToAction(nameof(Index));
             }
+            catch
+            {
+                return View();
 
-            return View();
+            }
+
         }
 
 
@@ -82,9 +90,10 @@ namespace GestaoProducao_MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EncerrarParada(int funcionarioId, string? descricao)
+        public async Task<IActionResult> EncerrarParada(int maquinaId, string? descricao)
         {
-            bool paradaAtiva = await _registroParadaService.IsFuncionarioEmParada(funcionarioId);
+            bool paradaAtiva = await _registroParadaService.IsMaquinaEmParada(maquinaId);
+            
             if (!paradaAtiva)
             {
                 //Não foi encontrado parada ativa.
@@ -92,7 +101,7 @@ namespace GestaoProducao_MVC.Controllers
             }
 
 
-            RegistroParada registroParada = await _registroParadaService.FindByFuncAtivoAsync(funcionarioId);
+            RegistroParada registroParada = await _registroParadaService.FindByMaquinaAtivaAsync(maquinaId);
 
             if (registroParada == null)
             {
@@ -113,7 +122,8 @@ namespace GestaoProducao_MVC.Controllers
             registroParada.TempoTotal = registroParada.TempoDeParada.Value.Ticks;
 
 
-            var apontamento = await _apontamentoService.FindByIdStatus(funcionarioId);
+            var apontamento = await _apontamentoService.FindByMaquinaAtiva(maquinaId);
+            
             if (apontamento == null)
             {
                 return BadRequest();
@@ -135,7 +145,7 @@ namespace GestaoProducao_MVC.Controllers
             {
                 return View();
             }
-           
+
         }
 
 
@@ -166,7 +176,7 @@ namespace GestaoProducao_MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,DataInicial,DataFinal,Descricao,CodigoParadaId,Status,ParadaAtiva,ApontamentoId")] RegistroParada registroParada)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicial,DataFinal,Descricao,CodigoParadaId,Status,ParadaAtiva,ApontamentoId")] RegistroParada registroParada)
         {
             if (id != registroParada.Id)
             {
@@ -175,7 +185,7 @@ namespace GestaoProducao_MVC.Controllers
 
             registroParada.TempoDeParada = registroParada.DataFinal - registroParada.DataInicial;
             registroParada.TempoTotal = registroParada.TempoDeParada.Value.Ticks;
-            
+
             if (!ModelState.IsValid)
             {
 
@@ -213,7 +223,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
-        
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

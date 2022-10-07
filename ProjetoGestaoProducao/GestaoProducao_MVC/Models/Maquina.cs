@@ -4,7 +4,7 @@ namespace GestaoProducao_MVC.Models
 {
     public class Maquina
     {
-        [Display(Name = "Código")]
+        [Display(Name = "Código máquina")]
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Nome é obrigatório!")]

@@ -5,6 +5,12 @@
     bool encerrado;
 }
 
+@{
+
+}
+
+
+
 <h1>@ViewData["Title"]</h1>
 
 
@@ -31,15 +37,16 @@
 </div>
 }
 
-<table class="table">
+<table  class="table" id="table-personalizada" border="1">
     <thead>
         <tr class="table-dark">
             <th>
-                @Html.DisplayNameFor(model => model.Funcionario.Name)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Maquina.Nome)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcionario.Name)
+            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Processo.OrdemProduto.Id)
             </th>
@@ -79,10 +86,10 @@
 
             <tr class=@ViewData["Active"]>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Funcionario.Name)
+                    @Html.DisplayFor(modelItem => item.Maquina.Nome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Maquina.Nome)
+                    @Html.DisplayFor(modelItem => item.Funcionario.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Processo.OrdemProdutoId)

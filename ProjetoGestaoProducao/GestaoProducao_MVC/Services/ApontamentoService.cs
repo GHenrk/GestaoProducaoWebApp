@@ -54,13 +54,13 @@ namespace GestaoProducao_MVC.Services
         //Método utilizado para EncerrarApontamento. 
 
 
-        public async Task<Apontamento> FindByIdStatus(int id)
+        public async Task<Apontamento> FindByMaquinaAtiva(int id)
         {
             var result = from obj in _context.Apontamento select obj;
 
 
             //Seleciona os apontamentos do Funcionario
-            result = result.Where(x => x.FuncionarioId == id);
+            result = result.Where(x => x.MaquinaId == id);
             result = result.Where(x => x.IsAtivo == true);
 
 
@@ -244,6 +244,14 @@ namespace GestaoProducao_MVC.Services
 
             return await _context.Apontamento.AnyAsync(x => x.FuncionarioId == id.Value && x.IsAtivo == true);
         }
+
+
+        //Verficia se existe um Apt ativo para a maquina
+        public async Task<bool> isMaquinaAtiva(int id)
+        {
+            return await _context.Apontamento.AnyAsync(x => x.MaquinaId == id && x.IsAtivo == true);
+        }
+
 
     }
 }
