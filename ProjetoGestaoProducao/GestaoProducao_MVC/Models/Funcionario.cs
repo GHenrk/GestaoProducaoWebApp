@@ -1,12 +1,18 @@
-﻿namespace GestaoProducao_MVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+
+namespace GestaoProducao_MVC.Models
 {
     public class Funcionario
     {
 
+        [Display(Name = "Código funcionário")]
         public int Id { get; set; }
 
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
+        [Display(Name = "Cargo")]
         public string Cargo { get; set; }
     
         public ICollection<Apontamento> Apontamentos { get; set; }

@@ -17,15 +17,18 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Data Final")]
         public DateTime? DataFinal { get; set; }
 
-        [Display(Name = "Tempo Total:")]
+        [Display(Name = "Tempo Total")]
         public long? TempoTotal { get; set; }
 
+        [Display(Name = "Descrição")]
         public string?  Descricao { get; set; }
 
+       
         public bool IsAtivo { get; set; }
     
         public AptStatus Status { get; set; }
 
+        [Display(Name = "Operação")]
         public Operacao? Operacao { get; set; }
 
         public Processo? Processo { get; set; }
@@ -37,16 +40,19 @@ namespace GestaoProducao_MVC.Models
         public int MaquinaId { get; set; }
         public Funcionario? Funcionario { get; set; }
 
+        [Display(Name = "Código funcionário:")]
         public int FuncionarioId { get; set; }
 
         [NotMapped]
+        [Display(Name = "Tempo total")]
         public string? TotalTime { get; set; }
 
         [NotMapped]
-        [Display(Name = "Tempo De Paradas:")]
+        [Display(Name = "Tempo de paradas")]
         public string? TempoDeParadasFormatado { get; set; }
 
         [NotMapped]
+        [Display(Name = "Tempo de trabalho")]
         public string? TempoUtilFormatado { get; set; }
 
        public ICollection<RegistroParada>? RegistroParadas { get; set; }

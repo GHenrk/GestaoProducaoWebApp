@@ -5,7 +5,7 @@ namespace GestaoProducao_MVC.Models
 {
     public class Processo
     {
-        [Display(Name = "Código APT")]
+        [Display(Name = "Código apontamento")]
         public int Id { get; set; }
 
        
@@ -26,22 +26,25 @@ namespace GestaoProducao_MVC.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataCriacao { get; set; }
 
-        [Display(Name = "OP")]
+        [Display(Name = "Ordem Produção")]
         public OrdemProduto? OrdemProduto { get; set; }
 
         [Display(Name = "Número da OP")]
         public int OrdemProdutoId { get; set; }
 
         [DataType(DataType.Time)]
+        [Display(Name = "Tempo estimado")]
         public long? TempoEstimado { get; set; }
 
         [NotMapped]
         public TimeSpan TempoEstimadoSpan { get; set; }
 
         [NotMapped]
+        [Display(Name = "Tempo estimado")]
         public string? TempoEstimadoFormatado { get; set; }
         
         [NotMapped]
+        [Display(Name = "Tempo total decorrido")]
         public string? TotalTempoDecorrido { get; set; }
 
       
