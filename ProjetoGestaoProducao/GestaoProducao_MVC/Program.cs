@@ -16,6 +16,7 @@ builder.Services.AddScoped<FuncionarioService>();
 builder.Services.AddScoped<ApontamentoService>();
 builder.Services.AddScoped<CodigoParadaService>();
 builder.Services.AddScoped<RegistroParadaService>();
+builder.Services.AddScoped<UsuarioService>();
 
 
 // Add services to the container.
