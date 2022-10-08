@@ -1,6 +1,13 @@
 ﻿
 $(document).ready(function () {
-    $('#table-personalizada').DataTable({
+    getDataTable('#table-personalizada');
+    getDataTable('#tabela-usuarios');
+});
+
+
+
+function getDataTable(id) {
+    $(id).DataTable({
         "ordering": false,
         "paging": true,
         "searching": true,
@@ -42,4 +49,4 @@ $(document).ready(function () {
 
 
     });
- });
+}
