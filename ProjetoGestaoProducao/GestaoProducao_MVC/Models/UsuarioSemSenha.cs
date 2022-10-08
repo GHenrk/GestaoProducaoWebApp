@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GestaoProducao_MVC.Models
 {
-    public class Usuario
+    public class UsuarioSemSenha
     {
         public int Id { get; set; }
 
@@ -22,35 +22,18 @@ namespace GestaoProducao_MVC.Models
         [Required(ErrorMessage = "Selecione um perfil para o usuario")]
         public PerfilUsuario Perfil { get; set; }
 
-        [Required(ErrorMessage = "Insira a senha do Usuário")]
-        public string Senha { get; set; }
 
-        public DateTime DataCadastro { get; set; }
-
-        public DateTime? DataAtualizacao { get; set; }
-
-        public Usuario()
+        public UsuarioSemSenha()
         {
 
         }
 
-        public Usuario(int id, string nome, string login, string email, PerfilUsuario perfil, string senha, DateTime dataCadastro, DateTime? dataAtualizacao)
+        public UsuarioSemSenha(int id, string nome, string email, PerfilUsuario perfil)
         {
             Id = id;
             Nome = nome;
-            Login = login;
             Email = email;
             Perfil = perfil;
-            Senha = senha;
-            DataCadastro = dataCadastro;
-            DataAtualizacao = dataAtualizacao;
         }
-
-        public bool SenhaIsValid(string senha)
-        {
-            return Senha == senha;
-        }
-
-
     }
 }

@@ -8,7 +8,7 @@ namespace GestaoProducao_MVC.Controllers
     {
         private readonly UsuarioService _usuarioService;
 
-        public UsuariosController (UsuarioService usuarioService)
+        public UsuariosController(UsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
         }
@@ -33,7 +33,8 @@ namespace GestaoProducao_MVC.Controllers
                 return View(usuario);
             }
 
-            try {
+            try
+            {
                 await _usuarioService.InsertAsync(usuario);
                 return RedirectToAction(nameof(Index));
             }
@@ -100,23 +101,40 @@ namespace GestaoProducao_MVC.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Usuario usuario)
+        public async Task<IActionResult> Edit(UsuarioSemSenha usuarioSemSenha)
         {
-            if (id != usuario.Id)
-            {
-                return BadRequest();
-            }
 
             try
             {
-                await _usuarioService.UpdateAsync(usuario);
-                return RedirectToAction(nameof(Index));
+                Usuario usuario = await _usuarioService.FindByIdAsync(usuarioSemSenha.Id);
 
-            }
-            catch
-            {
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    usuario.Nome = usuarioSemSenha.Nome;
+                    usuario.Login = usuarioSemSenha.Login;
+                    usuario.Email = usuarioSemSenha.Email;
+                    usuario.Perfil = usuarioSemSenha.Perfil;
+
+                    await _usuarioService.UpdateAsync(usuario);
+                    return RedirectToAction(nameof(Index));
+                };
+
                 return View(usuario);
+
+            
             }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $" Não conseguimos atualizar seu usuário! Error: {erro.Message}";
+                return View();
+            }
+
+
         }
 
 
@@ -129,7 +147,7 @@ namespace GestaoProducao_MVC.Controllers
             {
                 return BadRequest();
             }
-        
+
             Usuario usuario = await _usuarioService.FindByIdAsync(id.Value);
 
             if (usuario == null)

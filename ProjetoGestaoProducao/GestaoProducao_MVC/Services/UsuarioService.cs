@@ -107,5 +107,12 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        public Usuario FindByLogin(string login)
+        {
+            return _context.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
+
+        }
+
+
     }
 }
