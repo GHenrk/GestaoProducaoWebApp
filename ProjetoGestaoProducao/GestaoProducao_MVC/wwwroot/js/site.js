@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
     $('#table-personalizada').DataTable({
-        "ordering": true,
+        "ordering": false,
         "paging": true,
         "searching": true,
         "oLanguage": {
@@ -26,6 +26,20 @@ $(document).ready(function () {
                 "sSortAscending": ": Ordenar colunas de forma ascendente",
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
-        }
+        },
+        "dom": 'Bftrip',
+        "buttons": [
+            {
+                extend: 'csv',
+                text: 'Save current page',
+                exportOptions: {
+                    modifier: {
+                        page: 'current'
+                    }
+                }
+            }
+        ]
+
+
     });
  });

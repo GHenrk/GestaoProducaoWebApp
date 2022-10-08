@@ -37,14 +37,14 @@
 </div>
 }
 
-<table  class="table" id="table-personalizada" border="1">
+<table class="table table-hover table-striped cell-border" id="table-personalizada">
     <thead>
-        <tr class="table-dark">
+        <tr class="bg-header-table text-black">
             <th>
                 @Html.DisplayNameFor(model => model.Maquina.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Funcionario.Name)
+                Funcionário
             </th>
            
             <th>
@@ -75,16 +75,16 @@
             }
             else if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Parado)
             {
-                ViewData["Active"] = "table-warning";
+                ViewData["Active"] = "table-danger";
             }
             else
             {
-                ViewData["Active"] = "table-primary";
+                ViewData["Active"] = "table-active";
                 encerrado = true;
             }
 
 
-            <tr class=@ViewData["Active"]>
+            <tr class="@ViewData["Active"]">
                 <td>
                     @Html.DisplayFor(modelItem => item.Maquina.Nome)
                 </td>

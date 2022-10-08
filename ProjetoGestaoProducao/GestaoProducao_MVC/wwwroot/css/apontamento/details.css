@@ -1,0 +1,34 @@
+﻿body {
+}
+
+
+.details-ponto {
+    width: 100%;
+    height:30vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "maquina funcionario tempo"
+                          "apontamento apontamento tempo";
+}
+
+
+.maquina {
+    grid-area: maquina;
+}
+
+.funcionario {
+    grid-area: funcionario;
+}
+
+.tempo {
+    grid-area: tempo;
+}
+
+
+.apontamento {
+    grid-area: apontamento;
+   display: flex;
+   flex-direction: column;
+}
+
