@@ -1,9 +1,11 @@
-﻿using GestaoProducao_MVC.Models;
+﻿using GestaoProducao_MVC.Filters;
+using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoProducao_MVC.Controllers
 {
+    [UserMaster]
     public class UsuariosController : Controller
     {
         private readonly UsuarioService _usuarioService;

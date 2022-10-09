@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_LayoutDeslogado";
+    ViewData["Title"] = "TMP System - Restrito";
+}
+
+
+
+
+
+<div class="d-flex flex-column justify-content-center align-items-start">
+    <h3>@ViewData["Title"]</h3>
+    <h5 class="text-danger">Você não possui acesso a essa area do sistema!! </h5>
+
+    <p>Para mais informações, consulte um administrador ou <a href="mailto:support@tmpsystem.com">envie um e-mail.</a></p>
+
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark">Retornar à pagina principal</a>
+</div>

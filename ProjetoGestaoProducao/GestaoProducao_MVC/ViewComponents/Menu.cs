@@ -17,6 +17,5 @@ namespace GestaoProducao_MVC.ViewComponents
 
             return View(usuario);
         }
-
     }
 }

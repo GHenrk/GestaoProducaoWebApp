@@ -1,4 +1,5 @@
-﻿using GestaoProducao_MVC.Models;
+﻿using GestaoProducao_MVC.Filters;
+using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoProducao_MVC.Controllers
 {
+    [UserLogado]
 
     //Essa função só pode ser executada pelo setor Vendas e Adm Geral;
     public class MaquinasController: Controller

@@ -9,9 +9,12 @@ using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using GestaoProducao_MVC.Models.ViewModel;
+using GestaoProducao_MVC.Filters;
 
 namespace GestaoProducao_MVC.Controllers
 {
+
+    [UserLogado]
     public class OrdemProdutosController : Controller
     {
         private readonly OrdemProdutoService _ordemProdutoService;

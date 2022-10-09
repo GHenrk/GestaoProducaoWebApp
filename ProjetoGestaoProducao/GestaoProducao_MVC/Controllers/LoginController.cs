@@ -1,10 +1,12 @@
-﻿using GestaoProducao_MVC.Models;
+﻿using GestaoProducao_MVC.Filters;
+using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace GestaoProducao_MVC.Controllers
 {
+   
     public class LoginController : Controller
     {
 

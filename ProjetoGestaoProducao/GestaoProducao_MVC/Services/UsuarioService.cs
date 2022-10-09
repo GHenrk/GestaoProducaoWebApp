@@ -47,7 +47,7 @@ namespace GestaoProducao_MVC.Services
         public async Task InsertAsync(Usuario usuario)
         {
             usuario.DataCadastro = DateTime.Now;
-
+            usuario.SetSenhaHash();
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 

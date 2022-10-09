@@ -1,4 +1,5 @@
 ﻿
+using GestaoProducao_MVC.Helper;
 using GestaoProducao_MVC.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -48,9 +49,15 @@ namespace GestaoProducao_MVC.Models
 
         public bool SenhaIsValid(string senha)
         {
-            return Senha == senha;
+
+
+            return Senha == senha.GerarHash();
         }
 
+        public void SetSenhaHash()
+        {
+            Senha = Senha.GerarHash();
+        }
 
     }
 }
