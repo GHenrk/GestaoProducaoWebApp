@@ -4,6 +4,7 @@ using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using System.Globalization;
+using GestaoProducao_MVC.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<GestaoProducao_MVCContext>(options =>
@@ -23,6 +24,7 @@ builder.Services.AddSession(
         o.Cookie.HttpOnly = true;
         o.Cookie.IsEssential = true;
 });
+builder.Services.AddScoped<EmailService>();
 
 
 // Add services to the container.

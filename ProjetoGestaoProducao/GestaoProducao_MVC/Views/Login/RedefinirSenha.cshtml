@@ -1,0 +1,51 @@
+﻿@model GestaoProducao_MVC.Models.RedefinirSenhaModel
+
+@{
+    Layout = "_LayoutDeslogado";
+    ViewData["Title"] = "TMP System - Redefinir Senha";
+}
+
+
+<h4>@ViewData["Title"]</h4>
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <p>@TempData["MensagemErro"]</p>
+    </div>
+}
+
+
+<div class="d-flex justify-content-evenly align-items-center">
+    <div class="d-flex justify-content-center align-items-center">
+        <p>O TMP System é um software para gestão de apontamento de horas de produção</p> </div>
+    <div>
+       
+        <form asp-controller="Login" asp-action="ResetPassword" method="post">
+            <div class="mb-3">
+                <label asp-for="Login" class="form-label">Login</label>
+                <input type="text" class="form-control" asp-for="Login" aria-describedby="emailHelp">
+                <span asp-validation-for="Login" class="text-danger"></span>
+                <div id="emailHelp" class="form-text">Nós nunca compartilharemos suas informações com ninguém.</div>
+            </div>
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <input type="text" class="form-control" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-info">Redefinir Senha</button>
+            <a asp-action="Index" asp-controller="Login" class="btn btn-outline-dark">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+
+
