@@ -70,7 +70,7 @@ namespace GestaoProducao_MVC.Controllers
                         }
 
 
-                        TempData["MensagemErro"] = $"Senha do usuário é inválida! Por favor, tente novamente";
+                        TempData["MensagemErro"] = $"Não conseguimos! Por favor, tente novamente";
                         return View(nameof(Index));
                     }
 

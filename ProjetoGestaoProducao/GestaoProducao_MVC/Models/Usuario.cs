@@ -54,6 +54,13 @@ namespace GestaoProducao_MVC.Models
             return Senha == senha.GerarHash();
         }
 
+        public void SetNovaSenha(string novaSenha)
+        {
+            Senha = novaSenha.GerarHash();
+        }
+
+
+
         public void SetSenhaHash()
         {
             Senha = Senha.GerarHash();

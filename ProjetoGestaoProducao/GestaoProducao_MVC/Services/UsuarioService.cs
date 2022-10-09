@@ -121,6 +121,27 @@ namespace GestaoProducao_MVC.Services
         }
 
 
+        public async Task<Usuario> AlterarSenha(AlterarSenhaModel alterarSenhaModel)
+        {
+            Usuario usuarioDb = await FindByIdAsync(alterarSenhaModel.Id);
+
+
+            if (usuarioDb == null) throw new Exception("Houve um erro na atualização da senha, usuário não encontrado!");
+
+            if (!usuarioDb.SenhaIsValid(alterarSenhaModel.SenhaAtual)) throw new Exception("Senha atual não confere!");
+
+            if (usuarioDb.SenhaIsValid(alterarSenhaModel.NovaSenha)) throw new Exception("Nova senha deve ser diferente da senha atual!");
+
+            usuarioDb.SetNovaSenha(alterarSenhaModel.NovaSenha);
+            usuarioDb.DataAtualizacao = DateTime.Now;
+
+            _context.Usuarios.Update(usuarioDb);
+            await _context.SaveChangesAsync();
+
+            return usuarioDb;   
+        }
+
+
 
     }
 }
