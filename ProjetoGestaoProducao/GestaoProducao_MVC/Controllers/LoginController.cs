@@ -9,15 +9,28 @@ namespace GestaoProducao_MVC.Controllers
     {
 
         private readonly UsuarioService _usuarioService;
-
-        public LoginController(UsuarioService usuarioService)
+        private readonly SessaoService _sessaoService; 
+        public LoginController(UsuarioService usuarioService, SessaoService sessaoService)
         {
             _usuarioService = usuarioService;
+            _sessaoService = sessaoService;
         }
 
         public IActionResult Index()
         {
+            if (_sessaoService.BuscarSessaoDoUsuario() != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
+        }
+
+        public IActionResult RemoverSessao()
+        {
+            _sessaoService.RemoverSessaoUsuario();
+
+            return RedirectToAction("Index", "Login");
         }
 
 
@@ -36,8 +49,10 @@ namespace GestaoProducao_MVC.Controllers
                     {
                         if (usuario.SenhaIsValid(loginModel.Senha))
                         {
-                            return RedirectToAction("Index", "OrdemProdutos");
+                            _sessaoService.CriarSessaoDoUsuario(usuario);
+                            return RedirectToAction("Index", "Home");
                         }
+
 
                         TempData["MensagemErro"] = $"Senha do usuário é inválida! Por favor, tente novamente";
                         return View(nameof(Index));

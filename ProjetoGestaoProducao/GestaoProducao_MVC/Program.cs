@@ -8,7 +8,6 @@ using System.Globalization;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<GestaoProducao_MVCContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GestaoProducao_MVCContext") ?? throw new InvalidOperationException("Connection string 'GestaoProducao_MVCContext' not found.")));
-
 builder.Services.AddScoped<OrdemProdutoService>();
 builder.Services.AddScoped<ProcessoService>();
 builder.Services.AddScoped<MaquinaService>();
@@ -17,6 +16,13 @@ builder.Services.AddScoped<ApontamentoService>();
 builder.Services.AddScoped<CodigoParadaService>();
 builder.Services.AddScoped<RegistroParadaService>();
 builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<SessaoService>();
+builder.Services.AddSession(
+    o => {
+        o.Cookie.HttpOnly = true;
+        o.Cookie.IsEssential = true;
+});
 
 
 // Add services to the container.
@@ -41,7 +47,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 LocalizationService();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
