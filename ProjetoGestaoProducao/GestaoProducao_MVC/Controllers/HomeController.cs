@@ -1,10 +1,12 @@
-﻿using GestaoProducao_MVC.Models;
+﻿using GestaoProducao_MVC.Filters;
+using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Controllers
 {
+    [UserLogado]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

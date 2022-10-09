@@ -4,6 +4,7 @@ using GestaoProducao_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestaoProducao_MVC.Migrations
 {
     [DbContext(typeof(GestaoProducao_MVCContext))]
-    partial class GestaoProducao_MVCContextModelSnapshot : ModelSnapshot
+    [Migration("20221008025054_criacaoUsuario")]
+    partial class criacaoUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

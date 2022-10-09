@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
+using GestaoProducao_MVC.Filters;
 
 namespace GestaoProducao_MVC.Controllers
 {
+    [UserLogado]
     public class FuncionariosController : Controller
     {
         private readonly FuncionarioService _funcionarioService;

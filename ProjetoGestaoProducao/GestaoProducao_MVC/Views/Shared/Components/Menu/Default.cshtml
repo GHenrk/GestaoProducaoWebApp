@@ -1,0 +1,52 @@
+﻿@model GestaoProducao_MVC.Models.Usuario;
+
+
+
+
+<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TMP System</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="OrdemProdutos" asp-action="Index">OP</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Processos" asp-action="Index">Processos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Apontamentos" asp-action="Index">Apontamentos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="RegistroParadas" asp-action="Index">Registros de Parada</a>
+        </li>
+
+        @if (Model.Perfil != GestaoProducao_MVC.Models.Enums.PerfilUsuario.UsuarioFabrica)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="CodigoParadas" asp-action="Index">Codigos de Parada</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Funcionarios" asp-action="Index">Funcionários</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Maquinas" asp-action="Index">Máquinas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="AlterarSenha" asp-action="Index">Alterar Senha</a>
+            </li>
+        }
+    </ul>
+</div>
+<div class="sessaoUsuario">
+    <h6>Olá, @Model.Nome</h6>
+    <a class="btn btn-sm btn-danger" asp-controller="Login" asp-action="RemoverSessao">Sair</a>
+</div>

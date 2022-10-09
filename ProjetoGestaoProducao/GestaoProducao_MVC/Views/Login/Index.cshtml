@@ -1,0 +1,59 @@
+﻿@model GestaoProducao_MVC.Models.LoginModel
+
+@{
+    Layout = "_LayoutDeslogado";
+    ViewData["Title"] = "TMP System - Login";
+}
+
+
+<h4>@ViewData["Title"]</h4>
+
+
+<div class="d-flex justify-content-evenly align-items-center">
+    <div class="d-flex justify-content-center align-items-center">
+        <p>O TMP System é um software para gestão de apontamento de horas de produção</p>
+
+    </div>
+    <div>
+        @if (TempData["MensagemErro"] != null)
+        {
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <p>@TempData["MensagemErro"]</p>
+            </div>
+        }
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <p>@TempData["MensagemSucesso"]</p>
+            </div>
+        }
+        <form asp-controller="Login" asp-action="Entrar" method="post">
+            <div class="mb-3">
+                <label asp-for="Login" class="form-label" >Login</label>
+                <input type="text" class="form-control" asp-for="Login" aria-describedby="emailHelp">
+                <span asp-validation-for="Login" class="text-danger"></span>
+                <div id="emailHelp" class="form-text">Nós nunca compartilharemos suas informações com ninguém.</div>
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" asp-for="Senha">
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-info">Login</button>
+        </form>
+
+        <p class="mb-4 text-sm-centeralign-content-center mx-auto">
+            Esqueceu sua senha?
+            <a asp-action="RedefinirSenha" asp-controller="Login" class="text-primary text-gradient">Redefinir minha senha</a>
+        </p>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
