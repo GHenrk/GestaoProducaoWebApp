@@ -21,7 +21,7 @@ namespace GestaoProducao_MVC.Services
             return await _context.Maquina.ToListAsync();
         }
 
-
+        
         //Busca uma maquina por ID;
         public async Task<Maquina> FindByIdAsync(int id)
         {

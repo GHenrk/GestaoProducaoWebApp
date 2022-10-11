@@ -4,7 +4,7 @@
     {
         Parado = 0,
         Ativo = 1,
-        Encerrado = 2
-
+        Encerrado = 2,
+        Ocioso = 3
 }
 }
