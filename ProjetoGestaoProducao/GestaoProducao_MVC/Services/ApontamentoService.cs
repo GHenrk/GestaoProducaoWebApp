@@ -49,6 +49,20 @@ namespace GestaoProducao_MVC.Services
 
         }
 
+        public async Task<Apontamento> FindApontamentoMachineAsync(int id)
+        {
+            var obj = await _context.Apontamento.FirstOrDefaultAsync(x => x.MaquinaId == id && x.IsAtivo == true);
+
+            if (obj != null)
+            {
+                obj = ConvertTime(obj);
+            }
+
+
+            return obj;
+        }
+
+
 
         //Busca por funcionario e Apontamento Ativo;
         //Método utilizado para EncerrarApontamento. 

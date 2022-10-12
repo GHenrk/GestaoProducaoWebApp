@@ -1,5 +1,6 @@
 ﻿using GestaoProducao_MVC.Filters;
 using GestaoProducao_MVC.Models;
+using GestaoProducao_MVC.Models.Enums;
 using GestaoProducao_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,11 +12,16 @@ namespace GestaoProducao_MVC.Controllers
     {
 
         private readonly MaquinaService _maquinaService;
+        private readonly ApontamentoService _apontamentoService;
+        private readonly ProcessoService _processoService;
 
-        public DashboardController(MaquinaService maquinaService)
+        public DashboardController(MaquinaService maquinaService, ApontamentoService apontamentoService, ProcessoService processoService)
         {
             _maquinaService = maquinaService;
+            _apontamentoService = apontamentoService;
+            _processoService = processoService; 
         }
+
 
         public IActionResult Index()
         {
@@ -28,20 +34,48 @@ namespace GestaoProducao_MVC.Controllers
         public async Task<JsonResult> ListaMaquinas()
         {
             var listMaquinas = await _maquinaService.FindAllAsync();
-
+            
             List<object> listJson = new List<object>();
-
+            
             foreach (var item in listMaquinas)
             {
+                bool maquinaAtiva = await _apontamentoService.isMaquinaAtiva(item.Id);
+
+                Apontamento apontamentoMaquina = new Apontamento();
+
+                Processo processo = new Processo();
+                
+
+
+                if (maquinaAtiva)
+                {
+                    apontamentoMaquina = await _apontamentoService.FindApontamentoMachineAsync(item.Id);
+                    processo = await _processoService.FindByIdAsync(apontamentoMaquina.ProcessoId);
+                    
+
+                }
+                else
+                {
+                   
+                   apontamentoMaquina.Status = AptStatus.Ocioso;
+                    apontamentoMaquina.ProcessoId = 0;
+                    processo.OrdemProdutoId = 0;
+                   
+                }
 
                 var itemConvertido = new
                 {
-                    Id = item.Id,
-                    Nome = item.Nome
+                    Id = apontamentoMaquina.Id,
+                    Nome = item.Nome,
+                    MaquinaAtiva = maquinaAtiva,
+                    Status = apontamentoMaquina.Status.ToString(),
+                    AptMaquina = processo.Id,
+                    Op = processo.OrdemProdutoId,
+                    TempoTotal = apontamentoMaquina.TotalTime == null ? "0" : apontamentoMaquina.TotalTime,
+                    qntdParadas = apontamentoMaquina.QuantidadeParadas().ToString(),
 
-                    
                 };
-                
+
                 listJson.Add(itemConvertido);
             }
 

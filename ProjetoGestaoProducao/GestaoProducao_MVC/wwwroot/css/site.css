@@ -25,3 +25,17 @@ body {
 .card-escuro {
     background-color: gray;
 }
+
+
+.cardMaquina {
+    width: 25vw;
+    height: 25vh;
+    background-color: #BDBBAF;
+}
+
+.cardTitulo {
+    padding: 0.5em;
+    text-align: center;
+    border-bottom:1px solid black;
+}
+

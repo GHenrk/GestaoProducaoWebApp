@@ -88,6 +88,18 @@ namespace GestaoProducao_MVC.Models
         {
             RegistroParadas.Remove(parada);
         }
+
+
+        public int QuantidadeParadas()
+        {
+            int i = 0;
+            if (RegistroParadas != null)
+            {
+                i = RegistroParadas.Count();
+            }
+
+            return i;
+        }
     }
 
 }
