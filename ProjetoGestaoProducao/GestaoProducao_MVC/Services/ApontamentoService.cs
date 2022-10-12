@@ -49,6 +49,20 @@ namespace GestaoProducao_MVC.Services
 
         }
 
+        public async Task<Apontamento> FindApontamentoMachineAsync(int id)
+        {
+            var obj = await _context.Apontamento.FirstOrDefaultAsync(x => x.MaquinaId == id && x.IsAtivo == true);
+
+            if (obj != null)
+            {
+                obj = ConvertTime(obj);
+            }
+
+
+            return obj;
+        }
+
+
 
         //Busca por funcionario e Apontamento Ativo;
         //Método utilizado para EncerrarApontamento. 
@@ -198,6 +212,7 @@ namespace GestaoProducao_MVC.Services
                     TimeSpan decorrido = DateTime.Now - item.DataInicial;
                     string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
                     item.TotalTime = time;
+                    item.TempoDecorridoSpan = decorrido;
                 }
                 else
                 {
@@ -205,6 +220,7 @@ namespace GestaoProducao_MVC.Services
                     decorrido.ToString();                                        
                     string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
                     item.TotalTime = time;
+                    item.TempoDecorridoSpan = decorrido;
                 }
             }
 
@@ -221,12 +237,14 @@ namespace GestaoProducao_MVC.Services
                 TimeSpan decorrido = DateTime.Now - apontamento.DataInicial;
                 string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
                 apontamento.TotalTime = time;
+                apontamento.TempoDecorridoSpan = decorrido;
             }
             else
             {
                 TimeSpan decorrido = TimeSpan.FromTicks(apontamento.TempoTotal.Value);
                 string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
                 apontamento.TotalTime = time;
+                apontamento.TempoDecorridoSpan = decorrido;
             }
             return apontamento;
         }

@@ -14,10 +14,75 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: #e0e0e0;
 }
 
 
 .bg-header-table {
     background-color: #d3d4d4;
+}
+
+.bgCardAtivo {
+    background-color: #B8FFA1 !important;
+}
+
+.bgCardDanger {
+    background-color: #DE6C50 !important;
+}
+
+.bgCardOcioso {
+    background-color: #F7B448 !important;
+}
+
+
+.dashMaquinas {
+    margin-top:3em;
+    display: flex;
+    justify-content: space-around;
+    gap: 2em;
+    align-items: stretch;
+}
+
+
+
+.cardMaquina {
+    width: 30vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #e0e0e0;
+    border: 2px solid #F7B448;
+    border-radius: 18px;
+    box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
+}
+
+
+.cardTitulo {
+    padding: 0.5em;
+    text-align: center;
+    border-bottom:1px solid black;
+}
+
+
+.cardText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em;
+    
+    
+    color: black;
+   
+}
+
+.codigoProcesso--card {
+   
+}
+
+.tempoTotal--card {
+    border: 1px solid black;
+    padding: 1.5em;
 }

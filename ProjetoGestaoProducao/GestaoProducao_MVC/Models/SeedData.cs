@@ -76,6 +76,11 @@ namespace GestaoProducao_MVC.Models
 
                 context.RegistroParada.Add(rg1);
 
+
+                Usuario usuarioMaster = new Usuario("Gustavo Henrique", "GHenrk", "guto.h.d@hotmail.com", Enums.PerfilUsuario.AdmMaster, "dc29ec93d2f5069442ce4b37a6c00d90022b31b2", DateTime.Now, null);
+
+                context.Usuarios.Add(usuarioMaster);
+
                 context.SaveChanges();
             
             }

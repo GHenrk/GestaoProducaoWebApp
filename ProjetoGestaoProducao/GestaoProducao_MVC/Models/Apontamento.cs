@@ -43,6 +43,10 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Código funcionário:")]
         public int FuncionarioId { get; set; }
 
+
+        [NotMapped]
+        public TimeSpan TempoDecorridoSpan { get; set; }
+
         [NotMapped]
         [Display(Name = "Tempo total")]
         public string? TotalTime { get; set; }
@@ -87,6 +91,18 @@ namespace GestaoProducao_MVC.Models
         public void RemoveParada(RegistroParada parada)
         {
             RegistroParadas.Remove(parada);
+        }
+
+
+        public int QuantidadeParadas()
+        {
+            int i = 0;
+            if (RegistroParadas != null)
+            {
+                i = RegistroParadas.Count();
+            }
+
+            return i;
         }
     }
 

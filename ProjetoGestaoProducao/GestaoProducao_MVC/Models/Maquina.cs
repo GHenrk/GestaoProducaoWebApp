@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestaoProducao_MVC.Models
 {
@@ -9,9 +10,11 @@ namespace GestaoProducao_MVC.Models
 
         [Required(ErrorMessage ="Nome é obrigatório!")]
         [Display(Name = "Máquina")]
+        [JsonProperty(PropertyName = "Nome")]
         public string Nome { get; set; }
 
-    //Referencia
+        //Referencia
+        [JsonIgnore]
         public ICollection<Apontamento>? Apontamentos { get; set; }
 
 

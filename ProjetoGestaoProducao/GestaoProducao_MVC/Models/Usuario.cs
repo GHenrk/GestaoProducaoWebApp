@@ -35,9 +35,9 @@ namespace GestaoProducao_MVC.Models
 
         }
 
-        public Usuario(int id, string nome, string login, string email, PerfilUsuario perfil, string senha, DateTime dataCadastro, DateTime? dataAtualizacao)
+        public Usuario(string nome, string login, string email, PerfilUsuario perfil, string senha, DateTime dataCadastro, DateTime? dataAtualizacao)
         {
-            Id = id;
+            //Id = id;
             Nome = nome;
             Login = login;
             Email = email;
