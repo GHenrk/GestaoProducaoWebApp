@@ -44,11 +44,18 @@ body {
     align-items: stretch;
 }
 
+.carousel {
+    width: 70vw;
+    margin: 0 auto;
+    height: 80vh;
+    background-color: #e0e0e0;
+    
+}
 
 
 .cardMaquina {
-    width: 30vw;
-    height: auto;
+    max-width: 20vw;
+    height: 35vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -56,13 +63,17 @@ body {
     border: 2px solid #F7B448;
     border-radius: 18px;
     box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
+
+    margin: 1em;
 }
+
+
 
 
 .cardTitulo {
     padding: 0.5em;
     text-align: center;
-    border-bottom:1px solid black;
+    border-bottom: 1px solid black;
 }
 
 
@@ -86,3 +97,5 @@ body {
     border: 1px solid black;
     padding: 1.5em;
 }
+
+

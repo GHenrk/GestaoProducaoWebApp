@@ -5,11 +5,23 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<form-group>
+    <label for="search">Buscar Máquina:</label>
+    <input type="text" name="search" id="searchString" />
+</form-group>
 
-<div class="dashMaquinas" id="divMaquinas">
+<form>
+    <label for="filtros" class="form-label">Mostrando:</label>
+    <select name="filtros" id="opcoes" class="listaOpcoes">
+        <option value="mostrarTodos" selected>Todos</option>
+        <option value="filtroAtivo">Ativos</option>
+        <option value="filtroParado">Em Parada</option>
+        <option value="filtroOcioso">Ociosos</option>
+    </select>
+</form>
 
+<div class="carousel" id="divMaquinas">
 </div>
-
 
 
 
