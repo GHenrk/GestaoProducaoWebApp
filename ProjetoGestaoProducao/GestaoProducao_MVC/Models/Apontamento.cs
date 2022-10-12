@@ -43,6 +43,10 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Código funcionário:")]
         public int FuncionarioId { get; set; }
 
+
+        [NotMapped]
+        public TimeSpan TempoDecorridoSpan { get; set; }
+
         [NotMapped]
         [Display(Name = "Tempo total")]
         public string? TotalTime { get; set; }

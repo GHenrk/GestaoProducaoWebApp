@@ -14,12 +14,14 @@ namespace GestaoProducao_MVC.Controllers
         private readonly MaquinaService _maquinaService;
         private readonly ApontamentoService _apontamentoService;
         private readonly ProcessoService _processoService;
+        private readonly RegistroParadaService _registroParadaService;
 
-        public DashboardController(MaquinaService maquinaService, ApontamentoService apontamentoService, ProcessoService processoService)
+        public DashboardController(MaquinaService maquinaService, ApontamentoService apontamentoService, ProcessoService processoService, RegistroParadaService registroParadaService)
         {
             _maquinaService = maquinaService;
             _apontamentoService = apontamentoService;
-            _processoService = processoService; 
+            _processoService = processoService;
+            _registroParadaService = registroParadaService;
         }
 
 
@@ -44,15 +46,15 @@ namespace GestaoProducao_MVC.Controllers
                 Apontamento apontamentoMaquina = new Apontamento();
 
                 Processo processo = new Processo();
-                
 
+                List<RegistroParada>? registroParadas = new List<RegistroParada>();
 
                 if (maquinaAtiva)
                 {
                     apontamentoMaquina = await _apontamentoService.FindApontamentoMachineAsync(item.Id);
                     processo = await _processoService.FindByIdAsync(apontamentoMaquina.ProcessoId);
+                    registroParadas = await _registroParadaService.FindByApontamentoAsync(apontamentoMaquina);
                     
-
                 }
                 else
                 {
@@ -60,6 +62,9 @@ namespace GestaoProducao_MVC.Controllers
                    apontamentoMaquina.Status = AptStatus.Ocioso;
                     apontamentoMaquina.ProcessoId = 0;
                     processo.OrdemProdutoId = 0;
+                    registroParadas = null;
+                    apontamentoMaquina.TempoDecorridoSpan = TimeSpan.Zero;
+                    
                    
                 }
 
@@ -71,8 +76,10 @@ namespace GestaoProducao_MVC.Controllers
                     Status = apontamentoMaquina.Status.ToString(),
                     AptMaquina = processo.Id,
                     Op = processo.OrdemProdutoId,
-                    TempoTotal = apontamentoMaquina.TotalTime == null ? "0" : apontamentoMaquina.TotalTime,
-                    qntdParadas = apontamentoMaquina.QuantidadeParadas().ToString(),
+                    totalHoras = (int)apontamentoMaquina.TempoDecorridoSpan.TotalHours,
+                    totalMinutos = (int)apontamentoMaquina.TempoDecorridoSpan.Minutes,
+                    totalSegundos = (int)apontamentoMaquina.TempoDecorridoSpan.Seconds,
+                    qntdParadas = registroParadas == null ? "0" : registroParadas.Count().ToString()
 
                 };
 
