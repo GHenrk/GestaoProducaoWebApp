@@ -305,6 +305,12 @@ namespace GestaoProducao_MVC.Controllers
             return View(viewModel);
         }
 
+        public IActionResult CentralApontamentos()
+        {
+            return View();
+        
+        }
+
 
     }
 }

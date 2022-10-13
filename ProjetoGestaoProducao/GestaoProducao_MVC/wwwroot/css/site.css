@@ -171,3 +171,59 @@ body {
 
 
 
+.centralApt {
+    width:50vw;
+    margin: 5em auto 0 auto;
+    display: grid;
+    gap: 2em;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3em 1fr 3em 1fr 1fr 1fr;
+    
+}
+
+.tituloApontamento {
+    grid-row: 1;
+    grid-column: 1 / span2;
+    text-align: center;
+}
+
+
+.tituloParadas{
+    grid-row: 3;
+    grid-column: 1 /span2;
+    text-align:center;
+}
+
+.btnIniciarParada{
+    grid-column:1;
+    grid-row: 4;
+}
+
+.btnEncerrarParada{
+    grid-column: 2;
+    grid-row: 4;
+}
+
+
+.linkExtra {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkExtra {
+    grid-row: 5/ span6;
+    grid-column: 1/span2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.linksContent {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+
+}

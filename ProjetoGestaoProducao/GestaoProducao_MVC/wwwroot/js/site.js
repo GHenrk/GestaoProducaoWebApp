@@ -2,6 +2,11 @@
 $(document).ready(function () {
     getDataTable('#table-personalizada');
     getDataTable('#tabela-usuarios');
+    getDataTable('#tabela-processos');
+    getDataTable('#tabela-maquinas');
+    getDataTable('#tabela-codigoParada');
+    getDataTable('#tabela-funcionarios');
+    getDataTable('#tabela-ordemProdutos');
 });
 
 
@@ -33,20 +38,7 @@ function getDataTable(id) {
                 "sSortAscending": ": Ordenar colunas de forma ascendente",
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
-        },
-        "dom": 'Bftrip',
-        "buttons": [
-            {
-                extend: 'csv',
-                text: 'Save current page',
-                exportOptions: {
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            }
-        ]
-
+        }
 
     });
 }
