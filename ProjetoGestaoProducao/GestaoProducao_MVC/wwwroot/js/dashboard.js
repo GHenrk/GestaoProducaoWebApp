@@ -48,32 +48,41 @@ function mostraLista(data) {
         var detalhesCard = document.createElement('div');
         detalhesCard.classList.add('cardText');
 
+        var tempoDecorrido = document.createElement('p');
+        
+
         if (data[i].maquinaAtiva == true) {
             const tempoTotal = [data[i].totalHoras, data[i].totalMinutos, data[i].totalSegundos]
             console.log(tempoTotal)
 
-            var codigoProcesso = document.createElement('p');
+            var codigoProcesso = document.createElement('a');
             codigoProcesso.classList.add('codigoProcesso--card');
-            codigoProcesso.append(`Apontamento: ${data[i].aptMaquina}`)
+            codigoProcesso.classList.add('btnProp');
+            codigoProcesso.href = `/Processos/Details/${data[i].aptMaquina}`;
+            codigoProcesso.append(`Processo Nº: ${data[i].aptMaquina}`);
 
-            var codigoOp = document.createElement('p');
-            codigoOp.classList.add('codigoOp--card')
-            codigoOp.append(`OP: ${data[i].op}`)
+            var codigoOp = document.createElement('a');
+            codigoOp.classList.add('codigoOp--card');
+            codigoOp.classList.add('btnProp');
+            codigoOp.href = `/OrdemProdutos/Details/${data[i].op}`;
+            codigoOp.append(`OP: ${data[i].op}`);
 
-            var tempoDecorrido = document.createElement('p');
+          
             tempoDecorrido.classList.add('tempoTotal--card');
             tempoDecorrido.id = data[i].id;
             tempoDecorrido.append(`${tempoTotal[0]}:${tempoTotal[1]}:${tempoTotal[2]}`);
 
-            var quantidadeParadas = document.createElement('p');
+            var quantidadeParadas = document.createElement('a');
             quantidadeParadas.classList.add('qntdParadas--card');
+            quantidadeParadas.classList.add('btnProp');
+            quantidadeParadas.href = `/Apontamentos/Details/${data[i].id}`;
             quantidadeParadas.append(`Quantidade Paradas: ${data[i].qntdParadas}`);
 
 
             detalhesCard.appendChild(codigoProcesso);
             detalhesCard.appendChild(codigoOp);
             detalhesCard.appendChild(quantidadeParadas);
-            detalhesCard.appendChild(tempoDecorrido);
+            
 
             mostraTempo(tempoTotal, data[i].id);
         }
@@ -81,10 +90,11 @@ function mostraLista(data) {
 
         var status = document.createElement('p');
         status.classList.add('status--card');
+        status.classList.add('btnProp');
         status.append(`Status: ${data[i].status}`);
 
         if (data[i].status == "Ativo") {
-            card.classList.toggle('bgCardAtivo');
+            card.classList.add('bgCardAtivo');
         }
 
         if (data[i].status == "Parado") {
@@ -93,6 +103,7 @@ function mostraLista(data) {
 
 
         detalhesCard.appendChild(status);
+        detalhesCard.appendChild(tempoDecorrido);
 
         card.appendChild(detalhesCard);
 
@@ -161,8 +172,8 @@ function criaCarrosel() {
         rows: 2,
         slidesPerRow: 3,
         variableWidth: false,
-        adaptiveHeight: false
-
+        adaptiveHeight: false,
+      
     });
 }
 
@@ -209,7 +220,7 @@ searchName.onkeyup = () => {
 }
 
 const filtroNome = (elemento) => {
-    return elemento.nome.toLowerCase().includes(searchName.value);
+    return elemento.nome.toLowerCase().includes(searchName.value.toLowerCase());
 }
 
 

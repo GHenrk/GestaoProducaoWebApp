@@ -35,9 +35,13 @@ body {
     background-color: #F7B448 !important;
 }
 
+.tituloPage{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
 
 .dashMaquinas {
-    margin-top:3em;
+    margin-top: 3em;
     display: flex;
     justify-content: space-around;
     gap: 2em;
@@ -45,10 +49,11 @@ body {
 }
 
 .carousel {
-    width: 70vw;
-    margin: 0 auto;
+    max-width: 70vw;
+    margin: 1.5em auto;
     height: 80vh;
-    background-color: #e0e0e0;
+    text-align: center;
+    
     
 }
 
@@ -59,12 +64,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     background-color: #e0e0e0;
-    border: 2px solid #F7B448;
+   
     border-radius: 18px;
     box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
 
     margin: 1em;
+    box-sizing: border-box;
 }
 
 
@@ -72,8 +79,12 @@ body {
 
 .cardTitulo {
     padding: 0.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: black;
     text-align: center;
     border-bottom: 1px solid black;
+
 }
 
 
@@ -81,21 +92,82 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 0.5em;
-    
+    gap:1em;
     
     color: black;
    
 }
 
-.codigoProcesso--card {
-   
+
+
+.btnProp {
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 0.2em;
+    
 }
 
+
 .tempoTotal--card {
+    width: 100%;
     border: 1px solid black;
-    padding: 1.5em;
+    padding: 0.2em;
+    background-color: #e0e0e0;
+    color: black;
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5em;
+    border-radius: 18px;
 }
+
+.sectionBusca {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    background-color: black;
+    padding: 0.5em;
+    border-radius: 1em;
+    background-color: #e0e0e0;
+    border-radius: 18px;
+    box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
+}
+
+.searchGroup {
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    box-sizing: border-box;
+}
+
+.filterGroup {
+    width: 25vw;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 0.5em;
+    box-sizing: border-box;
+    
+
+}
+
+.inputMaquina, .selectStatus {
+    width: 15em;
+    padding: 0.6em;
+    
+}
+
+.labelMaquina {
+    width: 15em;
+    text-align: right;
+    color: black;
+}
+
 
 

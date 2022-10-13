@@ -1,24 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Dashboard Máquinas";
+    ViewData["Title"] = "Monitoramento Máquinas";
 }
 
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="tituloPage">@ViewData["Title"]</h1>
+<div class="sectionBusca">
+<div class="searchGroup">
+        <label for="search" class="labelMaquina">Buscar Máquina:</label>
+    <input type="text" name="search" class="inputMaquina" id="searchString" />
+</div>
 
-<form-group>
-    <label for="search">Buscar Máquina:</label>
-    <input type="text" name="search" id="searchString" />
-</form-group>
 
-<form>
-    <label for="filtros" class="form-label">Mostrando:</label>
-    <select name="filtros" id="opcoes" class="listaOpcoes">
-        <option value="mostrarTodos" selected>Todos</option>
-        <option value="filtroAtivo">Ativos</option>
-        <option value="filtroParado">Em Parada</option>
-        <option value="filtroOcioso">Ociosos</option>
-    </select>
-</form>
+    <div class="filterGroup">
+        <label for="filtros" class="labelMaquina">Mostrando:</label>
+        <select name="filtros" id="opcoes" class="selectStatus">
+            <option value="mostrarTodos" selected>Todos</option>
+            <option value="filtroAtivo">Ativos</option>
+            <option value="filtroParado">Em Parada</option>
+            <option value="filtroOcioso">Ociosos</option>
+        </select>
+    </div>
+</div>
 
 <div class="carousel" id="divMaquinas">
 </div>
