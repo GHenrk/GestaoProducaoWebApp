@@ -73,6 +73,7 @@ namespace GestaoProducao_MVC.Controllers
                     Id = apontamentoMaquina.Id,
                     Nome = item.Nome,
                     MaquinaAtiva = maquinaAtiva,
+                    maquinaId = item.Id,
                     Status = apontamentoMaquina.Status.ToString(),
                     AptMaquina = processo.Id,
                     Op = processo.OrdemProdutoId,

@@ -7,11 +7,12 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
+    <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
     <a asp-action="Create" class="btn btn-outline-success">Criar novo</a>
 </p>
-<table class="table table-bordered table-striped table-borderless table-hover" >
+<table class="table table-hover table-striped cell-border" id="tabela-ordemProdutos">
     <thead>
-        <tr class="bg-dark text-white text-center">
+        <tr class="table-active">
              <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>

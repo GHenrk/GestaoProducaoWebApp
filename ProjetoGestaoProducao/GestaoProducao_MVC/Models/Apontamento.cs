@@ -21,11 +21,11 @@ namespace GestaoProducao_MVC.Models
         public long? TempoTotal { get; set; }
 
         [Display(Name = "Descrição")]
-        public string?  Descricao { get; set; }
+        public string? Descricao { get; set; }
 
-       
+
         public bool IsAtivo { get; set; }
-    
+
         public AptStatus Status { get; set; }
 
         [Display(Name = "Operação")]
@@ -59,16 +59,20 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Tempo de trabalho")]
         public string? TempoUtilFormatado { get; set; }
 
-       public ICollection<RegistroParada>? RegistroParadas { get; set; }
+        [NotMapped]
+        [Display(Name = "Tempo aproximado por item")]
+        public string? TempoAproximadoItemFormatado { get; set; }
+
+        public ICollection<RegistroParada>? RegistroParadas { get; set; }
 
         public Apontamento()
         {
 
         }
 
-        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status,Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario, bool isAtivo)
+        public Apontamento(DateTime dataInicial, DateTime? dataFinal, long? tempoTotal, string descricao, AptStatus status, Operacao operacao, Processo processo, Maquina maquina, Funcionario funcionario, bool isAtivo)
         {
-       
+
             DataInicial = dataInicial;
             DataFinal = dataFinal;
             TempoTotal = tempoTotal;
@@ -81,7 +85,7 @@ namespace GestaoProducao_MVC.Models
             IsAtivo = isAtivo;
         }
 
-        
+
         public void AddParada(RegistroParada parada)
         {
             RegistroParadas.Add(parada);
@@ -104,6 +108,45 @@ namespace GestaoProducao_MVC.Models
 
             return i;
         }
+
+
+        public TimeSpan TempoTotalParadas()
+        {
+            TimeSpan tempoTotalParadas = TimeSpan.Zero;
+            if (RegistroParadas != null)
+            {
+                foreach (var registro in RegistroParadas)
+                {
+
+                    tempoTotalParadas += registro.TempoDeParada.Value;
+
+
+                }
+
+                return tempoTotalParadas;
+            }
+
+
+            return TimeSpan.Zero;
+
+        }
+
+
+        public TimeSpan TempoTotalUtil()
+        {
+            TimeSpan tempoUtil = TempoDecorridoSpan - TempoTotalParadas();
+
+            return tempoUtil;
+        }
+
+
+        public TimeSpan TempoAproxPorItem()
+        {
+            TimeSpan tempoAprox = TempoTotalUtil() / Processo.QuantidadePeca;
+            return tempoAprox;
+        }
     }
+
+
 
 }

@@ -1,34 +1,95 @@
-﻿body {
-}
+﻿
+.conteudoDetails {
+    width:100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2em auto;
 
+}
 
 .details-ponto {
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.secaoData {    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.itemData {
+    text-align: center;
+    width: 50%;
+    text-align: right;
+    background-color: rgba(000,000,000,0.3);
+    box-sizing: border-box;
+    color: black;
+    font-weight: bold;
+    padding: 0.2em;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.valueData {
+    width: 50%;
+    text-align: center;
+    background-color: ghostwhite;
+    box-sizing: border-box;
+    color: black;
+    padding: 0.2em;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.valueDataStatus {
+    width: 50%;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    color: black;
+    padding: 0.2em;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.cardTempo {
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    
+}
+
+.labelTempo {
     width: 100%;
-    height:30vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "maquina funcionario tempo"
-                          "apontamento apontamento tempo";
+    background: rgba(000,000,000,0.3);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0.2em;
+    font-size: 1.1em;
+    margin: 0;
+    text-align: center;
+    color: black;
 }
 
-
-.maquina {
-    grid-area: maquina;
+.displayTempo {
+    width: 100%;
+    background-color: whitesmoke;
+    height: 100%;
+    font-size: 1.1em;
+    padding: 0.2em;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: black;
+    
 }
-
-.funcionario {
-    grid-area: funcionario;
-}
-
-.tempo {
-    grid-area: tempo;
-}
-
-
-.apontamento {
-    grid-area: apontamento;
-   display: flex;
-   flex-direction: column;
-}
-

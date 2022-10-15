@@ -7,18 +7,20 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-dark">Create New</a>
+    <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
+
+    <a asp-action="Create" class="btn btn-outline-dark">Criar um novo Processo</a>
 </p>
-<form asp-action="Index" method="get">
+@*<form asp-action="Index" method="get">
     <p>
         <input type="text" name="SearchString" class="form-control-sm" />
         <input type="submit" value="Buscar" class="btn btn-sm btn-outline-info" />
         <a asp-action="Index" class="btn btn-sm btn-outline-dark">Listar todos</a>
     </p>
-</form>
-<table class="table table-bordered table-striped table-hover">
+</form>*@
+<table class="table table-hover table-striped cell-border" id="tabela-processos">
     <thead>
-        <tr class="bg-dark text-white text-center">
+        <tr class="bg-header-table text-black">
             <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
@@ -31,7 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.QuantidadePeca)
             </th>
-             <th>
+            <th>
                 @Html.DisplayNameFor(model => model.OrdemProduto.Id)
             </th>
             <th>
@@ -41,33 +43,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoPeca)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuantidadePeca)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrdemProduto.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td class="d-flex justify-content-evenly align-items-baseline gap-3">
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-dark">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-danger">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoPeca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantidadePeca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdemProduto.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCriacao)
+                </td>
+                <td class="d-flex justify-content-center align-items-center">
+                    
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-dark">+ Detalhes</a>
+                    @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-danger">Delete</a>*@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

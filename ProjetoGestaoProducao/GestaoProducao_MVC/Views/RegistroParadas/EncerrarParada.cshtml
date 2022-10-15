@@ -1,7 +1,7 @@
 ﻿@model GestaoProducao_MVC.Models.RegistroParada
 
 @{
-    ViewData["Title"] = "Encerra Parada";
+    ViewData["Title"] = "Encerrar Parada";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <input type="submit" value="Encerrar" class="btn btn-outline-danger" />
-                <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
+                <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Voltar</a>
             </div>
         </form>
     </div>

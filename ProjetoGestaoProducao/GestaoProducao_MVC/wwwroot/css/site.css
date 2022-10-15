@@ -23,8 +23,23 @@ body {
     background-color: #d3d4d4;
 }
 
+
+.cardItemAtivo {
+    border-radius: 10px;
+    background: #ACFFB9;
+    box-shadow: 11px 11px 22px #75ad7e, -11px -11px 22px #e3fff4;
+}
+
+.cardItemDanger {
+
+}
+
+.cardItemOcioso {
+
+}
+
 .bgCardAtivo {
-    background-color: #B8FFA1 !important;
+    background-color: #ACFFB9 !important;
 }
 
 .bgCardDanger {
@@ -35,34 +50,57 @@ body {
     background-color: #F7B448 !important;
 }
 
+.tituloPage{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding:0.5em;
+}
 
 .dashMaquinas {
-    margin-top:3em;
+    margin-top: 3em;
     display: flex;
     justify-content: space-around;
     gap: 2em;
     align-items: stretch;
 }
 
+.carousel {
+    max-width: 70vw;
+    margin: 1.5em auto;
+    height: 80vh;
+    text-align: center;
+    
+    
+}
 
 
 .cardMaquina {
-    width: 30vw;
-    height: auto;
+    max-width: 20vw;
+    height: 35vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     background-color: #e0e0e0;
-    border: 2px solid #F7B448;
+   
     border-radius: 18px;
     box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
+
+    margin: 1em;
+    box-sizing: border-box;
 }
+
+
 
 
 .cardTitulo {
     padding: 0.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: black;
     text-align: center;
-    border-bottom:1px solid black;
+    border-bottom: 1px solid black;
+
 }
 
 
@@ -70,19 +108,159 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 0.5em;
-    
+    gap:1em;
     
     color: black;
    
 }
 
-.codigoProcesso--card {
-   
+
+
+.btnProp {
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    border-radius: 10px;
+    padding: 0.2em;
+    transition: 1s;
 }
 
+    .btnProp:hover {
+        color: black;
+        transform: scale(1.02);
+        /* background-color: rgba(211,211,211,0.3);*/
+        background: linear-gradient( to right, rgba(211,211,211,0.8), rgba(211,211,211,0.8), rgba(211,211,211,0.5), rgba(211,211,211,0.3) );
+    }
+
+
 .tempoTotal--card {
-    border: 1px solid black;
-    padding: 1.5em;
+    text-decoration: none;
+    margin: 0 auto;
+    width: 50%;
+    padding: 0.2em;
+    background-color:rgba(000,000,000,0.6) ;
+    color: ghostwhite;
+    text-shadow: 0px 0px 8px blue;
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5em;
+    border-radius: 8px;
+    transition: 1s;
+}
+
+    .tempoTotal--card:hover {
+        color: ghostwhite;
+        text-decoration: none;
+        border-radius: 16px;
+        background-color: rgba(000,000,000,1);
+    }
+
+.status--card {
+
+}
+
+
+.sectionBusca {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    background-color: black;
+    padding: 0.5em;
+    border-radius: 1em;
+    background-color: #e0e0e0;
+    border-radius: 18px;
+    box-shadow: 16px 16px 29px #c7c7c7, -16px -16px 29px #f9f9f9;
+}
+
+.searchGroup {
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    box-sizing: border-box;
+}
+
+.filterGroup {
+    width: 25vw;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 0.5em;
+    box-sizing: border-box;
+    
+
+}
+
+.inputMaquina, .selectStatus {
+    width: 15em;
+    padding: 0.6em;
+    
+}
+
+.labelMaquina {
+    width: 15em;
+    text-align: right;
+    color: black;
+}
+
+
+
+.centralApt {
+    width:50vw;
+    margin: 5em auto 0 auto;
+    display: grid;
+    gap: 2em;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 3em 1fr 3em 1fr 1fr 1fr;
+    
+}
+
+.tituloApontamento {
+    grid-row: 1;
+    grid-column: 1 / span2;
+    text-align: center;
+}
+
+
+.tituloParadas{
+    grid-row: 3;
+    grid-column: 1 /span2;
+    text-align:center;
+}
+
+.btnIniciarParada{
+    grid-column:1;
+    grid-row: 4;
+}
+
+.btnEncerrarParada{
+    grid-column: 2;
+    grid-row: 4;
+}
+
+
+.linkExtra {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkExtra {
+    grid-row: 5/ span6;
+    grid-column: 1/span2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.linksContent {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+
 }

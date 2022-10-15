@@ -1,29 +1,30 @@
 ﻿@model IEnumerable<GestaoProducao_MVC.Models.CodigoParada>
 
 @{
-    ViewData["Title"] = "Códigos de Parada";
+    ViewData["Title"] = "Motivos de Parada";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-dark">Create New</a>
+    <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
+    <a asp-action="Create" class="btn btn-outline-dark">Criar um novo motivo</a>
 </p>
-<form asp-action="Index" method="get">
+@*<form asp-action="Index" method="get">
     <p>
         <input type="text" name="SearchString" class="form-control-sm" />
         <input type="submit" value="Buscar" class="btn btn-sm btn-outline-info" />
         <a asp-action="Index" class="btn btn-sm btn-outline-dark">Listar todos</a>
     </p>
-</form>
-<table class="table">
+</form>*@
+<table class="table table-hover table-striped cell-border" id="tabela-codigoParada">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>Opções</th>
+            <th>Detalhes</th>
         </tr>
     </thead>
     <tbody>
@@ -37,9 +38,9 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                   @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>*@
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">+ Detalhes</a>
+                    @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>
         }
