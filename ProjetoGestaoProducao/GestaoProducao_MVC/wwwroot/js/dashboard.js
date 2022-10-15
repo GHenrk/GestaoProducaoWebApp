@@ -14,10 +14,10 @@ async function requisitaDados() {
     await fetch("dashboard/ListaMaquinas")
         .then((response) => response.json())
         .then((data) => {
-            console.log("Informações recebidas");
+            console.log("Informações teste");
             listaMaquinas = data;
             mostraLista(listaMaquinas);
-
+            console.log(data);
         })
         .catch((error) => {
             console.log("Deu erro" + error);
@@ -39,10 +39,9 @@ function mostraLista(data) {
 
         var card = document.createElement('div');
         card.classList.add('cardMaquina');
-
         var tituloCard = document.createElement('h5');
         tituloCard.classList.add('cardTitulo');
-        tituloCard.append(`${data[i].nome}`);
+        tituloCard.append(`${data[i].maquinaId} - ${data[i].nome}`);
         card.appendChild(tituloCard);
 
         var detalhesCard = document.createElement('div');
@@ -52,9 +51,8 @@ function mostraLista(data) {
         
 
         if (data[i].maquinaAtiva == true) {
-            const tempoTotal = [data[i].totalHoras, data[i].totalMinutos, data[i].totalSegundos]
-            console.log(tempoTotal)
-
+            const tempoTotal = [data[i].totalHoras, data[i].totalMinutos, data[i].totalSegundos];
+           
             var codigoProcesso = document.createElement('a');
             codigoProcesso.classList.add('codigoProcesso--card');
             codigoProcesso.classList.add('btnProp');
@@ -90,11 +88,11 @@ function mostraLista(data) {
 
         var status = document.createElement('p');
         status.classList.add('status--card');
-        status.classList.add('btnProp');
         status.append(`Status: ${data[i].status}`);
 
         if (data[i].status == "Ativo") {
             card.classList.add('bgCardAtivo');
+                     
         }
 
         if (data[i].status == "Parado") {

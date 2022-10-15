@@ -23,8 +23,23 @@ body {
     background-color: #d3d4d4;
 }
 
+
+.cardItemAtivo {
+    border-radius: 10px;
+    background: #ACFFB9;
+    box-shadow: 11px 11px 22px #75ad7e, -11px -11px 22px #e3fff4;
+}
+
+.cardItemDanger {
+
+}
+
+.cardItemOcioso {
+
+}
+
 .bgCardAtivo {
-    background-color: #B8FFA1 !important;
+    background-color: #ACFFB9 !important;
 }
 
 .bgCardDanger {
@@ -106,23 +121,34 @@ body {
     text-decoration: none;
     width: 100%;
     text-align: left;
-    background-color: #e0e0e0;
     border-radius: 10px;
     padding: 0.2em;
-    
+    transition: 1s;
 }
+
+    .btnProp:hover {
+        color: black;
+        transform: scale(1.02);
+        /* background-color: rgba(211,211,211,0.3);*/
+        background: linear-gradient( to right, rgba(211,211,211,0.8), rgba(211,211,211,0.8), rgba(211,211,211,0.5), rgba(211,211,211,0.3) );
+    }
 
 
 .tempoTotal--card {
-    width: 100%;
-    border: 1px solid black;
+    margin: 0 auto;
+    width: 50%;
     padding: 0.2em;
-    background-color: #e0e0e0;
-    color: black;
+    background-color: black;
+    color: ghostwhite;
+    text-shadow:0px 0px 8px blue;
     font-family: 'Anton', sans-serif;
     font-size: 1.5em;
-    border-radius: 18px;
+    border-radius: 3px;
 }
+
+.status--card {
+}
+
 
 .sectionBusca {
     display: flex;
