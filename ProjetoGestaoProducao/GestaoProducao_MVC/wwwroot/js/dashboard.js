@@ -13,11 +13,11 @@ async function requisitaDados() {
 
     await fetch("dashboard/ListaMaquinas")
         .then((response) => response.json())
-        .then((data) => {
-            console.log("Informações teste");
+        .then((data) => {   
+            console.log("Informações recebidas");
             listaMaquinas = data;
             mostraLista(listaMaquinas);
-            console.log(data);
+           
         })
         .catch((error) => {
             console.log("Deu erro" + error);
@@ -47,7 +47,8 @@ function mostraLista(data) {
         var detalhesCard = document.createElement('div');
         detalhesCard.classList.add('cardText');
 
-        var tempoDecorrido = document.createElement('p');
+        var tempoDecorrido = document.createElement('a');
+        
         
 
         if (data[i].maquinaAtiva == true) {
@@ -65,9 +66,9 @@ function mostraLista(data) {
             codigoOp.href = `/OrdemProdutos/Details/${data[i].op}`;
             codigoOp.append(`OP: ${data[i].op}`);
 
-          
             tempoDecorrido.classList.add('tempoTotal--card');
             tempoDecorrido.id = data[i].id;
+            tempoDecorrido.href = `/Apontamentos/Details/${data[i].id}`;
             tempoDecorrido.append(`${tempoTotal[0]}:${tempoTotal[1]}:${tempoTotal[2]}`);
 
             var quantidadeParadas = document.createElement('a');

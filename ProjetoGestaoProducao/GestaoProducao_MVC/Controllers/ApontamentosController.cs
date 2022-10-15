@@ -276,24 +276,14 @@ namespace GestaoProducao_MVC.Controllers
 
             List<RegistroParada> registroParadas = await _registroParadaService.FindByApontamentoAsync(apontamento);
 
-            TimeSpan soma = new TimeSpan(0, 0, 0);
-            foreach (var registroParada in registroParadas)
-            {
-                if (registroParada.TempoTotal != null)
-                {
-                    TimeSpan decorrido = TimeSpan.FromTicks(registroParada.TempoTotal.Value);
-                    soma = soma + decorrido;
-            
-                }
-                else
-                {
-                    TimeSpan paradaAtiva = DateTime.Now - registroParada.DataInicial;
-                    soma = soma + paradaAtiva;
-                }
+            TimeSpan soma = apontamento.TempoTotalParadas();
+            TimeSpan tempoUtil = apontamento.TempoTotalUtil();
+            TimeSpan tempoAproxItem = apontamento.TempoAproxPorItem();
 
-            }
-                      
             apontamento.TempoDeParadasFormatado = (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+            apontamento.TempoUtilFormatado = (int)tempoUtil.TotalHours + tempoUtil.ToString("\\:mm\\:ss");
+            apontamento.TempoAproximadoItemFormatado = (int)tempoAproxItem.TotalHours + tempoAproxItem.ToString("\\:mm\\:ss");
+
 
 
             ApontamentoViewModel viewModel = new ApontamentoViewModel

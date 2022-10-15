@@ -1,63 +1,148 @@
 ﻿@model GestaoProducao_MVC.Models.ViewModel.ApontamentoViewModel
 
 @{
-    ViewData["Title"] = "Detalhes";
+    ViewData["Title"] = "Detalhes Apontamento";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
+<div>
+    <h1 class="text-center">@ViewData["Title"]</h1>
 
-<li>
-    <h4>Apontamento</h4>
-    <hr />
-    <ul class="details-ponto">
-        <li class="maquina">
-            <h6>@Html.DisplayNameFor(model => model.Apontamento.Maquina)</h6>
-            <p>@Html.DisplayFor(model => model.Apontamento.Maquina.Nome)</p>
-        </li>
-        <li class="funcionario">
-            @Html.DisplayNameFor(model => model.Apontamento.Funcionario)
-            @Html.DisplayFor(model => model.Apontamento.Funcionario.Name)
+    <div class="conteudoDetails">
+        <div class="details-ponto">
+            <div class="secaoData">
+                <p class="itemData">@Html.DisplayNameFor(model => model.Apontamento.Maquina)</p>
+                <p class="valueData">@Html.DisplayFor(model => model.Apontamento.Maquina.Nome)</p>
+            </div>
+            <div class="secaoData">
+                <p class="itemData">@Html.DisplayNameFor(model => model.Apontamento.Funcionario)</p>
+                <p class="valueData">@Html.DisplayFor(model => model.Apontamento.Funcionario.Name)</p>
+            </div>
 
+            <div class="secaoData">
+                <p class="itemData">@Html.DisplayNameFor(model => model.Apontamento.DataInicial)</p>
+                <p class="valueData">@Html.DisplayFor(model => model.Apontamento.DataInicial)</p>
 
-        </li>
-       
-
-        <li class="tempo">
-            @Html.DisplayNameFor(model => model.Apontamento.TempoTotal)
-            @Html.DisplayFor(model => model.Apontamento.TotalTime)
-            @Html.DisplayNameFor(model => model.Apontamento.TempoDeParadasFormatado)
-            @Html.DisplayFor(model => model.Apontamento.TempoDeParadasFormatado)
-        </li>
-        <li class="apontamento">
-            <p>@Html.DisplayNameFor(model => model.Apontamento.DataInicial)</p>
-            <p>@Html.DisplayFor(model => model.Apontamento.DataInicial)</p>
-            <p>@Html.DisplayNameFor(model => model.Apontamento.DataFinal)</p>
-            @Html.DisplayFor(model => model.Apontamento.DataFinal)
-            @Html.DisplayNameFor(model => model.Apontamento.Processo.OrdemProdutoId)
+            </div>
 
 
-            @Html.DisplayFor(model => model.Apontamento.Processo.OrdemProdutoId)
-            @Html.DisplayNameFor(model => model.Apontamento.Processo.CodigoPeca)
+            @if (!Model.Apontamento.IsAtivo)
+            {
 
-            @Html.DisplayFor(model => model.Apontamento.Processo.CodigoPeca)
+                <div class="secaoData">
+                    <p class="itemData">@Html.DisplayNameFor(model => model.Apontamento.DataFinal)</p>
+                    <p class="valueData">
+                        @Html.DisplayFor(model => model.Apontamento.DataFinal)
+                    </p>
+                </div>
+            }
 
 
 
-            @Html.DisplayNameFor(model => model.Apontamento.Operacao)
+            <div class="secaoData">
+                <p class="itemData">
+                    @Html.DisplayNameFor(model => model.Apontamento.Processo.OrdemProdutoId)
+                </p>
+                <p class="valueData">
+                    @Html.DisplayFor(model => model.Apontamento.Processo.OrdemProdutoId)
+                </p>
+            </div>
+
+
+            <div class="secaoData">
+                <p class="itemData">
+                    @Html.DisplayNameFor(model => model.Apontamento.Processo.CodigoPeca)
+                </p>
+                <p class="valueData">
+                    @Html.DisplayFor(model => model.Apontamento.Processo.CodigoPeca)
+
+                </p>
+
+            </div>
+
+             <div class="secaoData">
+                <p class="itemData">
+                    @Html.DisplayNameFor(model => model.Apontamento.Processo.QuantidadePeca)
+                </p>
+                <p class="valueData">
+                    @Html.DisplayFor(model => model.Apontamento.Processo.QuantidadePeca)
+
+                </p>
+
+            </div>
+
+            <div class="secaoData">
+                <p class="itemData">
+                    @Html.DisplayNameFor(model => model.Apontamento.Operacao)
+
+                </p>
+                <p class="valueData">
+                    @Html.DisplayFor(model => model.Apontamento.Operacao)
+
+                </p>
+            </div>
+
+            @if (Model.Apontamento.Descricao != null)
+            {
+
+                <div class="secaoData">
+                    <p class="itemData"> @Html.DisplayNameFor(model => model.Apontamento.Descricao)</p>
+
+                    <p class="valueData"> @Html.DisplayFor(model => model.Apontamento.Descricao)</p>
+                </div>
+
+            }
+
+            @if (Model.Apontamento.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
+            {
+                TempData["AptAtivo"] = "bgCardAtivo";
+
+            }
+            @if (Model.Apontamento.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Parado)
+            {
+                TempData["AptAtivo"] = "bgCardDanger";
+
+            }
+
+
+            @if (Model.Apontamento.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Encerrado)
+            {
+                TempData["AptAtivo"] = "bg-active";
+            }
+
+            <div class="secaoData">
+                <p class="itemData"> @Html.DisplayNameFor(model => model.Apontamento.Status)</p>
+
+                <p class="valueDataStatus @TempData["AptAtivo"]"> @Html.DisplayFor(model => model.Apontamento.Status)</p>
+
+            </div>
+        </div>
+
+
+        <div class="tempo">
+            <div class="cardTempo">
+                <p class="labelTempo">@Html.DisplayNameFor(model => model.Apontamento.TempoTotal)</p>
+                <p class="displayTempo">@Html.DisplayFor(model => model.Apontamento.TotalTime)</p>
+            </div>
+            <div class="cardTempo">
+                <p class="labelTempo">@Html.DisplayNameFor(model => model.Apontamento.TempoDeParadasFormatado)</p>
+                <p class="displayTempo">@Html.DisplayFor(model => model.Apontamento.TempoDeParadasFormatado)</p>
+            </div>
+            <div class="cardTempo">
+                <p class="labelTempo">@Html.DisplayNameFor(model => model.Apontamento.TempoUtilFormatado)</p>
+                <p class="displayTempo">
+                    @Html.DisplayFor(model => model.Apontamento.TempoUtilFormatado)
+                </p>
+            </div>
+            <div class="cardTempo">
+                <p class="labelTempo">@Html.DisplayNameFor(model => model.Apontamento.TempoAproximadoItemFormatado)</p>
+                <p class="displayTempo">@Html.DisplayFor(model => model.Apontamento.TempoAproximadoItemFormatado)</p>
+            </div>
 
 
 
-
-            @Html.DisplayNameFor(model => model.Apontamento.Descricao)
-
-            @Html.DisplayFor(model => model.Apontamento.Descricao)
-
-        </li>
-
-
-    </ul>
-
+        </div>
     </div>
+
 
 
     <div>
@@ -123,3 +208,4 @@
         <a asp-action="Edit" asp-route-id="@Model?.Apontamento.Id" class="btn btn-outline-warning">Editar</a> |
         <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
     </div>
+</div>
