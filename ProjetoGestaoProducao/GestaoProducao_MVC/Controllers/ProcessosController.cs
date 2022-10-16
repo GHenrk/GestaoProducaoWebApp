@@ -16,11 +16,13 @@ namespace GestaoProducao_MVC.Controllers
         private readonly ProcessoService _processoService;
         private readonly OrdemProdutoService _ordemProdutoService;
         private readonly ApontamentoService _apontamentoService;
-        public ProcessosController(ProcessoService processoService,OrdemProdutoService ordemProdutoService, ApontamentoService apontamentoService)
+        private readonly RegistroParadaService _registroParadaService;
+        public ProcessosController(ProcessoService processoService, OrdemProdutoService ordemProdutoService, ApontamentoService apontamentoService, RegistroParadaService registroParadaService)
         {
             _processoService = processoService;
             _ordemProdutoService = ordemProdutoService;
             _apontamentoService = apontamentoService;
+            _registroParadaService = registroParadaService;
         }
 
         //public async Task<IActionResult> Index()
@@ -50,14 +52,14 @@ namespace GestaoProducao_MVC.Controllers
         {
             processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
             var process = processo;
-            try 
+            try
             {
                 await _processoService.InsertAsync(processo);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                
+
                 return View(processo);
 
             }
@@ -76,7 +78,7 @@ namespace GestaoProducao_MVC.Controllers
 
             var processo = await _processoService.FindByIdAsync(id.Value);
 
-            
+
             if (processo == null)
             {
                 //Elemento não encontrado;
@@ -96,7 +98,7 @@ namespace GestaoProducao_MVC.Controllers
         //Esse metodo só sera acessado por ADM OU MANAGER;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,[Bind("Id,CodigoPeca, Descricao, QuantidadePeca,OrdemProdutoId ,TempoEstimadoSpan")] Processo processo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CodigoPeca, Descricao, QuantidadePeca,OrdemProdutoId ,TempoEstimadoSpan")] Processo processo)
         {
             processo.TempoEstimado = processo.TempoEstimadoSpan.Ticks;
             processo.DataCriacao = DateTime.Now;
@@ -106,16 +108,16 @@ namespace GestaoProducao_MVC.Controllers
                 return BadRequest();
             }
 
-          if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _processoService.UpdateAsync(processo);
 
                 return RedirectToAction(nameof(Index));
 
             }
-            
+
             return View(processo);
-                
+
         }
 
 
@@ -139,7 +141,7 @@ namespace GestaoProducao_MVC.Controllers
             }
 
             return View(obj);
- 
+
         }
 
 
@@ -162,7 +164,7 @@ namespace GestaoProducao_MVC.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) 
+            if (id == null)
             {
                 //Algo deu errado na requisição;
                 return BadRequest();
@@ -177,25 +179,39 @@ namespace GestaoProducao_MVC.Controllers
             }
 
             List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(processo);
+            processo.Apontamentos = apontamentos;
 
             TimeSpan soma = new TimeSpan(0, 0, 0);
+            TimeSpan tempoTotalDeParadas = TimeSpan.Zero;
             foreach (var apontamento in apontamentos)
             {
-               if (apontamento.TempoTotal != null)
+                soma += apontamento.TempoDecorridoSpan;
+                if (apontamento.RegistroParadas != null)
                 {
-                    TimeSpan decorrido = TimeSpan.FromTicks(apontamento.TempoTotal.Value);
-                    soma = soma + decorrido;
+                    List<RegistroParada> list = await _registroParadaService.FindByApontamentoAsync(apontamento);
+                    foreach (var parada in list)
+                    {
+                        tempoTotalDeParadas += parada.TempoDeParada.Value;
+                    }
 
-                } else
-                {
-                    TimeSpan pontoAtivo = DateTime.Now - apontamento.DataInicial;
-                    soma = soma + pontoAtivo;
-                } 
-               
+
+                }
             }
-            
-            processo.TotalTempoDecorrido =  (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
-            
+
+
+            processo.TempoDecorridoApontamentos = soma;
+            processo.TotalTempoDecorridoFormatado = (int)soma.TotalHours + soma.ToString("\\:mm\\:ss");
+
+            processo.TotalTempoParadasProcesso = tempoTotalDeParadas;
+            processo.TotalTempoParadasFormatado = (int)tempoTotalDeParadas.TotalHours + tempoTotalDeParadas.ToString("\\:mm\\:ss");
+
+            TimeSpan tempoUtil = processo.TempoTotalUtilProcesso();
+            processo.TotalTempoUtilFormatado = (int)tempoUtil.TotalHours + tempoUtil.ToString("\\:mm\\:ss");
+
+            TimeSpan tempoAproxItem = processo.TempoAproxPorItem();
+            processo.TempoAproximadoItem = (int)tempoAproxItem.TotalHours + tempoAproxItem.ToString("\\:mm\\:ss");
+
+
             if (soma.TotalHours > processo.TempoEstimadoSpan.TotalHours)
             {
                 TimeSpan diferenca = soma.Subtract(processo.TempoEstimadoSpan);

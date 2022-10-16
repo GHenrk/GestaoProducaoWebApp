@@ -1,6 +1,7 @@
 ﻿using GestaoProducao_MVC.Data;
 using GestaoProducao_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaoProducao_MVC.Services
@@ -43,7 +44,7 @@ namespace GestaoProducao_MVC.Services
             {
                 obj = ConvertTime(obj);
             }
-            
+
 
             return obj;
 
@@ -81,7 +82,7 @@ namespace GestaoProducao_MVC.Services
             return await result.FirstOrDefaultAsync();
 
         }
-        
+
 
         //Método que retorna todos pontos de um funcionario --- TESTAR --
         public async Task<List<Apontamento>> FindAllByFuncAsync(Funcionario funcionario)
@@ -108,13 +109,15 @@ namespace GestaoProducao_MVC.Services
             var list = await result
                 .Include(obj => obj.Maquina)
                 .Include(obj => obj.Funcionario)
-                .Include(obj => obj.Processo)
+                .Include(obj => obj.RegistroParadas)
                 .OrderByDescending(obj => obj.IsAtivo)
                 .ToListAsync();
+
+
             list = ConvertTimeList(list);
 
-            return list;
-        
+             return list;
+
         }
 
 
@@ -129,11 +132,11 @@ namespace GestaoProducao_MVC.Services
             }
 
 
-           var list =  await result.OrderByDescending(obj => obj.DataInicial)
-                    .Include(obj => obj.Maquina)
-                    .Include(obj => obj.Funcionario)
-                    .Include(obj => obj.Processo)
-                    .ToListAsync();
+            var list = await result.OrderByDescending(obj => obj.DataInicial)
+                     .Include(obj => obj.Maquina)
+                     .Include(obj => obj.Funcionario)
+                     .Include(obj => obj.Processo)
+                     .ToListAsync();
 
             list = ConvertTimeList(list);
 
@@ -207,6 +210,8 @@ namespace GestaoProducao_MVC.Services
         {
             foreach (var item in list)
             {
+
+                //CalculaParada(item);
                 if (item.TempoTotal == null)
                 {
                     TimeSpan decorrido = DateTime.Now - item.DataInicial;
@@ -217,12 +222,15 @@ namespace GestaoProducao_MVC.Services
                 else
                 {
                     TimeSpan decorrido = TimeSpan.FromTicks(item.TempoTotal.Value);
-                    decorrido.ToString();                                        
+                    decorrido.ToString();
                     string time = (int)decorrido.TotalHours + decorrido.ToString("\\:mm\\:ss");
                     item.TotalTime = time;
                     item.TempoDecorridoSpan = decorrido;
                 }
+
             }
+
+
 
             return list;
         }
@@ -232,6 +240,7 @@ namespace GestaoProducao_MVC.Services
         //Converte tempo de um unico apontamento;
         public Apontamento ConvertTime(Apontamento apontamento)
         {
+            //CalculaParada(apontamento);
             if (apontamento.TempoTotal == null)
             {
                 TimeSpan decorrido = DateTime.Now - apontamento.DataInicial;
@@ -246,9 +255,26 @@ namespace GestaoProducao_MVC.Services
                 apontamento.TotalTime = time;
                 apontamento.TempoDecorridoSpan = decorrido;
             }
+
+
             return apontamento;
         }
 
+
+        public void CalculaParada(List<Apontamento> apontamentos)
+        {
+
+            TimeSpan tempoTotalParada = TimeSpan.Zero;
+
+            foreach (var item in apontamentos)
+            {
+                tempoTotalParada += item.TempoTotalParadas();
+
+            }
+
+
+
+        }
 
 
 

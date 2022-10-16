@@ -51,6 +51,10 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Tempo total")]
         public string? TotalTime { get; set; }
 
+
+        [NotMapped]
+        public TimeSpan TempoTotalParadasSpan { get; set; }
+
         [NotMapped]
         [Display(Name = "Tempo de paradas")]
         public string? TempoDeParadasFormatado { get; set; }
@@ -122,7 +126,8 @@ namespace GestaoProducao_MVC.Models
 
 
                 }
-
+                
+             
                 return tempoTotalParadas;
             }
 

@@ -4,61 +4,83 @@
     ViewData["Title"] = "Detalhes do Processo";
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.CodigoPeca)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.CodigoPeca)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.Descricao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.Descricao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.QuantidadePeca)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.QuantidadePeca)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.DataCriacao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.DataCriacao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.OrdemProduto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processo.OrdemProduto.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Processo.TempoEstimado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Processo.TempoEstimadoFormatado)
-        </dd>
-        <dt class="col-sm-2">
-            Tempo Total decorrido:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Processo.TotalTempoDecorrido)
-        </dd>
-    </dl>
-</div>
+<h1>@ViewData["Title"]</h1>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Processo.Id" class="btn btn-outline-warning">Editar</a>
     <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
 </div>
 
-@if(TempData["TempoEstimado"] != null){
+
+
+<div class="conteudoDetails">
+
+    <div class="details-ponto">
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.Id)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.Id)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.CodigoPeca)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.CodigoPeca)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.Descricao)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.Descricao)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.QuantidadePeca)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.QuantidadePeca)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.OrdemProdutoId)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.OrdemProdutoId)</p>
+        </div>
+
+
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.Processo.DataCriacao)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.Processo.DataCriacao)</p>
+        </div>
+
+    </div>
+    <div class="tempo">
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TempoEstimadoFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TempoEstimadoFormatado)</p>
+        </div>
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TotalTempoDecorridoFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TotalTempoDecorridoFormatado)</p>
+        </div>
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TotalTempoParadasFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TotalTempoParadasFormatado)</p>
+        </div>
+
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TotalTempoUtilFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TotalTempoUtilFormatado)</p>
+        </div>
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TempoAproximadoItem)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TempoAproximadoItem)</p>
+        </div>
+
+    </div>
+
+</div>
+
+@if (TempData["TempoEstimado"] != null)
+{
     <div class="alert alert-dismissible alert-danger">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>Atenção!</strong><p class="paragragoErro">@TempData["TempoEstimado"]</p>
@@ -89,7 +111,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Apontamentos[0].TempoTotal)
             </th>
-           
+
             <th>
 
             </th>
@@ -101,12 +123,12 @@
             @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
             {
                 ViewData["Active"] = "table-success";
-               
+
             }
             else
             {
                 ViewData["Active"] = "table-primary";
-               
+
             }
 
 
@@ -120,7 +142,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Processo.OrdemProdutoId)
                 </td>
-                
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Operacao)
                 </td>
