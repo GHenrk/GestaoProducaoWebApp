@@ -5,15 +5,28 @@
 }
 
 
-<h1>@ViewData["Title"]</h1>
-<div>
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="menuDetails">
+    <a asp-action="Index" class="btn btn-outline-dark">Vizualizar todos processos</a>
     <a asp-action="Edit" asp-route-id="@Model?.Processo.Id" class="btn btn-outline-warning">Editar</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
+</div>
+
+<div class="errorDiv">
+    
+@if (TempData["TempoEstimado"] != null)
+{
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Atenção!</strong><p class="paragragoErro">@TempData["TempoEstimado"]</p>
+    </div>
+}
+
 </div>
 
 
-
 <div class="conteudoDetails">
+
 
     <div class="details-ponto">
         <div class="secaoData">
@@ -38,7 +51,12 @@
 
         <div class="secaoData">
             <p class="itemData">@Html.DisplayNameFor(model => model.Processo.OrdemProdutoId)</p>
-            <p class="valueData">@Html.DisplayFor(model => model.Processo.OrdemProdutoId)</p>
+            <p class="valueData">
+                <a asp-controller="OrdemProdutos" class="linkZero" asp-action="Details" asp-route-id="@Model.Processo.OrdemProdutoId">
+                @Html.DisplayFor(model => model.Processo.OrdemProdutoId)
+                </a>
+            </p>
+           
         </div>
 
 
@@ -54,6 +72,7 @@
             <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TempoEstimadoFormatado)</p>
             <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TempoEstimadoFormatado)</p>
         </div>
+
         <div class="cardTempo">
             <p class="labelTempo">@Html.DisplayNameFor(model => model.Processo.TotalTempoDecorridoFormatado)</p>
             <p class="displayTempo">@Html.DisplayFor(model => model.Processo.TotalTempoDecorridoFormatado)</p>
@@ -79,90 +98,63 @@
 
 </div>
 
-@if (TempData["TempoEstimado"] != null)
+
+@if (Model.Apontamentos.Any())
 {
-    <div class="alert alert-dismissible alert-danger">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Atenção!</strong><p class="paragragoErro">@TempData["TempoEstimado"]</p>
+    <div class="secaoBtn">
+        <button type="button" id="btnListarApontamentos" class="btn btn-outline-dark">Listar Apontamentos</button>
     </div>
+    <div class="secaoHidden" id="secaoProcesso">
+
+        <h4 class="text-center">Apontamentos neste processo</h4>
+
+        <div class="secaoParadas">
+            @foreach (var item in Model.Apontamentos)
+            {
+                @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
+                {
+                    TempData["Active"] = "cardAptAtivo";
+
+                }
+                 else if(item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Parado)
+                {
+                    TempData["Active"] = "cardParadaAtiva";
+                }
+                else {
+                     
+                    TempData["Active"] = "cardParadaEncerrada";
+                    
+                }
+
+               
+                <div class="cardParada @TempData["Active"]">
+
+                    <p class="motivoParada">
+                       @Html.DisplayFor(modelItem => item.Maquina.Nome)
+                    </p>
+                    <p class="itemCard">
+                       Operação: @Html.DisplayFor(modelItem => item.Operacao)
+                    </P>
+                    <p class="itemCard">
+                        Status: @Html.DisplayFor(modelItem => item.Status)
+                    </p>
+                    <p class="tempoTotalParada">
+                        Tempo Total: @Html.DisplayFor(modelItem => item.TotalTime)
+                    </p>
+                    <a class="btn btn-sm btn-outline-dark" asp-controller="Apontamentos" asp-action="Details" asp-route-id="@item.Id">+ Detalhes</a>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].Funcionario.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].Maquina.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].Processo.OrdemProduto.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].Operacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].DataInicial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apontamentos[0].TempoTotal)
-            </th>
-
-            <th>
-
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Apontamentos)
-        {
-            @if (item.Status == GestaoProducao_MVC.Models.Enums.AptStatus.Ativo)
-            {
-                ViewData["Active"] = "table-success";
-
-            }
-            else
-            {
-                ViewData["Active"] = "table-primary";
-
-            }
 
 
-            <tr class=@ViewData["Active"]>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Funcionario.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Maquina.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Processo.OrdemProdutoId)
-                </td>
+<script src="~/js/processoDetails.js"></script>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Operacao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataInicial)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalTime)
-                </td>
-                <td>
-                    <a asp-controller="Apontamentos" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="Apontamentos" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Apontamentos" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
 
 

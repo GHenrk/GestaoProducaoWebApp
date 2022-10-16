@@ -264,3 +264,25 @@ body {
     gap: 2em;
 
 }
+
+
+.linkZero {
+    margin: 0;
+    text-decoration: none;
+}
+
+.menuDetails {
+    width:80%;
+    display: flex;
+    padding:0 3em;
+    justify-content: space-between;
+    gap: 2em;
+    margin:1em auto;
+    box-sizing: border-box;
+}
+
+.errorDiv {
+    width: 75%;
+    margin: 0.5em auto;
+}
+}

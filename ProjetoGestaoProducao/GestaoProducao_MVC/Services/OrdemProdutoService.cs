@@ -2,6 +2,7 @@
 using GestaoProducao_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace GestaoProducao_MVC.Services
 {
@@ -20,8 +21,14 @@ namespace GestaoProducao_MVC.Services
         //Get
         public async Task<List<OrdemProduto>> FindAllAsync()
         {
-           return await _context.OrdemProduto.OrderByDescending(x => x.DataVenda).ToListAsync();
-        
+            var list = await _context.OrdemProduto.OrderByDescending(x => x.DataVenda).ToListAsync();
+
+            list = await VerificaStatusList(list);
+
+
+            return list;
+
+
         }
 
 
@@ -30,18 +37,26 @@ namespace GestaoProducao_MVC.Services
         //Get
         public async Task<OrdemProduto> FindByIdAsync(int id)
         {
-            return await _context.OrdemProduto.FirstOrDefaultAsync(obj => obj.Id == id);
+            OrdemProduto op = await _context.OrdemProduto.FirstOrDefaultAsync(obj => obj.Id == id);
+
+            if (op != null)
+            {
+                op = await VerificaStatus(op);
+
+            }
+
+            return op;
         }
 
         //Insere um obj no Database;
         public async Task InsertAsync(OrdemProduto obj)
         {
-           _context.OrdemProduto.Add(obj);
-           await _context.SaveChangesAsync();
+            _context.OrdemProduto.Add(obj);
+            await _context.SaveChangesAsync();
 
         }
 
-        
+
         //Essa função só pode ser executada pelo setor Vendas e Adm Geral;
         public async Task RemoveAsync(int id)
         {
@@ -80,5 +95,89 @@ namespace GestaoProducao_MVC.Services
                 throw new DbUpdateConcurrencyException(e.Message);
             }
         }
+
+
+        public async Task<OrdemProduto> VerificaStatus(OrdemProduto op)
+        {
+            if (op.OpStatus == Models.Enums.OpStatus.Finalizado)
+            {
+                return op;
+            }
+
+            if (op.OpStatus == Models.Enums.OpStatus.Entregue)
+            {
+                return op;
+            }
+
+            //verificaSetemAlgumPontoAtivo;
+
+            var list = from obj in _context.Processo select obj;
+
+            list = list.Where(obj => obj.OrdemProdutoId == op.Id);
+
+            List<Processo> processos = await list.ToListAsync();
+
+            if (processos != null)
+            {
+
+                foreach (var processo in processos)
+                {
+
+
+                    List<Apontamento> apontamentosList = _context.Apontamento.Where(obj => obj.ProcessoId == processo.Id).ToList();
+                    //pega lista de apontamentos de cada processo;
+
+                    if (apontamentosList != null)
+                    {
+                        foreach(var item in apontamentosList)
+                        {
+                            if (item.IsAtivo)
+                            {
+                                op.OpStatus = Models.Enums.OpStatus.Fabricação;
+                                return op;
+                            }
+                        }
+                                        
+                        op.OpStatus = Models.Enums.OpStatus.Iniciado;
+                        return op;
+                    }
+
+                    op.OpStatus = Models.Enums.OpStatus.Aguardando;
+                    return op;
+
+                }
+
+            }
+            return op;
+
+        }
+
+
+        public async Task<List<OrdemProduto>> VerificaStatusList(List<OrdemProduto> list)
+        {
+            List<OrdemProduto> newList = new List<OrdemProduto>();
+            foreach (var item in list)
+            {
+                newList.Add(await VerificaStatus(item));
+            } 
+
+            return newList;
+        }
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
 }
+
+
+

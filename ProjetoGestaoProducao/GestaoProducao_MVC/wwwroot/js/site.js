@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 function getDataTable(id) {
     $(id).DataTable({
-        "ordering": false,
+        "ordering": true,
         "paging": true,
         "searching": true,
         "oLanguage": {
@@ -22,7 +22,7 @@ function getDataTable(id) {
             "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
             "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
             "sInfoPostFix": "",
-            "sInfoThousands": ".",
+            "sInfoThousands": "",
             "sLengthMenu": "Mostrar _MENU_ registros por pagina",
             "sLoadingRecords": "Carregando...",
             "sProcessing": "Processando...",

@@ -9,10 +9,12 @@ namespace GestaoProducao_MVC.Services
     public class ApontamentoService
     {
         private readonly GestaoProducao_MVCContext _context;
+        private readonly RegistroParadaService _registroParadaService;
 
-        public ApontamentoService(GestaoProducao_MVCContext context)
+        public ApontamentoService(GestaoProducao_MVCContext context, RegistroParadaService registroParadaService)
         {
             _context = context;
+            _registroParadaService = registroParadaService;
         }
 
 
@@ -116,7 +118,9 @@ namespace GestaoProducao_MVC.Services
 
             list = ConvertTimeList(list);
 
-             return list;
+            list = await CalculaParada(list);
+
+            return  list;
 
         }
 
@@ -261,19 +265,26 @@ namespace GestaoProducao_MVC.Services
         }
 
 
-        public void CalculaParada(List<Apontamento> apontamentos)
+        public async Task<List<Apontamento>> CalculaParada(List<Apontamento> apontamentos)
         {
-
-            TimeSpan tempoTotalParada = TimeSpan.Zero;
-
-            foreach (var item in apontamentos)
+            foreach (var apontamento in apontamentos)
             {
-                tempoTotalParada += item.TempoTotalParadas();
+                List<RegistroParada> registroParadas = await _registroParadaService.FindByApontamentoAsync(apontamento);
 
+                TimeSpan tempoTotalParadas = TimeSpan.Zero;
+                if (registroParadas.Any())
+                {
+                    foreach (var registroParada in registroParadas)
+                    {
+                        tempoTotalParadas += registroParada.TempoDeParada.Value;
+                    }
+
+                }
+
+                apontamento.TempoTotalParadasSpan = tempoTotalParadas;
             }
 
-
-
+            return apontamentos;
         }
 
 
