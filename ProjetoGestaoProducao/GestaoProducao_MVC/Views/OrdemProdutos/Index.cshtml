@@ -4,12 +4,12 @@
     ViewData["Title"] = "Ordens de Produção";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
 
-<p>
+<div class="menuIndex">
     <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
-    <a asp-action="Create" class="btn btn-outline-success">Criar novo</a>
-</p>
+    <a asp-action="Create" class="btn btn-outline-dark">Criar novo</a>
+</div>
 <table class="table table-hover table-striped cell-border" id="tabela-ordemProdutos">
     <thead>
         <tr class="table-active">

@@ -4,12 +4,12 @@
     ViewData["Title"] = "Funcionários";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
 
-<p>
+<div class="menuIndex">
     <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
-    <a asp-action="Create" class="btn btn-outline-dark">Create New</a>
-</p>
+    <a asp-action="Create" class="btn btn-outline-dark">Adicionar um funcionário</a>
+</div>
 @*<form asp-action="Index" method="get">
     <p>
         <input type="text" name="SearchString" class="form-control-sm" />
@@ -45,9 +45,9 @@
                 @Html.DisplayFor(modelItem => item.Cargo)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                   @* <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>*@
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark"> + Detalhes</a>
+                    @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>*@
             </td>
         </tr>
 }
