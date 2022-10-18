@@ -4,22 +4,23 @@
     ViewData["Title"] = "Encerrar Apontamento";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-danger text-center mt-4">@ViewData["Title"]</h1>
 <hr />
-<div class="row">
+<div class="row d-flex justify-content-center align-items-center">
     <div class="col-md-4">
         <form asp-action="Finalizar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaquinaId" class="control-label"></label>
-                <input type="number" name="maquinaId" class="form-control" />
-             </div>
-            <div class="form-group">
+            
+            <div class="form-group mt-2">
                 <label asp-for="Descricao" class="control-label"></label>
                 <input type="text" name="descricao" class="form-control" />
              </div>
-            <div class="form-group">
-                <input type="submit" value="Encerrar" class="btn btn-outline-dark" />
+             <div class="form-group mt-2">
+                <label asp-for="MaquinaId" class="control-label"></label>
+                <input type="number" name="maquinaId" class="form-control" />
+             </div>
+            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                <input type="submit" value="Encerrar" class="btn btn-outline-danger" />
                 <a asp-action="CentralApontamentos" class="btn btn-outline-dark">Cancelar</a>
             </div>
         </form>
