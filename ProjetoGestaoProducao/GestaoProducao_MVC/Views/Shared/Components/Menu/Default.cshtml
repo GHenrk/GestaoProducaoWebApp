@@ -33,7 +33,7 @@
         @if (Model.Perfil != GestaoProducao_MVC.Models.Enums.PerfilUsuario.UsuarioFabrica)
         {
             <li class="listaMenuItem">
-                <a class="listaMenuLink" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                <a class="listaMenuLink" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
            </li>
 
             @* <li class="listaMenuItem">
@@ -51,7 +51,7 @@
         }
     </ul>
 <div class="sessaoUsuario">
-    <p class="usuarioNome">Usuario: @Model.Nome</p>
+    <p class="usuarioNome">Usuário: @Model.Nome</p>
     <a class="btnSairMenu" asp-controller="Login" asp-action="RemoverSessao">Sair</a>
 </div>
 </div>

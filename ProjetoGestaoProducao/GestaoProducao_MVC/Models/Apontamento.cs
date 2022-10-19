@@ -11,6 +11,7 @@ namespace GestaoProducao_MVC.Models
 
 
         [Display(Name = "Data Inicial")]
+        
         public DateTime DataInicial { get; set; }
 
 
@@ -20,7 +21,7 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Tempo Total")]
         public long? TempoTotal { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Observação")]
         public string? Descricao { get; set; }
 
 
@@ -31,16 +32,23 @@ namespace GestaoProducao_MVC.Models
         [Display(Name = "Operação")]
         public Operacao? Operacao { get; set; }
 
+
         public Processo? Processo { get; set; }
 
+        [Display(Name = "Código Apontamento")]
+        [Required(ErrorMessage = "Por favor, informe o código de apontamento")]
         public int ProcessoId { get; set; }
+
 
         public Maquina? Maquina { get; set; }
 
+        [Required(ErrorMessage = "Por favor, informe o código da máquina")]
+        [Display(Name = "Código Máquina")]
         public int MaquinaId { get; set; }
         public Funcionario? Funcionario { get; set; }
 
-        [Display(Name = "Código funcionário:")]
+        [Display(Name = "Código Funcionário")]
+        [Required(ErrorMessage = "Por favor, informe o código do funcionário")]
         public int FuncionarioId { get; set; }
 
 
