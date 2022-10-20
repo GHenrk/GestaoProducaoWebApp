@@ -68,7 +68,7 @@ namespace GestaoProducao_MVC.Models
         public string? TempoDeParadasFormatado { get; set; }
 
         [NotMapped]
-        [Display(Name = "Tempo de trabalho")]
+        [Display(Name = "Tempo efetivo")]
         public string? TempoUtilFormatado { get; set; }
 
         [NotMapped]
