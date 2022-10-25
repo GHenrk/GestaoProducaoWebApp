@@ -150,7 +150,7 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
-
+        [UserMaster]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -206,7 +206,7 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
-
+        [UserMaster]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -225,7 +225,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
-
+        [UserMaster]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

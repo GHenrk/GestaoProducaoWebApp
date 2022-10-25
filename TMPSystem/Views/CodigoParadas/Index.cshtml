@@ -20,11 +20,11 @@
 <table class="table table-hover table-striped cell-border" id="tabela-codigoParada">
     <thead>
         <tr>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
-            <th>@Html.DisplayNameFor(model => model.Id)</th>
-            <th>Detalhes</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -32,16 +32,12 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                   @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>*@
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">+ Detalhes</a>
-                    @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    @Html.DisplayFor(modelItem => item.Descricao)
                 </td>
+               
             </tr>
         }
     </tbody>

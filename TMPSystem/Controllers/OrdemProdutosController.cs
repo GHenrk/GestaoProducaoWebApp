@@ -97,11 +97,11 @@ namespace GestaoProducao_MVC.Controllers
             };
 
             return View(viewModel);
-        }   
+        }
 
 
 
-
+        [UserMaster]
         //GET: OrdemProdutoes/Create
         public IActionResult Create()
         {
@@ -134,6 +134,8 @@ namespace GestaoProducao_MVC.Controllers
             
         }
 
+
+        [UserMaster]
         //Get - Retorna pagina edit com info da OP;
         public async Task<IActionResult> Edit(int? id)
         {
@@ -188,7 +190,7 @@ namespace GestaoProducao_MVC.Controllers
 
 
 
-
+        [UserMaster]
         //Get Delete OP
         public async Task<IActionResult> Delete(int? id)
         {

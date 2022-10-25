@@ -49,6 +49,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        [UserMaster]
         // GET: Funcionarios/Create
         public IActionResult Create()
         {
@@ -91,6 +92,7 @@ namespace GestaoProducao_MVC.Controllers
             return View(funcionario);
         }
 
+        [UserMaster]
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,6 +115,8 @@ namespace GestaoProducao_MVC.Controllers
             }
         }
 
+
+        [UserMaster]
         // GET: Funcionarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -38,6 +38,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
+        [UserMaster]
 
         public IActionResult Create()
         {
@@ -66,7 +67,7 @@ namespace GestaoProducao_MVC.Controllers
 
         }
 
-
+        [UserMaster]
         //Esse metodo só sera acessado por ADM OU MANAGER;
         public async Task<IActionResult> Edit(int? id)
         {
@@ -95,6 +96,7 @@ namespace GestaoProducao_MVC.Controllers
             return View(processo);
         }
 
+        [UserMaster]
         //Esse metodo só sera acessado por ADM OU MANAGER;
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -121,7 +123,7 @@ namespace GestaoProducao_MVC.Controllers
         }
 
 
-
+        [UserMaster]
         //get remove
         public async Task<IActionResult> Delete(int? id)
         {

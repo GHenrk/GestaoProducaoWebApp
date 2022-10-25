@@ -48,6 +48,8 @@ namespace GestaoProducao_MVC.Controllers
             return View(obj);
         }
 
+
+        [UserMaster]
         public  IActionResult Create()
         {
             return View();
