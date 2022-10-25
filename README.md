@@ -49,32 +49,23 @@ Senha: visitante123
 ## Tecnologias utilizadas
 
 <img style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" />
-
-
 <img style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" />
-
 <img style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />
 <img  style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" />
-
 <img  style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain-wordmark.svg" />
-
 <img style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original-wordmark.svg" />
-
 <img style="width:40px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original-wordmark.svg" />
 
 
 ## Documentação
 
-
-
 [Aqui você pode baixar toda a documentação desse projeto.](https://github.com/GHenrk/GestaoProducaoWebApp/raw/main/documentacao.doc)
-
 
 
 ## Autores
 
 - [@Gustavo Henrique](https://www.github.com/Ghenrk)
-- [@Kamila](https://www.github.com/kamilasavi)
-- [@Igor](https://www.github.com/icamargo92)
-- [@Juliano](https://www.github.com/JulianoCVargas)
-- [@Marlon](https://www.github.com/M3str3BR)
+- [@Kamila Savi Mondo](https://www.github.com/kamilasavi)
+- [@Igor Boeachat Camargo](https://www.github.com/icamargo92)
+- [@Juliano Vargas](https://www.github.com/JulianoCVargas)
+- [@Marlon Rodolpho](https://www.github.com/M3str3BR)
