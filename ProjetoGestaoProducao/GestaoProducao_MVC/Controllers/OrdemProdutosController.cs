@@ -112,14 +112,26 @@ namespace GestaoProducao_MVC.Controllers
         //Post - Action do btn para insert no db;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CodigoProduto,QuantidadeProduto,DataVenda,DataEntrega")] OrdemProduto ordemProduto)
+        public async Task<IActionResult> Create([Bind("CodigoProduto,QuantidadeProduto,DataVenda,DataEntrega,OpStatus")] OrdemProduto ordemProduto)
         {
-            if (ModelState.IsValid)
-            {
+            TimeSpan tempoInicial = TimeSpan.Zero;
+            string convertidoTempo = ordemProduto.FormataTempo(tempoInicial);
+            ordemProduto.TempoEstimadoFormatado = convertidoTempo;
+            ordemProduto.TempoTotalDecorridoFormatado = convertidoTempo;
+            ordemProduto.TempoTotalParadasFormatado = convertidoTempo;
+            ordemProduto.TempoTotalUtilFormatado = convertidoTempo;
+            ordemProduto.TempoTotalAproxFormatado = convertidoTempo;
+
+            try { 
+            
                 await _ordemProdutoService.InsertAsync(ordemProduto);
                 return RedirectToAction(nameof(Index));
             }
-            return View(ordemProduto);
+            catch
+            {
+                return View(ordemProduto);
+            }
+            
         }
 
         //Get - Retorna pagina edit com info da OP;

@@ -30,7 +30,7 @@ namespace GestaoProducao_MVC.Models
 
         //Fazer relações;
 
-        public ICollection<Processo> Processos { get; set; } = new List<Processo>();
+        public ICollection<Processo>? Processos { get; set; } = new List<Processo>();
 
 
         //Propriedades nao mapeadas para conversao de dados e informacos no sistema;

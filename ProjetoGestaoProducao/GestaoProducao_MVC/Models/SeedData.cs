@@ -89,5 +89,11 @@ namespace GestaoProducao_MVC.Models
 
         }
 
+        public TimeSpan calculaTempo(TimeSpan date1, TimeSpan date2)
+        {
+            TimeSpan decorrido = date2 - date1;
+            return decorrido;
+        }
+
     }
 }

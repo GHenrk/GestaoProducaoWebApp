@@ -51,7 +51,8 @@ namespace GestaoProducao_MVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProcessoId, FuncionarioId,MaquinaId,Operacao,DataInicial,Status")] Apontamento apontamento)
-        {
+        {   
+             
             //Verifica se existe pontoAtivo
             bool ativo = await _apontamentoService.isMaquinaAtiva(apontamento.MaquinaId);
             if (ativo)
@@ -66,7 +67,7 @@ namespace GestaoProducao_MVC.Controllers
                 {
                     apontamento.IsAtivo = true;
                     await _apontamentoService.InsertAsync(apontamento);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("CentralApontamentos","Apontamentos");
 
                 }
             }
@@ -126,7 +127,7 @@ namespace GestaoProducao_MVC.Controllers
                 try
                 {
                     await _apontamentoService.UpdateAsync(apontamentoAtivo);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("CentralApontamentos", "Apontamentos");
                 }
                 catch
                 {

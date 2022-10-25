@@ -73,7 +73,7 @@ namespace GestaoProducao_MVC.Controllers
             try
             {
                 await _registroParadaService.InsertAsync(registroParada);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("CentralApontamentos", "Apontamentos");
             }
             catch
             {
@@ -141,7 +141,7 @@ namespace GestaoProducao_MVC.Controllers
             try
             {
                 await _registroParadaService.UpdateAsync(registroParada);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("CentralApontamentos", "Apontamentos");
             }
             catch
             {

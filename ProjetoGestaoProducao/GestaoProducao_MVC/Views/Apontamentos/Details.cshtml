@@ -3,16 +3,15 @@
 @{
     ViewData["Title"] = "Detalhes Apontamento";
 }
+    
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
 
-<div class="d-flex flex-column justify-content-center">
-    <nav>
-
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model?.Apontamento.Id" class="btn btn-outline-warning">Editar</a> |
-            <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
+        <div class="menuDetails">
+            <a asp-action="Index" class="btn btn-outline-dark">Visualizar Apontamentos</a>
+            <a asp-action="Edit" asp-route-id="@Model?.Apontamento.Id" class="btn btn-outline-warning">Editar</a>
+            
         </div>
-    </nav>
-    <h1 class="text-center">@ViewData["Title"]</h1>
+   
 
     <div class="conteudoDetails">
         <div class="details-ponto">
