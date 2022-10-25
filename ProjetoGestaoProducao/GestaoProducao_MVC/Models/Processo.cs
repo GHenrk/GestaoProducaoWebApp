@@ -67,12 +67,14 @@ namespace GestaoProducao_MVC.Models
 
 
 
+
         public ICollection<Apontamento> Apontamentos { get; set; } = new List<Apontamento>();
 
         public Processo()
         {
 
         }
+
 
         public Processo(string codigoPeca, string descricao, int quantidadePeca, DateTime dataCriacao, OrdemProduto oProduto, long? tempoEstimado)
         {
@@ -82,6 +84,7 @@ namespace GestaoProducao_MVC.Models
             QuantidadePeca = quantidadePeca;
             DataCriacao = dataCriacao;
             OrdemProduto = oProduto;
+
             TempoEstimado = tempoEstimado.Value;
 
         }
