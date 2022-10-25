@@ -1,5 +1,6 @@
 ﻿using GestaoProducao_MVC.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestaoProducao_MVC.Models
 {
@@ -29,7 +30,45 @@ namespace GestaoProducao_MVC.Models
 
         //Fazer relações;
 
-        public ICollection<Processo> Processos { get; set; } = new List<Processo>();
+        public ICollection<Processo>? Processos { get; set; } = new List<Processo>();
+
+
+        //Propriedades nao mapeadas para conversao de dados e informacos no sistema;
+
+        [NotMapped]
+        public TimeSpan TempoTotalEstimadoSpan { get; set; }
+
+
+        [NotMapped]
+        public TimeSpan TempoTotalDecorridoSpan { get; set; }
+
+
+        [NotMapped]
+        public TimeSpan TempoTotalParadasSpan { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tempo total estimado")]
+        public string TempoEstimadoFormatado { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tempo total decorrido")]
+        public string TempoTotalDecorridoFormatado { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tempo total de paradas")]
+        public string TempoTotalParadasFormatado { get; set; }
+
+
+        [NotMapped]
+        [Display(Name = "Tempo útil")]
+        public string TempoTotalUtilFormatado { get; set; }
+
+
+        [NotMapped]
+        [Display(Name = "Tempo aproximado por item")]
+        public string TempoTotalAproxFormatado { get; set; }
+
+
 
 
 
@@ -61,6 +100,75 @@ namespace GestaoProducao_MVC.Models
         {
             Processos.Remove(processo);
         }
+
+
+        public string FormataTempo(TimeSpan time)
+        {
+            string timeFormatado = (int)time.TotalHours + time.ToString("\\:mm\\:ss");
+
+            return timeFormatado;
+        }
+
+        public TimeSpan TempoTotalEstimado()
+        {
+            TimeSpan tempoTotalEstimado = TimeSpan.Zero;
+            if (Processos != null)
+            {
+                foreach (var processo in Processos)
+                {
+                    tempoTotalEstimado += processo.TempoEstimadoSpan;
+                }
+            }
+
+           return tempoTotalEstimado;
+        }
+
+
+        public TimeSpan TempoTotalDecorrido()
+        {
+            TimeSpan tempoTotalDecorrido = TimeSpan.Zero;
+            if (Processos != null)
+            {
+                foreach (var processo in Processos)
+                {
+                    tempoTotalDecorrido += processo.TempoDecorridoApontamentos;
+                }
+            }
+
+            return tempoTotalDecorrido;
+        }
+
+
+        public TimeSpan TempoTotalParadas()
+        {
+            TimeSpan tempoTotalParadas = TimeSpan.Zero;
+            if (Processos != null)
+            {
+                foreach (var processo in Processos)
+                {
+                    tempoTotalParadas += processo.TotalTempoParadasProcesso;
+                }
+            }
+
+            return tempoTotalParadas;
+        }
+
+
+        public TimeSpan TempoTotalUtil()
+        {
+            TimeSpan tempoUtil = TempoTotalDecorridoSpan - TempoTotalParadas();
+            return tempoUtil;
+        
+        }
+
+        public TimeSpan TempoAproxPorItem()
+        {
+            TimeSpan tempoAprox = TempoTotalUtil() / QuantidadeProduto;
+
+            return tempoAprox;
+        }
+
+
 
     }
 }

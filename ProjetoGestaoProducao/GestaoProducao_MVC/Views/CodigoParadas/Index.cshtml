@@ -4,12 +4,12 @@
     ViewData["Title"] = "Motivos de Parada";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
 
-<p>
+<div class="menuIndex">
     <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
     <a asp-action="Create" class="btn btn-outline-dark">Criar um novo motivo</a>
-</p>
+</div>
 @*<form asp-action="Index" method="get">
     <p>
         <input type="text" name="SearchString" class="form-control-sm" />
@@ -39,7 +39,7 @@
                 </td>
                 <td>
                    @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>*@
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">+ Detalhes</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">+ Detalhes</a>
                     @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>

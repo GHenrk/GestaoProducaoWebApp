@@ -23,7 +23,7 @@ namespace GestaoProducao_MVC.Models
 
         public long? TempoTotal { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Observação")]
         public string? Descricao { get; set; }
 
         
@@ -35,7 +35,7 @@ namespace GestaoProducao_MVC.Models
         public CodigoParada? CodigoParada { get; set; }
 
         [Display(Name = "Código de Parada")]
-
+        [Required(ErrorMessage = "Por favor, informe o código de parada")]
         public int CodigoParadaId { get; set; }
 
         public Apontamento? Apontamento { get; set; }

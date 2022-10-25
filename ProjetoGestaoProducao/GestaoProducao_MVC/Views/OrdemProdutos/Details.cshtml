@@ -1,121 +1,150 @@
 ﻿@model GestaoProducao_MVC.Models.ViewModel.OrdemProdutoViewModel
 
 @{
-    ViewData["Title"] = "Detalhes";
+    ViewData["Title"] = "Ordem de Produção - Detalhes";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
 
-<div>
-    <h4 class="text-center">Ordem de Produção</h4>
-    <hr/>
-    <div class="d-flex justify-content-between gap-3">
+<div class="menuDetails">
+    <a asp-action="Index" class="btn btn-outline-dark">Visualizar OPs</a>
     <a asp-action="Edit" asp-route-id="@Model.OrdemProduto?.Id" class="btn btn-outline-warning">Editar</a>
-    <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
 </div>
-   <table class="table table-bordered table-striped table-borderless table-hover" >
-    <thead>
-        <tr class="bg-dark text-white text-center">
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.CodigoProduto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.QuantidadeProduto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.DataVenda)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.DataEntrega)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrdemProduto.OpStatus)
-            </th>
-           
-        </tr>
-    </thead>
-    <tbody class=" text-center">
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.CodigoProduto)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.QuantidadeProduto)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.DataVenda)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.DataEntrega)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.OrdemProduto.OpStatus)
-        </td>
-    </tbody>
-    </table>
 
-<h4 class="text-center">Processos da OP @Model.OrdemProduto.Id</h4>
-<hr/>
+<div class="errorDiv">
 
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr class="bg-dark text-white text-center">
-            <th>
-                @Html.DisplayNameFor(model => model.Processos[0].Id )
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Processos[0].CodigoPeca)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Processos[0].Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Processos[0].QuantidadePeca)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.Processos[0].OrdemProduto.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Processos[0].DataCriacao)
-            </th>
-            <th>Detalhes</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in @Model.Processos) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoPeca)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuantidadePeca)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrdemProduto.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td class="d-flex justify-content-evenly align-items-baseline gap-3">
-                <a asp-controller="Processos" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-dark">Edit</a>
-                <a asp-controller="Processos" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-dark">Details</a>
-                <a asp-controller="Processos" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm  btn-outline-danger">Delete</a>
-            </td>
-        </tr>
+    @if (TempData["TempoEstimado"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Atenção!</strong><p class="paragragoErro">@TempData["TempoEstimado"]</p>
+        </div>
+    }
+
+</div>
+
+
+<div class="conteudoDetails">
+
+
+    <div class="details-ponto">
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.Id)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.OrdemProduto.Id)</p>
+        </div>
+
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.CodigoProduto)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.OrdemProduto.CodigoProduto)</p>
+        </div>
+
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.QuantidadeProduto)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.OrdemProduto.QuantidadeProduto)</p>
+        </div>
+
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.DataVenda)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.OrdemProduto.DataVenda)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.DataEntrega)</p>
+            <p class="valueData">@Html.DisplayFor(model => model.OrdemProduto.DataEntrega)</p>
+        </div>
+
+        <div class="secaoData">
+            <p class="itemData">@Html.DisplayNameFor(model => model.OrdemProduto.OpStatus) </p>
+            <p class="valueData"> @Html.DisplayFor(model => model.OrdemProduto.OpStatus) </p>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="tempo">
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.OrdemProduto.TempoEstimadoFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.OrdemProduto.TempoEstimadoFormatado)</p>
+        </div>
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.OrdemProduto.TempoTotalDecorridoFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.OrdemProduto.TempoTotalDecorridoFormatado)</p>
+        </div>
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.OrdemProduto.TempoTotalParadasFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.OrdemProduto.TempoTotalParadasFormatado)</p>
+        </div>
+
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.OrdemProduto.TempoTotalUtilFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.OrdemProduto.TempoTotalUtilFormatado)</p>
+        </div>
+
+        <div class="cardTempo">
+            <p class="labelTempo">@Html.DisplayNameFor(model => model.OrdemProduto.TempoTotalAproxFormatado)</p>
+            <p class="displayTempo">@Html.DisplayFor(model => model.OrdemProduto.TempoTotalAproxFormatado)</p>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+
+@if (Model.Processos.Any())
+{
+
+
+
+    <div class="secaoBtn">
+        <button type="button" id="btnListarProcessos" class="btn btn-outline-dark">Listar Processos</button>
+    </div>
+    <div class="secaoHidden" id="secaoProcesso">
+
+        <h4 class="text-center">Processos desta OP</h4>
+
+        <div class="secaoParadas">
+            @foreach (var item in Model.Processos)
+            {             
+                <div class="cardParada cardParadaEncerrada">
+
+                    <p class="motivoParada">
+                       @Html.DisplayFor(modelItem => item.CodigoPeca) 
+                    </p>   
+                    <p class="itemCard">
+                        Código de Apontamento:@Html.DisplayFor(modelItem => item.Id) 
+                    </P>
+                    <p class="itemCard">
+                        Descrição:@Html.DisplayFor(modelItem => item.Descricao) 
+                    </P>
+                    <p class="itemCard">
+                        Tempo estimado:@Html.DisplayFor(modelItem => item.TempoEstimadoFormatado)
+                    </p>
+                      <a class="btn btn-sm btn-outline-dark"  asp-controller="Processos" asp-action="Details" asp-route-id="@item.Id"> + Detalhes</a>
+                   
+                </div>
+            }
+
+        </div>
+
+    </div>
+
 }
-    </tbody>
-</table>
+
+
+
+<script src="~/js/ordemProdutoDetails.js"></script>
+
+
 
 
 

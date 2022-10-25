@@ -10,10 +10,12 @@ namespace GestaoProducao_MVC.Services
     {
 
         private readonly GestaoProducao_MVCContext _context;
+        private readonly ApontamentoService _apontamentoService;
 
-        public ProcessoService(GestaoProducao_MVCContext context)
+        public ProcessoService(GestaoProducao_MVCContext context, ApontamentoService apontamentoService)
         {
             _context = context;
+            _apontamentoService = apontamentoService;
         }
 
 
@@ -47,13 +49,40 @@ namespace GestaoProducao_MVC.Services
             //Onde a OP seja igual a OP Enviada como parametro
             result = result.Where(x => x.OrdemProduto.Id == ordemPrduto.Id);
 
-            var list = await result.ToListAsync();
+            var list = await result
+                .ToListAsync();
             list = ConvertTimeList(list);
 
+            list = await CalculaTempoDecorrido(list);
+           
             return list;
 
 
         }
+
+        public async Task<List<Processo>> CalculaTempoDecorrido(List<Processo> processos)
+        {
+            foreach (var processo in processos)
+            {
+                TimeSpan tempoTotalDecorrido = TimeSpan.Zero;
+                TimeSpan tempoTotalParadas = TimeSpan.Zero;
+
+                List<Apontamento> apontamentos = await _apontamentoService.FindByProcesso(processo);
+
+                foreach(var apontamento in apontamentos)
+                {
+                    tempoTotalDecorrido += apontamento.TempoDecorridoSpan;
+                    tempoTotalParadas += apontamento.TempoTotalParadasSpan;
+                }
+
+                processo.TempoDecorridoApontamentos = tempoTotalDecorrido;
+                processo.TotalTempoParadasProcesso = tempoTotalParadas;
+            }
+
+            return processos;
+        }
+
+       
 
 
         //Busca por nome;
@@ -142,8 +171,7 @@ namespace GestaoProducao_MVC.Services
             return await _context.Processo.AnyAsync(x => x.Id == id.Value);
         }
 
-
-
+      
 
         public List<Processo> ConvertTimeList(List<Processo> list)
         {

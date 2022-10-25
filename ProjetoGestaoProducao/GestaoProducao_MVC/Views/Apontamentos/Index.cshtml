@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<GestaoProducao_MVC.Models.Apontamento>
 
 @{
-    ViewData["Title"] = "Central de APontamentos";
+    ViewData["Title"] = "APontamentos";
     bool encerrado;
 }
 
@@ -11,22 +11,12 @@
 
 
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
 
+<div class="menuIndex">
+    <a asp-controller="Apontamentos" asp-action="CentralApontamentos" class="btn btn-outline-dark">Retornar para a central</a>
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-dark">Iniciar Apontamento</a>
-    <a asp-action="Finalizar" class="btn btn-outline-dark">Encerrar Apontamento</a>
-</p>
-<form asp-action="Index" method="get">
-    <p>
-        <input type="text" name="SearchString" class="form-control-sm" />
-        <input type="submit" value="Buscar" class="btn btn-sm btn-outline-info" />
-        <a asp-action="Index" class="btn btn-sm btn-outline-dark">Listar todos</a>
-    </p>
-</form>
-
-
+</div>
 
 
 @if(TempData["Exclusao"] != null)
@@ -94,8 +84,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Processo.OrdemProdutoId)
                 </td>
-                
-                <td>
+                 <td>
                     @Html.DisplayFor(modelItem => item.Operacao)
                 </td>
                 <td>
@@ -105,9 +94,9 @@
                     @Html.DisplayFor(modelItem => item.TotalTime)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark" >Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark">Detalhes</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
+                   @* <a asp-action="Edit" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark" >Editar</a>*@
+                    <a asp-action="Details" asp-route-id="@item.Id"class="btn btn-sm btn-outline-dark"> + Detalhes</a>
+                  @*  <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>*@
                 </td>
             </tr>
         }

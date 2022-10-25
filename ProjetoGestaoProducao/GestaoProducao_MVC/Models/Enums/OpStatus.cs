@@ -2,8 +2,10 @@
 {
     public enum OpStatus:int 
     {
-        AguardandoProducao = 0,
-        Fabricação = 1,
-        Entregue = 2
+        Aguardando = 0,
+        Iniciado = 1,
+        Fabricação = 2,
+        Finalizado = 3,
+        Entregue = 4
     }
 }

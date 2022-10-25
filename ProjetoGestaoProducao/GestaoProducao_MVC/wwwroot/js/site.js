@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 function getDataTable(id) {
     $(id).DataTable({
-        "ordering": false,
+        "ordering": true,
         "paging": true,
         "searching": true,
         "oLanguage": {
@@ -39,6 +39,5 @@ function getDataTable(id) {
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
         }
-
     });
 }

@@ -30,8 +30,8 @@
                 <input asp-for="DataEntrega" class="form-control" />
                 <span asp-validation-for="DataEntrega" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="OpStatus" value="@GestaoProducao_MVC.Models.Enums.OpStatus.AguardandoProducao" />
-            <div class="form-group my-3 d-flex justify-content-around">
+            <input type="hidden" asp-for="OpStatus" value="@GestaoProducao_MVC.Models.Enums.OpStatus.Aguardando" />
+             <div class="form-group my-3 d-flex justify-content-around">
                 <input type="submit" value="Create" class="btn btn-outline-success" />
                 <a asp-action="Index" class="btn btn-outline-dark">Voltar</a>
             </div>

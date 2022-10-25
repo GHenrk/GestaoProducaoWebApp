@@ -10,6 +10,7 @@ using GestaoProducao_MVC.Models;
 using GestaoProducao_MVC.Services;
 using GestaoProducao_MVC.Models.ViewModel;
 using GestaoProducao_MVC.Filters;
+using System.Diagnostics;
 
 namespace GestaoProducao_MVC.Controllers
 {
@@ -48,9 +49,9 @@ namespace GestaoProducao_MVC.Controllers
                 return NotFound();
             }
 
-            var obj = await _ordemProdutoService.FindByIdAsync(id.Value);
+            var ordemProduto = await _ordemProdutoService.FindByIdAsync(id.Value);
 
-            if (obj == null)
+            if (ordemProduto == null)
             {
                 //Nao encontrado
                 return NotFound();
@@ -59,12 +60,39 @@ namespace GestaoProducao_MVC.Controllers
 
             //Cria uma lista de processos;
             //EM processoService busca processos que contenham essa OP;
-            List<Processo> processos = await _processoService.FindByOpAsync(obj);
+            List<Processo> processos = await _processoService.FindByOpAsync(ordemProduto);
+            ordemProduto.Processos = processos;
+            
+            ordemProduto.TempoTotalEstimadoSpan = ordemProduto.TempoTotalEstimado();
+            ordemProduto.TempoEstimadoFormatado = ordemProduto.FormataTempo(ordemProduto.TempoTotalEstimadoSpan);
+
+            ordemProduto.TempoTotalDecorridoSpan = ordemProduto.TempoTotalDecorrido();
+            ordemProduto.TempoTotalDecorridoFormatado = ordemProduto.FormataTempo(ordemProduto.TempoTotalDecorridoSpan);
+
+
+            ordemProduto.TempoTotalParadasSpan = ordemProduto.TempoTotalParadas();
+            ordemProduto.TempoTotalParadasFormatado = ordemProduto.FormataTempo(ordemProduto.TempoTotalParadasSpan);
+
+            TimeSpan tempoUtil = ordemProduto.TempoTotalUtil();
+            ordemProduto.TempoTotalUtilFormatado = ordemProduto.FormataTempo(tempoUtil);
+
+            ordemProduto.TempoTotalAproxFormatado = ordemProduto.FormataTempo(ordemProduto.TempoAproxPorItem());
+
+
+            //verifica tempo estimado
+            TimeSpan total = ordemProduto.TempoTotalDecorridoSpan;
+            TimeSpan estimado = ordemProduto.TempoTotalEstimadoSpan;
+            if ( total.TotalHours > estimado.TotalHours)
+            {
+                TimeSpan diferenca = total.Subtract(estimado);
+                string diferencaFormatado = ordemProduto.FormataTempo(diferenca);
+                TempData["TempoEstimado"] = "Essa ordem de produção superou o tempo estimado em " + diferencaFormatado;
+            }
 
             //CriaViewModel
             OrdemProdutoViewModel viewModel = new OrdemProdutoViewModel
             {
-                OrdemProduto = obj,
+                OrdemProduto = ordemProduto,
                 Processos = processos
             };
 
@@ -84,14 +112,26 @@ namespace GestaoProducao_MVC.Controllers
         //Post - Action do btn para insert no db;
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CodigoProduto,QuantidadeProduto,DataVenda,DataEntrega")] OrdemProduto ordemProduto)
+        public async Task<IActionResult> Create([Bind("CodigoProduto,QuantidadeProduto,DataVenda,DataEntrega,OpStatus")] OrdemProduto ordemProduto)
         {
-            if (ModelState.IsValid)
-            {
+            TimeSpan tempoInicial = TimeSpan.Zero;
+            string convertidoTempo = ordemProduto.FormataTempo(tempoInicial);
+            ordemProduto.TempoEstimadoFormatado = convertidoTempo;
+            ordemProduto.TempoTotalDecorridoFormatado = convertidoTempo;
+            ordemProduto.TempoTotalParadasFormatado = convertidoTempo;
+            ordemProduto.TempoTotalUtilFormatado = convertidoTempo;
+            ordemProduto.TempoTotalAproxFormatado = convertidoTempo;
+
+            try { 
+            
                 await _ordemProdutoService.InsertAsync(ordemProduto);
                 return RedirectToAction(nameof(Index));
             }
-            return View(ordemProduto);
+            catch
+            {
+                return View(ordemProduto);
+            }
+            
         }
 
         //Get - Retorna pagina edit com info da OP;

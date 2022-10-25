@@ -1,0 +1,148 @@
+﻿body {
+
+}
+
+.navBarMenu {
+    width: 100%;
+    background-color: #CDCDC6;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.haderPersonalizado {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.haderDeslogado {
+    width: 80%;
+    margin: 2em auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+.divMenuNav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.tituloNav {
+    width:25%;
+    text-decoration: initial;
+    text-align: center;
+    font-size: 1.5em;
+    color: black !important;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.sessaoUsuario {
+    width:25%;
+    justify-self: flex-end;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+
+.usuarioNome{
+    font-size:0.8em;
+    color: #1d1d1d;    
+}
+
+.btnSairMenu{
+    text-decoration: none;
+    width:50%;
+    background-color: #eb7a2a;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    border-radius: 5px;
+    color: black;
+
+}
+
+
+.listaMenuNav {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5em;
+    margin-top:1em;
+}
+
+.listaMenuItem {
+    width: 15%;
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 5px;
+    background: #CDCDC6;
+    box-shadow: 3px 3px 10px #90908b, -3px -3px 10px #ffffff;
+
+    transition: 0.5s;
+}
+
+    .listaMenuItem:hover {
+        transform: scale(1.05);
+        border-radius: 10px;
+        background: #CDCDC6;
+        box-shadow: 6px 6px 15px #90908b, -6px -6px 15px #ffffff;
+    }
+
+
+.listaMenuLink {
+    text-decoration: none;
+    text-align: center;
+    color: #111010;
+    transition: 1s;
+    font-size: 0.9em;
+}
+
+.listaMenuLink:hover{
+    color:black;
+    font-weight: bold;
+}
+
+
+
+
+.conteudoLogin {
+    display: flex;
+    margin-top: 4em;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.sobreLogin {
+    display: flex;
+    flex-direction:column;
+}
+
+.imgLogin {
+    width:50%;
+    opacity: 0.8;
+}
+
+.subLogin {
+    color: black;
+    margin-top: 1em;
+    text-align: left;
+    width:70%;
+}
+
+.subLogin--sub {
+    width: 70%;
+    text-align: center;
+    font-style: italic;
+    text-shadow: 1px 1px 1px orange;
+}

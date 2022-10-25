@@ -19,6 +19,46 @@ body {
 }
 
 
+
+.conteudoHome {
+    margin: 2em auto;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.chamadaTmp {
+    width:100%;
+    margin: 8em auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10em;
+
+}
+
+.imgTmp {
+    width:30%;
+    opacity: 0.8;
+}
+
+.tituloTmp {
+  font-family: 'Orbitron', sans-serif;
+  font-size:3em;
+  color: black;
+  text-shadow: 2px 2px 10px #576cd1;
+  
+}
+
+.textoTmp {
+    color: black;
+    text-shadow: 2px 2px 10px orange;
+    font-size:1.2em;
+
+}
+
 .bg-header-table {
     background-color: #d3d4d4;
 }
@@ -47,7 +87,7 @@ body {
 }
 
 .bgCardOcioso {
-    background-color: #F7B448 !important;
+    background-color: #e0e0e0 !important;
 }
 
 .tituloPage{
@@ -263,4 +303,36 @@ body {
     justify-content: center;
     gap: 2em;
 
+}
+
+
+.linkZero {
+    margin: 0;
+    text-decoration: none;
+}
+
+.menuDetails {
+    width:80%;
+    display: flex;
+    padding:0 3em;
+    justify-content: space-between;
+    gap: 2em;
+    margin:1em auto;
+    box-sizing: border-box;
+}
+
+.menuIndex {
+    width: 100%;
+    display: flex;
+    padding: 0em;
+    justify-content: space-between;
+    gap: 2em;
+    margin: 1em auto;
+    box-sizing: border-box;
+}
+
+.errorDiv {
+    width: 75%;
+    margin: 0.5em auto;
+}
 }

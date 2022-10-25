@@ -4,34 +4,35 @@
     ViewData["Title"] = "Iniciar Apontamento";
 }
 
-<h1 class="text-success">@ViewData["Title"]</h1>
+<h1 class="text-success text-center mt-5">@ViewData["Title"]</h1>
 
-<hr />
-<div class="row">
+
+<div class="row d-flex justify-content-center align-items-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label asp-for="ProcessoId" class="control-label"></label>
                 <input asp-for="ProcessoId" class="form-control" />
                 <span asp-validation-for="ProcessoId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId" class="control-label"></label>
-                <input asp-for="FuncionarioId" class="form-control" />
-                <span asp-validation-for="FuncionarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            
+            <div class="form-group mt-3">
                 <label asp-for="MaquinaId" class="control-label"></label>
                 <input asp-for="MaquinaId" class="form-control" />
                 <span asp-validation-for="MaquinaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
+                <label asp-for="FuncionarioId" class="control-label"></label>
+                <input asp-for="FuncionarioId" class="form-control" />
+                <span asp-validation-for="FuncionarioId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
                 <label asp-for="Operacao" class="control-label"></label>
                 <select asp-for="Operacao" asp-items="Html.GetEnumSelectList<GestaoProducao_MVC.Models.Enums.Operacao>()" class="form-control"></select>
                 <span asp-validation-for="Operacao" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
                 <input asp-for="Status" type="hidden" value="@GestaoProducao_MVC.Models.Enums.AptStatus.Ativo" />
                 <input asp-for="DataInicial" type="hidden" value="@DateTime.Now" /> 
                 <input type="submit" value="Iniciar" class="btn btn-outline-success" />

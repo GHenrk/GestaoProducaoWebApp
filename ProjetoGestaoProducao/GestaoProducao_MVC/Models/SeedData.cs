@@ -17,7 +17,7 @@ namespace GestaoProducao_MVC.Models
                     return;   // DB has been seeded
                 }
 
-                OrdemProduto Op1 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 08, 06), Enums.OpStatus.AguardandoProducao);
+                OrdemProduto Op1 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 08, 06), Enums.OpStatus.Aguardando);
                 OrdemProduto Op2 = new OrdemProduto("CODIGO020203", 8, new DateTime(2022, 06, 04 ), new DateTime(2022, 9, 4), Enums.OpStatus.Entregue);
                 OrdemProduto Op3 = new OrdemProduto("CODIGO010203", 8, new DateTime(2022, 08, 05), new DateTime(2022, 11, 5), Enums.OpStatus.Fabricação);
 
@@ -88,6 +88,12 @@ namespace GestaoProducao_MVC.Models
 
 
 
+        }
+
+        public TimeSpan calculaTempo(TimeSpan date1, TimeSpan date2)
+        {
+            TimeSpan decorrido = date2 - date1;
+            return decorrido;
         }
 
     }
